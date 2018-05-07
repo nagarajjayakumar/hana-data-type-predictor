@@ -1,4 +1,4 @@
-package com.hortonworks.faas
+package com.hortonworks.faas.spark.predictor
 
 /**
  * @author ${user.name}
