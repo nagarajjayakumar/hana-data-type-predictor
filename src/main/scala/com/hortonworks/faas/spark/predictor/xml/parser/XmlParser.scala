@@ -4,11 +4,10 @@ import scala.xml.{Node, NodeSeq}
 
 /**
   * Created by naga jay on 5/05/18.
+  * Object containing xml parsing function
+  *
   */
 
-/**
-  * Object containing xml parsing function
-  */
 object XmlParser
 {
 
