@@ -28,6 +28,7 @@ clear and concise. Here's an example:
 import scala.collection.mutable.Stack
 import org.scalatest.Assertions
 import org.junit.Test
+import org.specs2.matcher.ShouldMatchers
 
 class StackSuite extends Assertions {
 
@@ -51,7 +52,7 @@ class StackSuite extends Assertions {
 Here's an example of a FunSuite with ShouldMatchers mixed in:
 */
 import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.matchers._
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
