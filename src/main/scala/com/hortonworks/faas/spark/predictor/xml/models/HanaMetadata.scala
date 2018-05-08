@@ -11,6 +11,11 @@ import com.hortonworks.faas.spark.predictor.xml.parser.{XmlNodeReader, XmlNodeWr
 
 case class Calculation(products: Seq[LogicalModel])
 
+/*
+  If you want to filter on the prefix name - the part before the : -
+  that part of the query will have to be in scala. Something like this should work:
+  val name = (dom \\ "name").filter(_.prefix == "host")
+*/
 object Calculation
 {
   val xmlRead = new XmlNodeReader[Calculation](
