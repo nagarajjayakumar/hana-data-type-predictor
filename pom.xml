@@ -1,149 +1,319 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.hortonworks.faas</groupId>
-  <artifactId>hana-data-type-predictor </artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <name>${project.artifactId}</name>
-  <description>Hana data type predictor</description>
-  <inceptionYear>2010</inceptionYear>
-  <licenses>
-    <license>
-      <name>Hortonworks Apache GPL</name>
-      <url>http://....</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.hortonworks.faas</groupId>
+    <artifactId>hana-data-type-predictor</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>${project.artifactId}</name>
+    <description>Hana data type predictor</description>
+    <inceptionYear>2010</inceptionYear>
+    <licenses>
+        <license>
+            <name>Hortonworks Apache GPL</name>
+            <url>http://....</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-  <properties>
+    <properties>
 
-      <encoding>UTF-8</encoding>
-      <scala.compat.version>2.11</scala.compat.version>
+        <!-- environment specific variables-->
+        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <!-- Scala specific parameters -->
+        <scala.abi.version>2.11</scala.abi.version>
+        <scala.compat.version>2.11</scala.compat.version>
+        <scala.version>2.11.8</scala.version>
+        <spark.version>2.0.2</spark.version>
+        <!-- Test specific variables-->
+        <jackson.version>2.4.4</jackson.version>
+        <mockito.version>1.10.19</mockito.version>
+        <slf4j.version>1.7.12</slf4j.version>
+        <scala.test.version>3.0.5</scala.test.version>
+        <!-- Utility specific variables-->
+        <guava.version>19.0</guava.version>
+        <kafka.version>0.10.1.0</kafka.version>
+        <spray.version>1.3.4</spray.version>
+        <!-- JDBC Drivers specific variables-->
+        <common.dbcp2.version>2.1.1</common.dbcp2.version>
+        <ngdbc.version>2.1.2</ngdbc.version>
+        <mysql.connector.version>5.1.34</mysql.connector.version>
+        <!-- Skinny specific -->
+        <skinny.version>2.6.0</skinny.version>
 
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-      <java.version>1.8</java.version>
-      <maven.compiler.source>${java.version}</maven.compiler.source>
-      <maven.compiler.target>${java.version}</maven.compiler.target>
+    </properties>
 
-      <scala.abi.version>2.11</scala.abi.version>
-      <scala.version>2.11.8</scala.version>
-      <spark.version>2.0.2</spark.version>
-      <!-- environment specific variables-->
-      <jackson.version>2.4.4</jackson.version>
-      <mockito.version>1.10.19</mockito.version>
-      <slf4j.version>1.7.12</slf4j.version>
-      <scala.test.version>2.2.5</scala.test.version>
-      <guava.version>19.0</guava.version>
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
 
-      <kafka.version>0.10.1.0</kafka.version>
+        <dependency>
+            <groupId>org.scala-lang.modules</groupId>
+            <artifactId>scala-xml_${scala.compat.version}</artifactId>
+            <version>1.0.6</version>
+        </dependency>
 
-      <common.dbcp2.version>2.1.1</common.dbcp2.version>
-      <ngdbc.version>2.1.2</ngdbc.version>
+        <dependency>
+            <groupId>org.scala-lang.modules</groupId>
+            <artifactId>scala-parser-combinators_${scala.compat.version}</artifactId>
+            <version>1.1.0</version>
+        </dependency>
 
-      <spray.version>1.3.4</spray.version>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-reflect</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
 
-      <mysql.connector.version>5.1.34</mysql.connector.version>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-compiler</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
 
-  </properties>
+        <!-- Skinny Frame work for the Scala ORM -->
 
-  <dependencies>
-    <dependency>
-      <groupId>org.scala-lang</groupId>
-      <artifactId>scala-library</artifactId>
-      <version>${scala.version}</version>
-    </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.skinny-framework</groupId>-->
+            <!--<artifactId>skinny-orm_${scala.compat.version}</artifactId>-->
+            <!--<version>${skinny.version}</version>-->
+        <!--</dependency>-->
 
-    <dependency>
-        <groupId>org.scala-lang.modules</groupId>
-        <artifactId>scala-xml_${scala.compat.version}</artifactId>
-        <version>1.0.6</version>
-    </dependency>
+        <dependency>
+            <groupId>org.skinny-framework</groupId>
+            <artifactId>skinny-framework_${scala.compat.version}</artifactId>
+            <version>${skinny.version}</version>
+        </dependency>
 
-      <dependency>
-          <groupId>org.scala-lang.modules</groupId>
-          <artifactId>scala-parser-combinators_${scala.compat.version}</artifactId>
-          <version>1.0.5</version>
-      </dependency>
 
-      <!-- Test -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.specs2</groupId>
-      <artifactId>specs2-core_${scala.compat.version}</artifactId>
-      <version>3.7.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.specs2</groupId>
-      <artifactId>specs2-junit_2.11</artifactId>
-      <version>3.7.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_${scala.compat.version}</artifactId>
-      <version>2.2.6</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.skinny-framework</groupId>
+            <artifactId>skinny-assets_${scala.compat.version}</artifactId>
+            <version>${skinny.version}</version>
+        </dependency>
 
-  </dependencies>
+        <dependency>
+            <groupId>org.skinny-framework</groupId>
+            <artifactId>skinny-task_${scala.compat.version}</artifactId>
+            <version>${skinny.version}</version>
+        </dependency>
 
-  <build>
-    <sourceDirectory>src/main/scala</sourceDirectory>
-    <testSourceDirectory>src/test/scala</testSourceDirectory>
 
-      <resources>
-          <resource>
-              <directory>src/main/resources</directory>
-              <filtering>true</filtering>
-          </resource>
-          <resource>
-              <directory>src/test/resources</directory>
-              <filtering>true</filtering>
-          </resource>
-      </resources>
+        <dependency>
+            <groupId>org.skinny-framework</groupId>
+            <artifactId>skinny-logback</artifactId>
+            <version>1.0.14</version>
+        </dependency>
 
-    <plugins>
-      <plugin>
-        <!-- see http://davidb.github.com/scala-maven-plugin -->
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>scala-maven-plugin</artifactId>
-        <version>3.2.2</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>testCompile</goal>
-            </goals>
-            <configuration>
-              <args>
-                <arg>-dependencyfile</arg>
-                <arg>${project.build.directory}/.scala_dependencies</arg>
-              </args>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.19.1</version>
-        <configuration>
-          <useFile>false</useFile>
-          <disableXmlReport>true</disableXmlReport>
-          <!-- If you have classpath issue like NoDefClassError,... -->
-          <!-- useManifestOnlyJar>false</useManifestOnlyJar -->
-          <includes>
-            <include>**/*Test.*</include>
-            <include>**/*Suite.*</include>
-          </includes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+        <dependency>
+            <groupId>org.skinny-framework</groupId>
+            <artifactId>skinny-factory-girl_${scala.compat.version}</artifactId>
+            <version>${skinny.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.skinny-framework</groupId>
+            <artifactId>skinny-test_${scala.compat.version}</artifactId>
+            <version>${skinny.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.11</version>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.specs2</groupId>
+            <artifactId>specs2-core_${scala.compat.version}</artifactId>
+            <version>3.7.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.specs2</groupId>
+            <artifactId>specs2-junit_${scala.compat.version}</artifactId>
+            <version>3.7.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_${scala.compat.version}</artifactId>
+            <version>${scala.test.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.192</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- Binding for NOP, silently discarding all logging. -->
+        <!--<dependency>-->
+        <!--<groupId>org.slf4j</groupId>-->
+        <!--<artifactId>slf4j-nop</artifactId>-->
+        <!--<version>${slf4jVersion}</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; Binding for System.out &ndash;&gt;-->
+        <!--<dependency>-->
+        <!--<groupId>org.slf4j</groupId>-->
+        <!--<artifactId>slf4j-simple</artifactId>-->
+        <!--<version>${slf4jVersion}</version>-->
+        <!--</dependency>-->
+        <!--Binding for log4j version 1.2.x You also need to
+        place log4j.jar on your class path. -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Spark Version -->
+        <!-- provided -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.abi.version}</artifactId>
+            <version>${spark.version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-catalyst_${scala.abi.version}</artifactId>
+            <version>${spark.version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_${scala.abi.version}</artifactId>
+            <version>${spark.version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-yarn_${scala.abi.version}</artifactId>
+            <version>${spark.version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+
+
+        <!-- JDBC Driver section -->
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>${common.dbcp2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sap.db</groupId>
+            <artifactId>ngdbc</artifactId>
+            <version>${ngdbc.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.spray/spray-json -->
+        <dependency>
+            <groupId>io.spray</groupId>
+            <artifactId>spray-json_${scala.abi.version}</artifactId>
+            <version>${spray.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <!-- see http://davidb.github.com/scala-maven-plugin -->
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <args>
+                                <arg>-dependencyfile</arg>
+                                <arg>${project.build.directory}/.scala_dependencies</arg>
+                            </args>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <useFile>false</useFile>
+                    <disableXmlReport>true</disableXmlReport>
+                    <!-- If you have classpath issue like NoDefClassError,... -->
+                    <!-- useManifestOnlyJar>false</useManifestOnlyJar -->
+                    <includes>
+                        <include>**/*Test.*</include>
+                        <include>**/*Suite.*</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
