@@ -11,7 +11,7 @@ import scala.xml._
 /**
   * Testing conversion
   */
-object Main extends App
+object CatalogMain extends App
 {
 
   xmlTest()

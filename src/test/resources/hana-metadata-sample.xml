@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="Contract" applyPrivilegeType="NONE" checkAnalyticPrivileges="false" defaultClient="crossClient" defaultLanguage="$$language$$" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DEFAULT" enforceSqlExecution="true" executionSemantic="UNDEFINED" outputViewType="Projection" hierarchiesSQLEnabled="false" translationRelevant="true">
+    <origin/>
+    <descriptions defaultDescription="Header data for contract"/>
+    <metadata changedAt="2018-04-05 11:28:37.932"/>
+    <defaultSchema schemaName="SAP_ECC"/>
+    <localVariables/>
+    <variableMappings/>
+    <informationModelLayout relativeWidthScenario="29"/>
+    <dataSources>
+        <DataSource id="EVER" type="DATA_BASE_TABLE">
+            <viewAttributes allViewAttributes="true"/>
+            <columnObject schemaName="SAP_ECC" columnObjectName="EVER"/>
+        </DataSource>
+        <DataSource id="CompanyCode" type="CALCULATION_VIEW">
+            <viewAttributes allViewAttributes="true"/>
+            <resourceUri>/DataLake.MasterDataViews/calculationviews/CompanyCode</resourceUri>
+        </DataSource>
+        <DataSource id="Division" type="CALCULATION_VIEW">
+            <viewAttributes allViewAttributes="true"/>
+            <resourceUri>/DataLake.MasterDataViews/calculationviews/Division</resourceUri>
+        </DataSource>
+        <DataSource id="BillingBlockReasonName" type="CALCULATION_VIEW">
+            <viewAttributes allViewAttributes="true"/>
+            <resourceUri>/DataLake.SingularViews/calculationviews/BillingBlockReasonName</resourceUri>
+        </DataSource>
+        <DataSource id="BillingUnblockReasonName" type="CALCULATION_VIEW">
+            <viewAttributes allViewAttributes="true"/>
+            <resourceUri>/DataLake.SingularViews/calculationviews/BillingUnblockReasonName</resourceUri>
+        </DataSource>
+        <DataSource id="AccountDeterminationName" type="CALCULATION_VIEW">
+            <viewAttributes allViewAttributes="true"/>
+            <resourceUri>/DataLake.SingularViews/calculationviews/AccountDeterminationName</resourceUri>
+        </DataSource>
+        <DataSource id="COAccountAssignment" type="CALCULATION_VIEW">
+            <viewAttributes allViewAttributes="true"/>
+            <resourceUri>/DataLake.SingularViews/calculationviews/COAccountAssignment</resourceUri>
+        </DataSource>
+    </dataSources>
+    <calculationViews>
+        <calculationView xsi:type="Calculation:ProjectionView" id="Proj_EVER">
+            <descriptions/>
+            <viewAttributes>
+                <viewAttribute id="MANDT"/>
+                <viewAttribute id="VERTRAG"/>
+                <viewAttribute id="BUKRS"/>
+                <viewAttribute id="SPARTE"/>
+                <viewAttribute id="PORTION"/>
+                <viewAttribute id="MANABR"/>
+                <viewAttribute id="ABRSPERR"/>
+                <viewAttribute id="ABRFREIG"/>
+                <viewAttribute id="ANLAGE"/>
+                <viewAttribute id="VKONTO"/>
+                <viewAttribute id="ERDAT"/>
+                <viewAttribute id="EINZDAT"/>
+                <viewAttribute id="AUSZDAT"/>
+                <viewAttribute id="ERNAM"/>
+                <viewAttribute id="AEDAT"/>
+                <viewAttribute id="AENAM"/>
+                <viewAttribute id="BILLFINIT"/>
+                <viewAttribute id="KOFIZ"/>
+                <viewAttribute id="COKEY"/>
+                <viewAttribute id="PRCTR"/>
+                <viewAttribute id="REGIOGROUP"/>
+                <viewAttribute id="XVERA"/>
+                <viewAttribute id="EINZDAT_ALT"/>
+                <viewAttribute id="LOEVM"/>
+                <viewAttribute id="UPDATE_TS"/>
+            </viewAttributes>
+            <calculatedViewAttributes/>
+            <input node="#EVER">
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VERTRAG" source="VERTRAG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BUKRS" source="BUKRS"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="SPARTE" source="SPARTE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PORTION" source="PORTION"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANABR" source="MANABR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="ABRSPERR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="ABRFREIG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ANLAGE" source="ANLAGE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VKONTO" source="VKONTO"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERDAT" source="ERDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT" source="EINZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AUSZDAT" source="AUSZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERNAM" source="ERNAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AEDAT" source="AEDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AENAM" source="AENAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BILLFINIT" source="BILLFINIT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="KOFIZ" source="KOFIZ"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="COKEY" source="COKEY"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PRCTR" source="PRCTR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="REGIOGROUP" source="REGIOGROUP"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="XVERA" source="XVERA"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT_ALT" source="EINZDAT_ALT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="LOEVM" source="LOEVM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UPDATE_TS" source="UPDATE_TS"/>
+            </input>
+        </calculationView>
+        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_BUKRS" cardinality="C1_1" joinType="leftOuter" joinOrder="OUTSIDE_IN">
+            <descriptions/>
+            <viewAttributes>
+                <viewAttribute id="MANDT"/>
+                <viewAttribute id="VERTRAG"/>
+                <viewAttribute id="BUKRS"/>
+                <viewAttribute id="CompanyCodeName"/>
+                <viewAttribute id="SPARTE"/>
+                <viewAttribute id="PORTION"/>
+                <viewAttribute id="MANABR"/>
+                <viewAttribute id="ABRSPERR"/>
+                <viewAttribute id="ABRFREIG"/>
+                <viewAttribute id="ANLAGE"/>
+                <viewAttribute id="VKONTO"/>
+                <viewAttribute id="EINZDAT"/>
+                <viewAttribute id="AUSDAT"/>
+                <viewAttribute id="ERDAT"/>
+                <viewAttribute id="ERNAM"/>
+                <viewAttribute id="AEDAT"/>
+                <viewAttribute id="AENAM"/>
+                <viewAttribute id="BILLFINIT"/>
+                <viewAttribute id="KOFIZ"/>
+                <viewAttribute id="CompanyCode"/>
+                <viewAttribute id="COKEY"/>
+                <viewAttribute id="PRCTR"/>
+                <viewAttribute id="REGIOGROUP"/>
+                <viewAttribute id="XVERA"/>
+                <viewAttribute id="EINZDAT_ALT"/>
+                <viewAttribute id="LOEVM"/>
+                <viewAttribute id="UPDATE_TS"/>
+            </viewAttributes>
+            <calculatedViewAttributes/>
+            <input node="#Proj_EVER">
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VERTRAG" source="VERTRAG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BUKRS" source="BUKRS"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="SPARTE" source="SPARTE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PORTION" source="PORTION"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANABR" source="MANABR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="ABRSPERR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="ABRFREIG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ANLAGE" source="ANLAGE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VKONTO" source="VKONTO"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT" source="EINZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AUSDAT" source="AUSZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERDAT" source="ERDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERNAM" source="ERNAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AEDAT" source="AEDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AENAM" source="AENAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BILLFINIT" source="BILLFINIT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="KOFIZ" source="KOFIZ"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="COKEY" source="COKEY"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PRCTR" source="PRCTR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="REGIOGROUP" source="REGIOGROUP"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="XVERA" source="XVERA"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT_ALT" source="EINZDAT_ALT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="LOEVM" source="LOEVM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UPDATE_TS" source="UPDATE_TS"/>
+            </input>
+            <input node="#CompanyCode">
+                <mapping xsi:type="Calculation:AttributeMapping" target="CompanyCodeName" source="CompanyCodeName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="CompanyCode" source="CompanyCode"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="SAPClient"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BUKRS" source="CompanyCode"/>
+            </input>
+            <joinAttribute name="MANDT"/>
+            <joinAttribute name="BUKRS"/>
+        </calculationView>
+        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_SPARTE" cardinality="C1_1" joinType="leftOuter" joinOrder="OUTSIDE_IN">
+            <descriptions/>
+            <viewAttributes>
+                <viewAttribute id="MANDT"/>
+                <viewAttribute id="VERTRAG"/>
+                <viewAttribute id="BUKRS"/>
+                <viewAttribute id="CompanyCodeName"/>
+                <viewAttribute id="SPARTE"/>
+                <viewAttribute id="DivisionName"/>
+                <viewAttribute id="PORTION"/>
+                <viewAttribute id="MANABR"/>
+                <viewAttribute id="ABRSPERR"/>
+                <viewAttribute id="ABRFREIG"/>
+                <viewAttribute id="ANLAGE"/>
+                <viewAttribute id="VKONTO"/>
+                <viewAttribute id="EINZDAT"/>
+                <viewAttribute id="AUSDAT"/>
+                <viewAttribute id="ERDAT"/>
+                <viewAttribute id="ERNAM"/>
+                <viewAttribute id="AEDAT"/>
+                <viewAttribute id="AENAM"/>
+                <viewAttribute id="BILLFINIT"/>
+                <viewAttribute id="KOFIZ"/>
+                <viewAttribute id="COKEY"/>
+                <viewAttribute id="PRCTR"/>
+                <viewAttribute id="REGIOGROUP"/>
+                <viewAttribute id="XVERA"/>
+                <viewAttribute id="EINZDAT_ALT"/>
+                <viewAttribute id="LOEVM"/>
+                <viewAttribute id="UPDATE_TS"/>
+            </viewAttributes>
+            <calculatedViewAttributes/>
+            <input node="#Join_EVER_BUKRS">
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VERTRAG" source="VERTRAG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BUKRS" source="BUKRS"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="CompanyCodeName" source="CompanyCodeName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="SPARTE" source="SPARTE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PORTION" source="PORTION"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANABR" source="MANABR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="ABRSPERR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="ABRFREIG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ANLAGE" source="ANLAGE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VKONTO" source="VKONTO"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT" source="EINZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AUSDAT" source="AUSDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERDAT" source="ERDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERNAM" source="ERNAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AEDAT" source="AEDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AENAM" source="AENAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BILLFINIT" source="BILLFINIT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="KOFIZ" source="KOFIZ"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="COKEY" source="COKEY"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PRCTR" source="PRCTR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="REGIOGROUP" source="REGIOGROUP"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="XVERA" source="XVERA"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT_ALT" source="EINZDAT_ALT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="LOEVM" source="LOEVM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UPDATE_TS" source="UPDATE_TS"/>
+            </input>
+            <input node="#Division">
+                <mapping xsi:type="Calculation:AttributeMapping" target="DivisionName" source="DivisionName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="SAPClient"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="SPARTE" source="Division"/>
+            </input>
+            <joinAttribute name="MANDT"/>
+            <joinAttribute name="SPARTE"/>
+        </calculationView>
+        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_ABRSPERR" cardinality="C1_1" joinType="textTable" languageColumn="Language" joinOrder="OUTSIDE_IN">
+            <descriptions/>
+            <viewAttributes>
+                <viewAttribute id="MANDT"/>
+                <viewAttribute id="VERTRAG"/>
+                <viewAttribute id="BUKRS"/>
+                <viewAttribute id="CompanyCodeName"/>
+                <viewAttribute id="SPARTE"/>
+                <viewAttribute id="DivisionName"/>
+                <viewAttribute id="PORTION"/>
+                <viewAttribute id="MANABR"/>
+                <viewAttribute id="ABRSPERR"/>
+                <viewAttribute id="UtilsBillgBlockReasonName"/>
+                <viewAttribute id="ABRFREIG"/>
+                <viewAttribute id="ANLAGE"/>
+                <viewAttribute id="VKONTO"/>
+                <viewAttribute id="EINZDAT"/>
+                <viewAttribute id="AUSZDAT"/>
+                <viewAttribute id="ERDAT"/>
+                <viewAttribute id="ERNAM"/>
+                <viewAttribute id="AEDAT"/>
+                <viewAttribute id="AENAM"/>
+                <viewAttribute id="BILLFINIT"/>
+                <viewAttribute id="KOFIZ"/>
+                <viewAttribute id="COKEY"/>
+                <viewAttribute id="PRCTR"/>
+                <viewAttribute id="REGIOGROUP"/>
+                <viewAttribute id="XVERA"/>
+                <viewAttribute id="EINZDAT_ALT"/>
+                <viewAttribute id="LOEVM"/>
+                <viewAttribute id="UPDATE_TS"/>
+            </viewAttributes>
+            <calculatedViewAttributes/>
+            <input node="#Join_EVER_SPARTE">
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VERTRAG" source="VERTRAG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BUKRS" source="BUKRS"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="CompanyCodeName" source="CompanyCodeName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="SPARTE" source="SPARTE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="DivisionName" source="DivisionName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PORTION" source="PORTION"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANABR" source="MANABR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="ABRSPERR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="ABRFREIG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ANLAGE" source="ANLAGE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VKONTO" source="VKONTO"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT" source="EINZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AUSZDAT" source="AUSDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERDAT" source="ERDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERNAM" source="ERNAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AEDAT" source="AEDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AENAM" source="AENAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BILLFINIT" source="BILLFINIT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="KOFIZ" source="KOFIZ"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="COKEY" source="COKEY"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PRCTR" source="PRCTR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="REGIOGROUP" source="REGIOGROUP"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="XVERA" source="XVERA"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT_ALT" source="EINZDAT_ALT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="LOEVM" source="LOEVM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UPDATE_TS" source="UPDATE_TS"/>
+            </input>
+            <input node="#BillingBlockReasonName">
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName" source="UtilsBillgBlockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="SAPClient"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="UtilsBillgBlockReason"/>
+            </input>
+            <joinAttribute name="MANDT"/>
+            <joinAttribute name="ABRSPERR"/>
+        </calculationView>
+        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_ABRFREIG" cardinality="C1_1" joinType="textTable" languageColumn="Language" joinOrder="OUTSIDE_IN">
+            <descriptions/>
+            <viewAttributes>
+                <viewAttribute id="MANDT"/>
+                <viewAttribute id="VERTRAG"/>
+                <viewAttribute id="BUKRS"/>
+                <viewAttribute id="CompanyCodeName"/>
+                <viewAttribute id="SPARTE"/>
+                <viewAttribute id="DivisionName"/>
+                <viewAttribute id="PORTION"/>
+                <viewAttribute id="MANABR"/>
+                <viewAttribute id="ABRSPERR"/>
+                <viewAttribute id="UtilsBillgBlockReasonName"/>
+                <viewAttribute id="ABRFREIG"/>
+                <viewAttribute id="UtilsBillgUnblockReasonName"/>
+                <viewAttribute id="ANLAGE"/>
+                <viewAttribute id="VKONTO"/>
+                <viewAttribute id="EINZDAT"/>
+                <viewAttribute id="AUSZDAT"/>
+                <viewAttribute id="ERDAT"/>
+                <viewAttribute id="ERNAM"/>
+                <viewAttribute id="AENAM"/>
+                <viewAttribute id="AEDAT"/>
+                <viewAttribute id="BILLFINIT"/>
+                <viewAttribute id="KOFIZ"/>
+                <viewAttribute id="COKEY"/>
+                <viewAttribute id="PRCTR"/>
+                <viewAttribute id="REGIOGROUP"/>
+                <viewAttribute id="XVERA"/>
+                <viewAttribute id="EINZDAT_ALT"/>
+                <viewAttribute id="LOEVM"/>
+                <viewAttribute id="UPDATE_TS"/>
+            </viewAttributes>
+            <calculatedViewAttributes/>
+            <input node="#Join_EVER_ABRSPERR">
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VERTRAG" source="VERTRAG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BUKRS" source="BUKRS"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="CompanyCodeName" source="CompanyCodeName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="SPARTE" source="SPARTE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="DivisionName" source="DivisionName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PORTION" source="PORTION"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANABR" source="MANABR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="ABRSPERR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName" source="UtilsBillgBlockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="ABRFREIG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ANLAGE" source="ANLAGE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VKONTO" source="VKONTO"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT" source="EINZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AUSZDAT" source="AUSZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERDAT" source="ERDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERNAM" source="ERNAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AENAM" source="AENAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AEDAT" source="AEDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BILLFINIT" source="BILLFINIT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="KOFIZ" source="KOFIZ"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="COKEY" source="COKEY"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PRCTR" source="PRCTR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="REGIOGROUP" source="REGIOGROUP"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="XVERA" source="XVERA"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT_ALT" source="EINZDAT_ALT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="LOEVM" source="LOEVM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UPDATE_TS" source="UPDATE_TS"/>
+            </input>
+            <input node="#BillingUnblockReasonName">
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgUnblockReasonName" source="UtilsBillgUnblockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="SAPClient"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="UtilsBillgUnblockReason"/>
+            </input>
+            <joinAttribute name="MANDT"/>
+            <joinAttribute name="ABRFREIG"/>
+        </calculationView>
+        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_KOFIZ" joinType="inner" joinOrder="OUTSIDE_IN">
+            <descriptions/>
+            <viewAttributes>
+                <viewAttribute id="MANDT"/>
+                <viewAttribute id="VERTRAG"/>
+                <viewAttribute id="BUKRS"/>
+                <viewAttribute id="CompanyCodeName"/>
+                <viewAttribute id="SPARTE"/>
+                <viewAttribute id="DivisionName"/>
+                <viewAttribute id="PORTION"/>
+                <viewAttribute id="MANABR"/>
+                <viewAttribute id="ABRSPERR"/>
+                <viewAttribute id="UtilsBillgBlockReasonName"/>
+                <viewAttribute id="ABRFREIG"/>
+                <viewAttribute id="UtilsBillgUnblockReasonName"/>
+                <viewAttribute id="ANLAGE"/>
+                <viewAttribute id="VKONTO"/>
+                <viewAttribute id="EINZDAT"/>
+                <viewAttribute id="AUSZDAT"/>
+                <viewAttribute id="ERDAT"/>
+                <viewAttribute id="ERNAM"/>
+                <viewAttribute id="AENAM"/>
+                <viewAttribute id="AEDAT"/>
+                <viewAttribute id="BILLFINIT"/>
+                <viewAttribute id="COKEY"/>
+                <viewAttribute id="AccountDeterminationName"/>
+                <viewAttribute id="PRCTR"/>
+                <viewAttribute id="KOFIZ"/>
+                <viewAttribute id="REGIOGROUP"/>
+                <viewAttribute id="XVERA"/>
+                <viewAttribute id="EINZDAT_ALT"/>
+                <viewAttribute id="LOEVM"/>
+                <viewAttribute id="UPDATE_TS"/>
+            </viewAttributes>
+            <calculatedViewAttributes/>
+            <input node="#Join_EVER_ABRFREIG">
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VERTRAG" source="VERTRAG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BUKRS" source="BUKRS"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="CompanyCodeName" source="CompanyCodeName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="SPARTE" source="SPARTE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="DivisionName" source="DivisionName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PORTION" source="PORTION"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANABR" source="MANABR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="ABRSPERR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName" source="UtilsBillgBlockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="ABRFREIG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgUnblockReasonName" source="UtilsBillgUnblockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ANLAGE" source="ANLAGE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VKONTO" source="VKONTO"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT" source="EINZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AUSZDAT" source="AUSZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERDAT" source="ERDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERNAM" source="ERNAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AENAM" source="AENAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AEDAT" source="AEDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BILLFINIT" source="BILLFINIT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="COKEY" source="COKEY"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PRCTR" source="PRCTR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="KOFIZ" source="KOFIZ"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="REGIOGROUP" source="REGIOGROUP"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="XVERA" source="XVERA"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT_ALT" source="EINZDAT_ALT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="LOEVM" source="LOEVM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UPDATE_TS" source="UPDATE_TS"/>
+            </input>
+            <input node="#AccountDeterminationName">
+                <mapping xsi:type="Calculation:AttributeMapping" target="AccountDeterminationName" source="AccountDeterminationName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="SAPClient"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="SPARTE" source="Division"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BUKRS" source="CompanyCode"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="KOFIZ" source="AccountDeterminationId"/>
+            </input>
+            <joinAttribute name="MANDT"/>
+            <joinAttribute name="SPARTE"/>
+            <joinAttribute name="BUKRS"/>
+            <joinAttribute name="KOFIZ"/>
+        </calculationView>
+        <calculationView xsi:type="Calculation:JoinView" id="Join_1" joinType="leftOuter" optimizeJoinColumns="false" joinOrder="OUTSIDE_IN">
+            <descriptions/>
+            <viewAttributes>
+                <viewAttribute id="MANDT"/>
+                <viewAttribute id="VERTRAG"/>
+                <viewAttribute id="BUKRS"/>
+                <viewAttribute id="CompanyCodeName"/>
+                <viewAttribute id="SPARTE"/>
+                <viewAttribute id="DivisionName"/>
+                <viewAttribute id="PORTION"/>
+                <viewAttribute id="MANABR"/>
+                <viewAttribute id="ABRSPERR"/>
+                <viewAttribute id="UtilsBillgBlockReasonName"/>
+                <viewAttribute id="ABRFREIG"/>
+                <viewAttribute id="UtilsBillgUnblockReasonName"/>
+                <viewAttribute id="ANLAGE"/>
+                <viewAttribute id="VKONTO"/>
+                <viewAttribute id="EINZDAT"/>
+                <viewAttribute id="AUSZDAT"/>
+                <viewAttribute id="ERDAT"/>
+                <viewAttribute id="ERNAM"/>
+                <viewAttribute id="AENAM"/>
+                <viewAttribute id="AEDAT"/>
+                <viewAttribute id="BILLFINIT"/>
+                <viewAttribute id="COKEY"/>
+                <viewAttribute id="KTEXT"/>
+                <viewAttribute id="AccountDeterminationName"/>
+                <viewAttribute id="KOFIZ"/>
+                <viewAttribute id="ProfitCenter"/>
+                <viewAttribute id="REGIOGROUP"/>
+                <viewAttribute id="XVERA"/>
+                <viewAttribute id="EINZDAT_ALT"/>
+                <viewAttribute id="LOEVM"/>
+                <viewAttribute id="UPDATE_TS"/>
+            </viewAttributes>
+            <calculatedViewAttributes/>
+            <input node="#Join_EVER_KOFIZ">
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VERTRAG" source="VERTRAG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BUKRS" source="BUKRS"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="CompanyCodeName" source="CompanyCodeName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="SPARTE" source="SPARTE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="DivisionName" source="DivisionName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="PORTION" source="PORTION"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANABR" source="MANABR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="ABRSPERR"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName" source="UtilsBillgBlockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="ABRFREIG"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgUnblockReasonName" source="UtilsBillgUnblockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ANLAGE" source="ANLAGE"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="VKONTO" source="VKONTO"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT" source="EINZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AUSZDAT" source="AUSZDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERDAT" source="ERDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ERNAM" source="ERNAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AENAM" source="AENAM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AEDAT" source="AEDAT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BILLFINIT" source="BILLFINIT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="COKEY" source="COKEY"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AccountDeterminationName" source="AccountDeterminationName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="KOFIZ" source="KOFIZ"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="REGIOGROUP" source="REGIOGROUP"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="XVERA" source="XVERA"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT_ALT" source="EINZDAT_ALT"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="LOEVM" source="LOEVM"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UPDATE_TS" source="UPDATE_TS"/>
+            </input>
+            <input node="#COAccountAssignment">
+                <mapping xsi:type="Calculation:AttributeMapping" target="KTEXT" source="ProfitCenterName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="ProfitCenter" source="ProfitCenter"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="SAPClient"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="COKEY" source="COAssignmentKey"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="BUKRS" source="CompanyCode"/>
+            </input>
+            <joinAttribute name="MANDT"/>
+            <joinAttribute name="COKEY"/>
+            <joinAttribute name="BUKRS"/>
+        </calculationView>
+    </calculationViews>
+    <logicalModel id="Join_1">
+        <descriptions/>
+        <attributes>
+            <attribute id="SAPClient" key="true" order="1" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="SAPClient"/>
+                <keyMapping columnObjectName="Join_1" columnName="MANDT"/>
+            </attribute>
+            <attribute id="UtilitiesContract" key="true" order="2" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilitiesContract"/>
+                <keyMapping columnObjectName="Join_1" columnName="VERTRAG"/>
+            </attribute>
+            <attribute id="CompanyCode" order="3" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="CompanyCode"/>
+                <keyMapping columnObjectName="Join_1" columnName="BUKRS"/>
+            </attribute>
+            <attribute id="CompanyCodeName" order="4" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="CompanyCodeName"/>
+                <keyMapping columnObjectName="Join_1" columnName="CompanyCodeName"/>
+            </attribute>
+            <attribute id="ProfitCenter" order="5" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="Profit Center"/>
+                <keyMapping columnObjectName="Join_1" columnName="ProfitCenter"/>
+            </attribute>
+            <attribute id="ProfitCenterName" order="6" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="Profit Center Name"/>
+                <keyMapping columnObjectName="Join_1" columnName="KTEXT"/>
+            </attribute>
+            <attribute id="Division" order="7" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="Division"/>
+                <keyMapping columnObjectName="Join_1" columnName="SPARTE"/>
+            </attribute>
+            <attribute id="DivisionName" order="8" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="DivisionName"/>
+                <keyMapping columnObjectName="Join_1" columnName="DivisionName"/>
+            </attribute>
+            <attribute id="AccountDeterminationId" order="9" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="Account Determination Id"/>
+                <keyMapping columnObjectName="Join_1" columnName="KOFIZ"/>
+            </attribute>
+            <attribute id="AccountDeterminationName" order="10" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="Account Determination Name"/>
+                <keyMapping columnObjectName="Join_1" columnName="AccountDeterminationName"/>
+            </attribute>
+            <attribute id="AlternativeUtilitiesPortion" order="11" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="AlternativeUtilitiesPortion"/>
+                <keyMapping columnObjectName="Join_1" columnName="PORTION"/>
+            </attribute>
+            <attribute id="UtilsContrIsBilledManually" order="12" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilsContrIsBilledManually"/>
+                <keyMapping columnObjectName="Join_1" columnName="MANABR"/>
+            </attribute>
+            <attribute id="UtilsBillgBlockReason" order="13" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilsBillgBlockReason"/>
+                <keyMapping columnObjectName="Join_1" columnName="ABRSPERR"/>
+            </attribute>
+            <attribute id="UtilsBillgBlockReasonName" order="14" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilsBillgBlockReasonName"/>
+                <keyMapping columnObjectName="Join_1" columnName="UtilsBillgBlockReasonName"/>
+            </attribute>
+            <attribute id="UtilsBillgUnBlockReason" order="15" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilsBillgUnBlockReason"/>
+                <keyMapping columnObjectName="Join_1" columnName="ABRFREIG"/>
+            </attribute>
+            <attribute id="UtilsBillgUnblockReasonName" order="16" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilsBillgUnblockReasonName"/>
+                <keyMapping columnObjectName="Join_1" columnName="UtilsBillgUnblockReasonName"/>
+            </attribute>
+            <attribute id="UtilitiesInstallation" order="17" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilitiesInstallation"/>
+                <keyMapping columnObjectName="Join_1" columnName="ANLAGE"/>
+            </attribute>
+            <attribute id="ContractAccount" order="18" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="ContractAccount"/>
+                <keyMapping columnObjectName="Join_1" columnName="VKONTO"/>
+            </attribute>
+            <attribute id="UtilitiesMoveInDate" order="19" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilitiesMoveInDate"/>
+                <keyMapping columnObjectName="Join_1" columnName="EINZDAT"/>
+            </attribute>
+            <attribute id="UtilitiesMoveOutDate" order="20" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilitiesMoveOutDate"/>
+                <keyMapping columnObjectName="Join_1" columnName="AUSZDAT"/>
+            </attribute>
+            <attribute id="UtilsContractCreationDate" order="21" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilsContractCreationDate"/>
+                <keyMapping columnObjectName="Join_1" columnName="ERDAT"/>
+            </attribute>
+            <attribute id="UtilsContractCreatedByUser" order="22" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilsContractCreatedByUser"/>
+                <keyMapping columnObjectName="Join_1" columnName="ERNAM"/>
+            </attribute>
+            <attribute id="UtilsContractLastChangedByUser" order="23" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilsContractLastChangedByUser"/>
+                <keyMapping columnObjectName="Join_1" columnName="AENAM"/>
+            </attribute>
+            <attribute id="UtilsContractLastChangeDate" order="24" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilsContractLastChangeDate"/>
+                <keyMapping columnObjectName="Join_1" columnName="AEDAT"/>
+            </attribute>
+            <attribute id="UtilsContrIsFinallyBilled" order="25" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="UtilsContrIsFinallyBilled"/>
+                <keyMapping columnObjectName="Join_1" columnName="BILLFINIT"/>
+            </attribute>
+            <attribute id="CoAssignmentKey" order="26" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="CoAssignmentKey"/>
+                <keyMapping columnObjectName="Join_1" columnName="COKEY"/>
+            </attribute>
+            <attribute id="RegionalGroup" order="27" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="Regional structure grouping"/>
+                <keyMapping columnObjectName="Join_1" columnName="REGIOGROUP"/>
+            </attribute>
+            <attribute id="LegacyContractFlag" order="28" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="LegacyContractFlag"/>
+                <keyMapping columnObjectName="Join_1" columnName="XVERA"/>
+            </attribute>
+            <attribute id="LegacySystemContractStartDate" order="29" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="LegacySystemContractStartDate"/>
+                <keyMapping columnObjectName="Join_1" columnName="EINZDAT_ALT"/>
+            </attribute>
+            <attribute id="DeletionIndicator" order="30" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="Deletion Indicator"/>
+                <keyMapping columnObjectName="Join_1" columnName="LOEVM"/>
+            </attribute>
+            <attribute id="EVER_DF_TS" order="31" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+                <descriptions defaultDescription="SLT Timestamp for table EVER"/>
+                <keyMapping columnObjectName="Join_1" columnName="UPDATE_TS"/>
+            </attribute>
+        </attributes>
+        <calculatedAttributes/>
+        <privateDataFoundation>
+            <tableProxies/>
+            <joins/>
+            <layout>
+                <shapes/>
+            </layout>
+        </privateDataFoundation>
+        <baseMeasures/>
+        <calculatedMeasures/>
+        <restrictedMeasures/>
+        <localDimensions/>
+    </logicalModel>
+    <layout>
+        <shapes>
+            <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+                <upperLeftCorner x="22" y="87"/>
+                <rectangleSize height="0" width="0"/>
+            </shape>
+            <shape expanded="true" modelObjectName="Proj_EVER" modelObjectNameSpace="CalculationView">
+                <upperLeftCorner x="22" y="741"/>
+                <rectangleSize height="-1" width="-1"/>
+            </shape>
+            <shape expanded="true" modelObjectName="Join_EVER_BUKRS" modelObjectNameSpace="CalculationView">
+                <upperLeftCorner x="22" y="645"/>
+                <rectangleSize height="0" width="0"/>
+            </shape>
+            <shape expanded="true" modelObjectName="Join_EVER_SPARTE" modelObjectNameSpace="CalculationView">
+                <upperLeftCorner x="22" y="549"/>
+                <rectangleSize height="0" width="0"/>
+            </shape>
+            <shape expanded="true" modelObjectName="Join_EVER_ABRSPERR" modelObjectNameSpace="CalculationView">
+                <upperLeftCorner x="22" y="453"/>
+                <rectangleSize height="0" width="0"/>
+            </shape>
+            <shape expanded="true" modelObjectName="Join_EVER_ABRFREIG" modelObjectNameSpace="CalculationView">
+                <upperLeftCorner x="22" y="357"/>
+                <rectangleSize height="0" width="0"/>
+            </shape>
+            <shape expanded="true" modelObjectName="Join_EVER_KOFIZ" modelObjectNameSpace="CalculationView">
+                <upperLeftCorner x="22" y="261"/>
+                <rectangleSize height="-1" width="-1"/>
+            </shape>
+            <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+                <upperLeftCorner x="22" y="165"/>
+                <rectangleSize height="-1" width="-1"/>
+            </shape>
+        </shapes>
+    </layout>
+</Calculation:scenario>

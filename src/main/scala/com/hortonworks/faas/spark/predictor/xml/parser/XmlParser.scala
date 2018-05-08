@@ -80,7 +80,7 @@ trait ConvertTo[FT, T]
   * @tparam T
   */
 class XmlNodeReader[T](
-  nodeName: String,
+  nodeName: String, prefixName: Option[String] = Some(""),
   read: (Node => T)
 ) extends ConvertTo[Node, T]
 {
@@ -89,9 +89,13 @@ class XmlNodeReader[T](
     read(xml)
   }
 
-  def readTo(xml: Node, overrideNodeName: String = nodeName): Seq[T] =
+  def readTo(xml: Node, overrideNodeName: String = nodeName, overridePrefix: Option[String] = prefixName): Seq[T] =
   {
-    (xml \\ overrideNodeName).map(convertTo)
+
+    if(overridePrefix.exists(_.trim.nonEmpty))
+      (xml \\ overrideNodeName).filter(_.prefix == overridePrefix.get).map(convertTo)
+    else
+      (xml \\ overrideNodeName).map(convertTo)
   }
 }
 
