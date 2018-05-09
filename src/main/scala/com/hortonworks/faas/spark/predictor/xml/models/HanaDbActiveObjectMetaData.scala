@@ -16,8 +16,7 @@ case class Calculation(products: Seq[LogicalModel])
   that part of the query will have to be in scala. Something like this should work:
   val name = (dom \\ "name").filter(_.prefix == "host")
 */
-object Calculation
-{
+object Calculation {
   val xmlRead = new XmlNodeReader[Calculation](
     nodeName = "scenario", prefixName = Some("Calculation"),
     read = n => {
@@ -29,10 +28,9 @@ object Calculation
 
 case class LogicalModel(attributeItems: Seq[LogicalModelAttributes])
 
-object LogicalModel
-{
+object LogicalModel {
   val xmlRead = new XmlNodeReader[LogicalModel](
-    nodeName = "logicalModel", prefixName = Some (""),
+    nodeName = "logicalModel", prefixName = Some(""),
     read = n => {
       val logicalModelAttributes = XmlParser.parse(n)(LogicalModelAttributes.xmlRead)
 
@@ -41,10 +39,9 @@ object LogicalModel
   )
 }
 
-case class LogicalModelAttributes( logicalModelAttribute: Seq[LogicalModelAttribute])
+case class LogicalModelAttributes(logicalModelAttribute: Seq[LogicalModelAttribute])
 
-object LogicalModelAttributes
-{
+object LogicalModelAttributes {
   val xmlRead = new XmlNodeReader[LogicalModelAttributes](
     nodeName = "attributes",
     read = n => {
@@ -56,14 +53,13 @@ object LogicalModelAttributes
 }
 
 // id="SAPClient" key="true" order="1" attributeHierarchyActive="false" displayAttribute="false"
-case class LogicalModelAttribute(id: String, key: String, order: String ,
+case class LogicalModelAttribute(id: String, key: String, order: String,
                                  attributeHierarchyActive: String, displayAttribute: String,
                                  logicalModelAttributesAttribDesc: Seq[LogicalModelAttributesAttribDesc],
                                  logicalModelAttributesAttribKeyMapping: Seq[LogicalModelAttributesAttribKeyMapping]
                                 )
 
-object LogicalModelAttribute
-{
+object LogicalModelAttribute {
   val xmlRead = new XmlNodeReader[LogicalModelAttribute](
     nodeName = "attribute",
     read = n => {
@@ -84,9 +80,8 @@ object LogicalModelAttribute
 
   val xmlWriter = new XmlNodeWriter[LogicalModelAttribute](
     write = i => {
-      <attribute id={i.id} key={i.key} order={i.order} attributeHierarchyActive={i.attributeHierarchyActive} displayAttribute={i.displayAttribute} >
-        {XmlParser.write(i.logicalModelAttributesAttribDesc)(LogicalModelAttributesAttribDesc.xmlWriter)}
-        {XmlParser.write(i.logicalModelAttributesAttribKeyMapping)(LogicalModelAttributesAttribKeyMapping.xmlWriter)}
+      <attribute id={i.id} key={i.key} order={i.order} attributeHierarchyActive={i.attributeHierarchyActive} displayAttribute={i.displayAttribute}>
+        {XmlParser.write(i.logicalModelAttributesAttribDesc)(LogicalModelAttributesAttribDesc.xmlWriter)}{XmlParser.write(i.logicalModelAttributesAttribKeyMapping)(LogicalModelAttributesAttribKeyMapping.xmlWriter)}
       </attribute>
     }
   )
@@ -94,18 +89,17 @@ object LogicalModelAttribute
 
 case class LogicalModelAttributesAttribDesc(defaultDescription: String)
 
-object LogicalModelAttributesAttribDesc
-{
+object LogicalModelAttributesAttribDesc {
   val xmlRead = new XmlNodeReader[LogicalModelAttributesAttribDesc](
     nodeName = "descriptions",
     read = n => {
-      LogicalModelAttributesAttribDesc((n \ "@defaultDescription").text )
+      LogicalModelAttributesAttribDesc((n \ "@defaultDescription").text)
     }
   )
 
   val xmlWriter = new XmlNodeWriter[LogicalModelAttributesAttribDesc](
     write = i => {
-      <descriptions defaultDescription={i.defaultDescription} />
+        <descriptions defaultDescription={i.defaultDescription}/>
 
     }
   )
@@ -113,18 +107,17 @@ object LogicalModelAttributesAttribDesc
 
 case class LogicalModelAttributesAttribKeyMapping(columnObjectName: String, columnName: String)
 
-object LogicalModelAttributesAttribKeyMapping
-{
+object LogicalModelAttributesAttribKeyMapping {
   val xmlRead = new XmlNodeReader[LogicalModelAttributesAttribKeyMapping](
     nodeName = "keyMapping",
     read = n => {
-      LogicalModelAttributesAttribKeyMapping((n \ "@columnObjectName").text , (n \ "@columnName").text )
+      LogicalModelAttributesAttribKeyMapping((n \ "@columnObjectName").text, (n \ "@columnName").text)
     }
   )
 
   val xmlWriter = new XmlNodeWriter[LogicalModelAttributesAttribKeyMapping](
     write = i => {
-      <keyMapping columnObjectName={i.columnObjectName} columnName={i.columnName} />
+        <keyMapping columnObjectName={i.columnObjectName} columnName={i.columnName}/>
     }
   )
 }

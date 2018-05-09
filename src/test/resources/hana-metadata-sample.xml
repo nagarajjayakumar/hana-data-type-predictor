@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="Contract" applyPrivilegeType="NONE" checkAnalyticPrivileges="false" defaultClient="crossClient" defaultLanguage="$$language$$" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DEFAULT" enforceSqlExecution="true" executionSemantic="UNDEFINED" outputViewType="Projection" hierarchiesSQLEnabled="false" translationRelevant="true">
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3"
+                      id="Contract" applyPrivilegeType="NONE" checkAnalyticPrivileges="false"
+                      defaultClient="crossClient" defaultLanguage="$$language$$" visibility="internal"
+                      calculationScenarioType="TREE_BASED" dataCategory="DEFAULT" enforceSqlExecution="true"
+                      executionSemantic="UNDEFINED" outputViewType="Projection" hierarchiesSQLEnabled="false"
+                      translationRelevant="true">
     <origin/>
     <descriptions defaultDescription="Header data for contract"/>
     <metadata changedAt="2018-04-05 11:28:37.932"/>
@@ -96,7 +102,8 @@
                 <mapping xsi:type="Calculation:AttributeMapping" target="UPDATE_TS" source="UPDATE_TS"/>
             </input>
         </calculationView>
-        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_BUKRS" cardinality="C1_1" joinType="leftOuter" joinOrder="OUTSIDE_IN">
+        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_BUKRS" cardinality="C1_1" joinType="leftOuter"
+                         joinOrder="OUTSIDE_IN">
             <descriptions/>
             <viewAttributes>
                 <viewAttribute id="MANDT"/>
@@ -164,7 +171,8 @@
             <joinAttribute name="MANDT"/>
             <joinAttribute name="BUKRS"/>
         </calculationView>
-        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_SPARTE" cardinality="C1_1" joinType="leftOuter" joinOrder="OUTSIDE_IN">
+        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_SPARTE" cardinality="C1_1" joinType="leftOuter"
+                         joinOrder="OUTSIDE_IN">
             <descriptions/>
             <viewAttributes>
                 <viewAttribute id="MANDT"/>
@@ -232,7 +240,8 @@
             <joinAttribute name="MANDT"/>
             <joinAttribute name="SPARTE"/>
         </calculationView>
-        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_ABRSPERR" cardinality="C1_1" joinType="textTable" languageColumn="Language" joinOrder="OUTSIDE_IN">
+        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_ABRSPERR" cardinality="C1_1" joinType="textTable"
+                         languageColumn="Language" joinOrder="OUTSIDE_IN">
             <descriptions/>
             <viewAttributes>
                 <viewAttribute id="MANDT"/>
@@ -295,14 +304,16 @@
                 <mapping xsi:type="Calculation:AttributeMapping" target="UPDATE_TS" source="UPDATE_TS"/>
             </input>
             <input node="#BillingBlockReasonName">
-                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName" source="UtilsBillgBlockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName"
+                         source="UtilsBillgBlockReasonName"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="SAPClient"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="UtilsBillgBlockReason"/>
             </input>
             <joinAttribute name="MANDT"/>
             <joinAttribute name="ABRSPERR"/>
         </calculationView>
-        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_ABRFREIG" cardinality="C1_1" joinType="textTable" languageColumn="Language" joinOrder="OUTSIDE_IN">
+        <calculationView xsi:type="Calculation:JoinView" id="Join_EVER_ABRFREIG" cardinality="C1_1" joinType="textTable"
+                         languageColumn="Language" joinOrder="OUTSIDE_IN">
             <descriptions/>
             <viewAttributes>
                 <viewAttribute id="MANDT"/>
@@ -346,7 +357,8 @@
                 <mapping xsi:type="Calculation:AttributeMapping" target="PORTION" source="PORTION"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="MANABR" source="MANABR"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="ABRSPERR"/>
-                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName" source="UtilsBillgBlockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName"
+                         source="UtilsBillgBlockReasonName"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="ABRFREIG"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="ANLAGE" source="ANLAGE"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="VKONTO" source="VKONTO"/>
@@ -367,7 +379,8 @@
                 <mapping xsi:type="Calculation:AttributeMapping" target="UPDATE_TS" source="UPDATE_TS"/>
             </input>
             <input node="#BillingUnblockReasonName">
-                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgUnblockReasonName" source="UtilsBillgUnblockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgUnblockReasonName"
+                         source="UtilsBillgUnblockReasonName"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="SAPClient"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="UtilsBillgUnblockReason"/>
             </input>
@@ -419,9 +432,11 @@
                 <mapping xsi:type="Calculation:AttributeMapping" target="PORTION" source="PORTION"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="MANABR" source="MANABR"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="ABRSPERR"/>
-                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName" source="UtilsBillgBlockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName"
+                         source="UtilsBillgBlockReasonName"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="ABRFREIG"/>
-                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgUnblockReasonName" source="UtilsBillgUnblockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgUnblockReasonName"
+                         source="UtilsBillgUnblockReasonName"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="ANLAGE" source="ANLAGE"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="VKONTO" source="VKONTO"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT" source="EINZDAT"/>
@@ -441,7 +456,8 @@
                 <mapping xsi:type="Calculation:AttributeMapping" target="UPDATE_TS" source="UPDATE_TS"/>
             </input>
             <input node="#AccountDeterminationName">
-                <mapping xsi:type="Calculation:AttributeMapping" target="AccountDeterminationName" source="AccountDeterminationName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AccountDeterminationName"
+                         source="AccountDeterminationName"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="SAPClient"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="SPARTE" source="Division"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="BUKRS" source="CompanyCode"/>
@@ -452,7 +468,8 @@
             <joinAttribute name="BUKRS"/>
             <joinAttribute name="KOFIZ"/>
         </calculationView>
-        <calculationView xsi:type="Calculation:JoinView" id="Join_1" joinType="leftOuter" optimizeJoinColumns="false" joinOrder="OUTSIDE_IN">
+        <calculationView xsi:type="Calculation:JoinView" id="Join_1" joinType="leftOuter" optimizeJoinColumns="false"
+                         joinOrder="OUTSIDE_IN">
             <descriptions/>
             <viewAttributes>
                 <viewAttribute id="MANDT"/>
@@ -498,9 +515,11 @@
                 <mapping xsi:type="Calculation:AttributeMapping" target="PORTION" source="PORTION"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="MANABR" source="MANABR"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="ABRSPERR" source="ABRSPERR"/>
-                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName" source="UtilsBillgBlockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgBlockReasonName"
+                         source="UtilsBillgBlockReasonName"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="ABRFREIG" source="ABRFREIG"/>
-                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgUnblockReasonName" source="UtilsBillgUnblockReasonName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="UtilsBillgUnblockReasonName"
+                         source="UtilsBillgUnblockReasonName"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="ANLAGE" source="ANLAGE"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="VKONTO" source="VKONTO"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="EINZDAT" source="EINZDAT"/>
@@ -511,7 +530,8 @@
                 <mapping xsi:type="Calculation:AttributeMapping" target="AEDAT" source="AEDAT"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="BILLFINIT" source="BILLFINIT"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="COKEY" source="COKEY"/>
-                <mapping xsi:type="Calculation:AttributeMapping" target="AccountDeterminationName" source="AccountDeterminationName"/>
+                <mapping xsi:type="Calculation:AttributeMapping" target="AccountDeterminationName"
+                         source="AccountDeterminationName"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="KOFIZ" source="KOFIZ"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="REGIOGROUP" source="REGIOGROUP"/>
                 <mapping xsi:type="Calculation:AttributeMapping" target="XVERA" source="XVERA"/>
@@ -538,7 +558,8 @@
                 <descriptions defaultDescription="SAPClient"/>
                 <keyMapping columnObjectName="Join_1" columnName="MANDT"/>
             </attribute>
-            <attribute id="UtilitiesContract" key="true" order="2" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="UtilitiesContract" key="true" order="2" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="UtilitiesContract"/>
                 <keyMapping columnObjectName="Join_1" columnName="VERTRAG"/>
             </attribute>
@@ -550,7 +571,8 @@
                 <descriptions defaultDescription="CompanyCodeName"/>
                 <keyMapping columnObjectName="Join_1" columnName="CompanyCodeName"/>
             </attribute>
-            <attribute id="ProfitCenter" order="5" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="ProfitCenter" order="5" semanticType="empty" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="Profit Center"/>
                 <keyMapping columnObjectName="Join_1" columnName="ProfitCenter"/>
             </attribute>
@@ -566,19 +588,23 @@
                 <descriptions defaultDescription="DivisionName"/>
                 <keyMapping columnObjectName="Join_1" columnName="DivisionName"/>
             </attribute>
-            <attribute id="AccountDeterminationId" order="9" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="AccountDeterminationId" order="9" semanticType="empty" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="Account Determination Id"/>
                 <keyMapping columnObjectName="Join_1" columnName="KOFIZ"/>
             </attribute>
-            <attribute id="AccountDeterminationName" order="10" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="AccountDeterminationName" order="10" semanticType="empty" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="Account Determination Name"/>
                 <keyMapping columnObjectName="Join_1" columnName="AccountDeterminationName"/>
             </attribute>
-            <attribute id="AlternativeUtilitiesPortion" order="11" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="AlternativeUtilitiesPortion" order="11" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="AlternativeUtilitiesPortion"/>
                 <keyMapping columnObjectName="Join_1" columnName="PORTION"/>
             </attribute>
-            <attribute id="UtilsContrIsBilledManually" order="12" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="UtilsContrIsBilledManually" order="12" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="UtilsContrIsBilledManually"/>
                 <keyMapping columnObjectName="Join_1" columnName="MANABR"/>
             </attribute>
@@ -586,15 +612,18 @@
                 <descriptions defaultDescription="UtilsBillgBlockReason"/>
                 <keyMapping columnObjectName="Join_1" columnName="ABRSPERR"/>
             </attribute>
-            <attribute id="UtilsBillgBlockReasonName" order="14" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="UtilsBillgBlockReasonName" order="14" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="UtilsBillgBlockReasonName"/>
                 <keyMapping columnObjectName="Join_1" columnName="UtilsBillgBlockReasonName"/>
             </attribute>
-            <attribute id="UtilsBillgUnBlockReason" order="15" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="UtilsBillgUnBlockReason" order="15" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="UtilsBillgUnBlockReason"/>
                 <keyMapping columnObjectName="Join_1" columnName="ABRFREIG"/>
             </attribute>
-            <attribute id="UtilsBillgUnblockReasonName" order="16" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="UtilsBillgUnblockReasonName" order="16" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="UtilsBillgUnblockReasonName"/>
                 <keyMapping columnObjectName="Join_1" columnName="UtilsBillgUnblockReasonName"/>
             </attribute>
@@ -614,23 +643,28 @@
                 <descriptions defaultDescription="UtilitiesMoveOutDate"/>
                 <keyMapping columnObjectName="Join_1" columnName="AUSZDAT"/>
             </attribute>
-            <attribute id="UtilsContractCreationDate" order="21" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="UtilsContractCreationDate" order="21" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="UtilsContractCreationDate"/>
                 <keyMapping columnObjectName="Join_1" columnName="ERDAT"/>
             </attribute>
-            <attribute id="UtilsContractCreatedByUser" order="22" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="UtilsContractCreatedByUser" order="22" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="UtilsContractCreatedByUser"/>
                 <keyMapping columnObjectName="Join_1" columnName="ERNAM"/>
             </attribute>
-            <attribute id="UtilsContractLastChangedByUser" order="23" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="UtilsContractLastChangedByUser" order="23" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="UtilsContractLastChangedByUser"/>
                 <keyMapping columnObjectName="Join_1" columnName="AENAM"/>
             </attribute>
-            <attribute id="UtilsContractLastChangeDate" order="24" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="UtilsContractLastChangeDate" order="24" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="UtilsContractLastChangeDate"/>
                 <keyMapping columnObjectName="Join_1" columnName="AEDAT"/>
             </attribute>
-            <attribute id="UtilsContrIsFinallyBilled" order="25" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="UtilsContrIsFinallyBilled" order="25" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="UtilsContrIsFinallyBilled"/>
                 <keyMapping columnObjectName="Join_1" columnName="BILLFINIT"/>
             </attribute>
@@ -638,7 +672,8 @@
                 <descriptions defaultDescription="CoAssignmentKey"/>
                 <keyMapping columnObjectName="Join_1" columnName="COKEY"/>
             </attribute>
-            <attribute id="RegionalGroup" order="27" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="RegionalGroup" order="27" semanticType="empty" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="Regional structure grouping"/>
                 <keyMapping columnObjectName="Join_1" columnName="REGIOGROUP"/>
             </attribute>
@@ -646,15 +681,18 @@
                 <descriptions defaultDescription="LegacyContractFlag"/>
                 <keyMapping columnObjectName="Join_1" columnName="XVERA"/>
             </attribute>
-            <attribute id="LegacySystemContractStartDate" order="29" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="LegacySystemContractStartDate" order="29" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="LegacySystemContractStartDate"/>
                 <keyMapping columnObjectName="Join_1" columnName="EINZDAT_ALT"/>
             </attribute>
-            <attribute id="DeletionIndicator" order="30" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="DeletionIndicator" order="30" semanticType="empty" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="Deletion Indicator"/>
                 <keyMapping columnObjectName="Join_1" columnName="LOEVM"/>
             </attribute>
-            <attribute id="EVER_DF_TS" order="31" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+            <attribute id="EVER_DF_TS" order="31" semanticType="empty" attributeHierarchyActive="false"
+                       displayAttribute="false">
                 <descriptions defaultDescription="SLT Timestamp for table EVER"/>
                 <keyMapping columnObjectName="Join_1" columnName="UPDATE_TS"/>
             </attribute>

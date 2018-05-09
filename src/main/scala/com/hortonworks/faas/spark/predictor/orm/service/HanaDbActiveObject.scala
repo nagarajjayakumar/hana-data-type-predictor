@@ -4,7 +4,7 @@ package com.hortonworks.faas.spark.predictor.orm.service
 import org.joda.time.DateTime
 import scalikejdbc._
 import skinny.orm.SkinnyCRUDMapper
-import skinny.orm.feature.{ TimestampsFeature}
+import skinny.orm.feature.TimestampsFeature
 
 case class HanaDbActiveObject(
                                id: Long,
@@ -23,13 +23,13 @@ case class HanaDbActiveObject(
 
 object HanaDbActiveObject
   extends SkinnyCRUDMapper[HanaDbActiveObject]
-    with TimestampsFeature[HanaDbActiveObject]
-    {
+    with TimestampsFeature[HanaDbActiveObject] {
 
   override val connectionPoolName = 'service
   override val tableName = "hanadb_active_object"
 
   override def primaryKeyFieldName = "id"
+
   override def defaultAlias = createAlias("hao")
 
 

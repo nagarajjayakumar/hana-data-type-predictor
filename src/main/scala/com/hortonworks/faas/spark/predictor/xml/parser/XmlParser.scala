@@ -8,8 +8,7 @@ import scala.xml.{Node, NodeSeq}
   *
   */
 
-object XmlParser
-{
+object XmlParser {
 
   /**
     * Converts xml Node to Sequence of T
@@ -17,11 +16,9 @@ object XmlParser
     * @param xmlInput
     * @param reader
     * @tparam T
-    *
     * @return
     */
-  def parse[T](xmlInput: Node)(reader: XmlNodeReader[T]): Seq[T] =
-  {
+  def parse[T](xmlInput: Node)(reader: XmlNodeReader[T]): Seq[T] = {
     reader.readTo(xmlInput)
   }
 
@@ -31,11 +28,9 @@ object XmlParser
     * @param in
     * @param writer
     * @tparam T
-    *
     * @return
     */
-  def write[T](in: Seq[T])(writer: XmlNodeWriter[T]): Seq[Node] =
-  {
+  def write[T](in: Seq[T])(writer: XmlNodeWriter[T]): Seq[Node] = {
     NodeSeq.fromSeq(in.map(i => XmlParser.write[T](i)(writer)))
   }
 
@@ -45,11 +40,9 @@ object XmlParser
     * @param in
     * @param writer
     * @tparam T
-    *
     * @return
     */
-  def write[T](in: T)(writer: XmlNodeWriter[T]): Node =
-  {
+  def write[T](in: T)(writer: XmlNodeWriter[T]): Node = {
     writer.convertTo(in)
   }
 }
@@ -60,13 +53,11 @@ object XmlParser
   * @tparam FT
   * @tparam T
   */
-trait ConvertTo[FT, T]
-{
+trait ConvertTo[FT, T] {
   /**
     * method that performs the conversion
     *
     * @param xml
-    *
     * @return
     */
   def convertTo(xml: FT): T
@@ -80,19 +71,16 @@ trait ConvertTo[FT, T]
   * @tparam T
   */
 class XmlNodeReader[T](
-  nodeName: String, prefixName: Option[String] = Some(""),
-  read: (Node => T)
-) extends ConvertTo[Node, T]
-{
-  def convertTo(xml: Node): T =
-  {
+                        nodeName: String, prefixName: Option[String] = Some(""),
+                        read: (Node => T)
+                      ) extends ConvertTo[Node, T] {
+  def convertTo(xml: Node): T = {
     read(xml)
   }
 
-  def readTo(xml: Node, overrideNodeName: String = nodeName, overridePrefix: Option[String] = prefixName): Seq[T] =
-  {
+  def readTo(xml: Node, overrideNodeName: String = nodeName, overridePrefix: Option[String] = prefixName): Seq[T] = {
 
-    if(overridePrefix.exists(_.trim.nonEmpty))
+    if (overridePrefix.exists(_.trim.nonEmpty))
       (xml \\ overrideNodeName).filter(_.prefix == overridePrefix.get).map(convertTo)
     else
       (xml \\ overrideNodeName).map(convertTo)
@@ -106,8 +94,7 @@ class XmlNodeReader[T](
   * @tparam T
   */
 class XmlNodeWriter[T](
-  write: (T => Node)
-) extends ConvertTo[T, Node]
-{
+                        write: (T => Node)
+                      ) extends ConvertTo[T, Node] {
   def convertTo(in: T): Node = write(in)
 }

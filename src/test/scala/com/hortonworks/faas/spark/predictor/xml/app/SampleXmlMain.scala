@@ -7,18 +7,15 @@ import com.hortonworks.faas.spark.predictor.xml.validator._
 import scala.xml._
 
 
-
 /**
   * Testing conversion
   */
-object CatalogMain extends App
-{
+object CatalogMain extends App {
 
   xmlTest()
   validationTest()
 
-  def xmlTest(): Unit =
-  {
+  def xmlTest(): Unit = {
     val xmlFile = this.getClass.getResource("/sample-test.xml")
     val xmlSource = XML.load(xmlFile.getPath)
 
@@ -31,8 +28,7 @@ object CatalogMain extends App
     newImg.foreach(println)
   }
 
-  def validationTest(): Unit =
-  {
+  def validationTest(): Unit = {
     val usr = User("bat", "mat", 2)
     println("==============FIRST USER VALIDATION==============")
     usr.validate().foreach(println)
@@ -44,12 +40,11 @@ object CatalogMain extends App
 }
 
 case class User(
-  user_id: String,
-  first_name: String,
-  age: Int,
-  group: Option[String] = None
-)
-{
+                 user_id: String,
+                 first_name: String,
+                 age: Int,
+                 group: Option[String] = None
+               ) {
 
   import com.hortonworks.faas.spark.predictor.xml.validator.DefaultValidations._
 

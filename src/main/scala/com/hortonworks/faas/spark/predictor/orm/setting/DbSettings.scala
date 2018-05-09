@@ -1,9 +1,11 @@
 package com.hortonworks.faas.spark.predictor.orm.setting
 
-import scalikejdbc._, config._
+import scalikejdbc._
+import scalikejdbc.config._
 
-trait DBSettings  {
+trait DBSettings {
   def env: String
+
   DBSettings.initialize(env)
 }
 

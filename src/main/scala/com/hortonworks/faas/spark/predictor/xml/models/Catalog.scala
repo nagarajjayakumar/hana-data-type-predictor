@@ -11,10 +11,9 @@ import com.hortonworks.faas.spark.predictor.xml.parser.{XmlNodeReader, XmlNodeWr
 
 case class Catalog(products: Seq[CatalogProduct])
 
-object Catalog
-{
+object Catalog {
   val xmlRead = new XmlNodeReader[Catalog](
-    nodeName = "catalog",  prefixName = Some (""),
+    nodeName = "catalog", prefixName = Some(""),
     read = n => {
       val products = XmlParser.parse(n)(CatalogProduct.xmlRead)
 
@@ -25,10 +24,9 @@ object Catalog
 
 case class CatalogProduct(description: String, productImage: String, catalogItems: Seq[CatalogItem])
 
-object CatalogProduct
-{
+object CatalogProduct {
   val xmlRead = new XmlNodeReader[CatalogProduct](
-    nodeName = "product",  prefixName = Some (""),
+    nodeName = "product", prefixName = Some(""),
     read = n => {
       val items = XmlParser.parse(n)(CatalogItem.xmlRead)
 
@@ -43,10 +41,9 @@ object CatalogProduct
 
 case class CatalogItem(gender: String, itemNumber: String, price: Float, size: Seq[ItemSize])
 
-object CatalogItem
-{
+object CatalogItem {
   val xmlRead = new XmlNodeReader[CatalogItem](
-    nodeName = "catalog_item",  prefixName = Some (""),
+    nodeName = "catalog_item", prefixName = Some(""),
     read = n => {
       val sizes = XmlParser.parse(n)(ItemSize.xmlRead)
       val price = try {
@@ -66,10 +63,9 @@ object CatalogItem
 
 case class ItemSize(description: String, images: Seq[ItemImage])
 
-object ItemSize
-{
+object ItemSize {
   val xmlRead = new XmlNodeReader[ItemSize](
-    nodeName = "size",  prefixName = Some (""),
+    nodeName = "size", prefixName = Some(""),
     read = n => {
       val images = XmlParser.parse(n)(ItemImage.xmlRead)
       ItemSize(
@@ -90,10 +86,9 @@ object ItemSize
 
 case class ItemImage(image: String, color: String)
 
-object ItemImage
-{
+object ItemImage {
   val xmlRead = new XmlNodeReader[ItemImage](
-    nodeName = "color_swatch",  prefixName = Some (""),
+    nodeName = "color_swatch", prefixName = Some(""),
     read = n => {
       ItemImage(
         (n \ "@image").text,

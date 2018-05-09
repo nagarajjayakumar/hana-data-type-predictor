@@ -6,18 +6,15 @@ import com.hortonworks.faas.spark.predictor.xml.parser.XmlParser
 import scala.xml._
 
 
-
 /**
   * Testing conversion
   */
-object Main extends App
-{
+object Main extends App {
 
   xmlTest()
 
 
-  def xmlTest(): Unit =
-  {
+  def xmlTest(): Unit = {
     val xmlFile = this.getClass.getResource("/hana-metadata-sample.xml")
     val xmlSource = XML.load(xmlFile.getPath)
 

@@ -3,31 +3,31 @@ package com.hortonworks.faas.spark.predictor.orm.service
 import org.joda.time.DateTime
 import scalikejdbc._
 import skinny.orm.SkinnyCRUDMapper
-import skinny.orm.feature.{TimestampsFeature}
+import skinny.orm.feature.TimestampsFeature
 
 case class HanaDbActiveObjectDetail(
-                               id: Long,
-                               haoid: Long,
-                               columnName: String,
-                               isKey: Boolean,
-                               col_order: Int,
-                               attributeHierarchyActive: Boolean,
-                               displayAttribute: Boolean,
-                               defaultDescription: String,
-                               sourceObjectName: String,
-                               sourceColumnName: String,
-                               isRequiredForFlow: Boolean,
-                               createdAt: DateTime,
-                               updatedAt: DateTime
-                             )
+                                     id: Long,
+                                     haoid: Long,
+                                     columnName: String,
+                                     isKey: Boolean,
+                                     col_order: Int,
+                                     attributeHierarchyActive: Boolean,
+                                     displayAttribute: Boolean,
+                                     defaultDescription: String,
+                                     sourceObjectName: String,
+                                     sourceColumnName: String,
+                                     isRequiredForFlow: Boolean,
+                                     createdAt: DateTime,
+                                     updatedAt: DateTime
+                                   )
 
 object HanaDbActiveObjectDetail
   extends SkinnyCRUDMapper[HanaDbActiveObjectDetail]
-    with TimestampsFeature[HanaDbActiveObjectDetail]
-   {
+    with TimestampsFeature[HanaDbActiveObjectDetail] {
 
   override val connectionPoolName = 'service
   override val tableName = "hanadb_active_object_detail"
+
   override def primaryKeyFieldName = "id"
 
   override def defaultAlias = createAlias("haod")
