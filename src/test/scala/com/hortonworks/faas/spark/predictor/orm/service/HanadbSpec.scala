@@ -47,22 +47,11 @@ class HanadbSpec extends fixture.FunSpec with   DBSettings with Matchers with Co
       val hao = HanaDbActiveObject.joins(HanaDbActiveObject.hanaDbActiveObjectDetails).findAll().head
       print(hao.hanaDbActiveObjectDetails)
       hao.hanaDbActiveObjectDetails.size should equal(3)
+      HanaDbActiveObjectDetail.deleteById(hao.hanaDbActiveObjectDetails.head.id)
+      val hao1= HanaDbActiveObject.joins(HanaDbActiveObject.hanaDbActiveObjectDetails).findAll().head
+      hao1.hanaDbActiveObjectDetails.size should equal(2)
     }
   }
 
-//  describe("belongsTo without byDefault") {
-//    it("should work as expected") { implicit session =>
-//      val app = Application.joins(Application.service).findAll().head
-//      app.service.isDefined should equal(true)
-//
-//      val beforeService = Service.joins(Service.applications).findById(app.serviceNo).get
-//
-//      Application.deleteById(beforeService.applications.head.id)
-//
-//      val afterService = Service.joins(Service.applications).findById(app.serviceNo).get
-//      afterService.applications.size should equal(
-//        beforeService.applications.size - 1
-//      )
-//    }
-//  }
+
 }
