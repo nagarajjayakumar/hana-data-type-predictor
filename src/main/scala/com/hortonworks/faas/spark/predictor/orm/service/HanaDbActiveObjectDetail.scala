@@ -3,9 +3,8 @@ package com.hortonworks.faas.spark.predictor.orm.service
 import org.joda.time.DateTime
 import scalikejdbc._
 import skinny.orm.SkinnyCRUDMapper
-import skinny.orm.feature.{SoftDeleteWithTimestampFeature, TimestampsFeature}
+import skinny.orm.feature.{TimestampsFeature}
 
-//// id="SAPClient" key="true" order="1" attributeHierarchyActive="false" displayAttribute="false"
 case class HanaDbActiveObjectDetail(
                                id: Long,
                                haoid: Long,
@@ -25,7 +24,7 @@ case class HanaDbActiveObjectDetail(
 object HanaDbActiveObjectDetail
   extends SkinnyCRUDMapper[HanaDbActiveObjectDetail]
     with TimestampsFeature[HanaDbActiveObjectDetail]
-    with SoftDeleteWithTimestampFeature[HanaDbActiveObjectDetail] {
+   {
 
   override val connectionPoolName = 'service
   override val tableName = "hanadb_active_object_detail"

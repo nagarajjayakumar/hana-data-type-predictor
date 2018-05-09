@@ -5,30 +5,32 @@ import java.util.Calendar
 
 import com.hortonworks.faas.spark.predictor.orm.setting.DBSettings
 import org.scalatest.{Matchers, fixture}
-import scalikejdbc.{DB, DBSession, NamedDB}
+import scalikejdbc.{AutoSession, DB, DBSession, NamedDB}
 import scalikejdbc.scalatest.AutoRollback
 
-class HanadbSpec extends fixture.FunSpec with   DBSettings with Matchers with Connection with CreateTables with AutoRollback {
+object HanadbSpec extends    DBSettings with Matchers with Connection with CreateTables  {
 
-  override def env(): String = "development"
-  override def db(): DB = NamedDB('service).toDB()
+   def env(): String = "development_mysql"
+   def db(): DB = NamedDB('service).toDB()
 
-  override def fixture(implicit session: DBSession): Unit = {
 
+  def main(args: Array[String]): Unit = {
 
     val haoid = HanaDbActiveObject.createWithAttributes('namespace -> "testService",
-                                                                   'dbObjectName -> "testObjectName",
-                                                                   'dbObjectType -> "testObjectType",
-                                                                   'dbObjectTypeSuffix -> "testObjectTypeSuffix",
-                                                                   'version -> 1,
-                                                                   'activatedAt -> Calendar.getInstance.getTime,
-                                                                   'activatedBy -> "testUser",
-                                                                   'isActive -> true )
+      'dbObjectName -> "testObjectName",
+      'dbObjectType -> "testObjectType",
+      'dbObjectTypeSuffix -> "testObjectTypeSuffix",
+      'version -> 1,
+      'activatedAt -> Calendar.getInstance.getTime,
+      'activatedBy -> "testUser",
+      'isActive -> true )
+
+
 
     HanaDbActiveObjectDetail.createWithAttributes('columnName -> "testColumnName1", 'haoid   -> haoid,
-                                                'isKey -> true, 'col_order -> 1 , 'attributeHierarchyActive -> true, 'displayAttribute -> false,
-                                                'defaultDescription -> "testDescription1", 'sourceObjectName -> "testSrcObjectName",
-                                                'sourceColumnName -> "testSrcColumnName", 'isRequiredForFlow -> true)
+      'isKey -> true, 'col_order -> 1 , 'attributeHierarchyActive -> true, 'displayAttribute -> false,
+      'defaultDescription -> "testDescription1", 'sourceObjectName -> "testSrcObjectName",
+      'sourceColumnName -> "testSrcColumnName", 'isRequiredForFlow -> true)
 
     HanaDbActiveObjectDetail.createWithAttributes('columnName -> "testColumnName2", 'haoid   -> haoid,
       'isKey -> true, 'col_order -> 1 , 'attributeHierarchyActive -> true, 'displayAttribute -> false,
@@ -36,22 +38,21 @@ class HanadbSpec extends fixture.FunSpec with   DBSettings with Matchers with Co
       'sourceColumnName -> "testSrcColumnName", 'isRequiredForFlow -> true)
 
     HanaDbActiveObjectDetail.createWithAttributes('columnName -> "testColumnName3", 'haoid   -> haoid,
-      'isKey -> true, 'col_order -> 1 , 'attributeHierarchyActive -> true, 'displayAttribute -> false,
+      'isKey -> false, 'col_order -> 1 , 'attributeHierarchyActive -> true, 'displayAttribute -> false,
       'defaultDescription -> "testDescription3", 'sourceObjectName -> "testSrcObjectName",
       'sourceColumnName -> "testSrcColumnName", 'isRequiredForFlow -> true)
 
+    val hao = HanaDbActiveObject.joins(HanaDbActiveObject.hanaDbActiveObjectDetails).findAll().head
+    println(hao.hanaDbActiveObjectDetails)
+
+    val haod = HanaDbActiveObjectDetail.deleteById(hao.hanaDbActiveObjectDetails.head.id)
+    println(haod)
+    val hao1 = HanaDbActiveObject.joins(HanaDbActiveObject.hanaDbActiveObjectDetails).findAll().head
+
+    println(hao1.hanaDbActiveObjectDetails)
   }
 
-  describe("hasMany without byDefault") {
-    it("should work as expected") { implicit session =>
-      val hao = HanaDbActiveObject.joins(HanaDbActiveObject.hanaDbActiveObjectDetails).findAll().head
-      print(hao.hanaDbActiveObjectDetails)
-      hao.hanaDbActiveObjectDetails.size should equal(3)
-      HanaDbActiveObjectDetail.deleteById(hao.hanaDbActiveObjectDetails.head.id)
-      val hao1= HanaDbActiveObject.joins(HanaDbActiveObject.hanaDbActiveObjectDetails).findAll().head
-      hao1.hanaDbActiveObjectDetails.size should equal(2)
-    }
-  }
 
 
 }
+

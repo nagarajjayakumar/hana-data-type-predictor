@@ -4,7 +4,7 @@ package com.hortonworks.faas.spark.predictor.orm.service
 import org.joda.time.DateTime
 import scalikejdbc._
 import skinny.orm.SkinnyCRUDMapper
-import skinny.orm.feature.{SoftDeleteWithTimestampFeature, TimestampsFeature}
+import skinny.orm.feature.{ TimestampsFeature}
 
 case class HanaDbActiveObject(
                                id: Long,
@@ -24,7 +24,7 @@ case class HanaDbActiveObject(
 object HanaDbActiveObject
   extends SkinnyCRUDMapper[HanaDbActiveObject]
     with TimestampsFeature[HanaDbActiveObject]
-    with SoftDeleteWithTimestampFeature[HanaDbActiveObject] {
+    {
 
   override val connectionPoolName = 'service
   override val tableName = "hanadb_active_object"
