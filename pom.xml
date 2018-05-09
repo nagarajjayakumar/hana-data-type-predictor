@@ -81,9 +81,9 @@
         <!-- Skinny Frame work for the Scala ORM -->
 
         <!--<dependency>-->
-            <!--<groupId>org.skinny-framework</groupId>-->
-            <!--<artifactId>skinny-orm_${scala.compat.version}</artifactId>-->
-            <!--<version>${skinny.version}</version>-->
+        <!--<groupId>org.skinny-framework</groupId>-->
+        <!--<artifactId>skinny-orm_${scala.compat.version}</artifactId>-->
+        <!--<version>${skinny.version}</version>-->
         <!--</dependency>-->
 
         <dependency>
@@ -169,8 +169,6 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
-
-
 
 
         <!-- Logging -->
