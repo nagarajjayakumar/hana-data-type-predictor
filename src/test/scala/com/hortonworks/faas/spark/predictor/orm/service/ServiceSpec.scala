@@ -3,14 +3,15 @@ package com.hortonworks.faas.spark.predictor.orm.service
 import com.hortonworks.faas.spark.predictor.orm.setting.DBSettings
 import org.scalatest._
 import scalikejdbc._
-import scalikejdbc.config.DBs
 import scalikejdbc.scalatest.AutoRollback
 
 class ServiceSpec  extends fixture.FunSpec with   DBSettings with Matchers with Connection with CreateTables with AutoRollback {
 
+  override def env(): String = "development"
   override def db(): DB = NamedDB('service).toDB()
 
   override def fixture(implicit session: DBSession): Unit = {
+
     val serviceNo = Service.createWithAttributes('name -> "Cool Web Service")
     Application.createWithAttributes('name -> "Smartphone site", 'serviceNo   -> serviceNo)
     Application.createWithAttributes('name -> "PC site", 'serviceNo           -> serviceNo)
