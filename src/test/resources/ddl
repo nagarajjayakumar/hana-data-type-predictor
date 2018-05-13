@@ -1,4 +1,6 @@
 
+set sql_mode ="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION";
+
 create table hanadb_active_object (
  id bigint auto_increment primary key not null,
  namespace VARCHAR(4000) not null,
@@ -11,7 +13,7 @@ create table hanadb_active_object (
  is_active BOOLEAN  default true,
  created_at timestamp not null ,
  updated_at timestamp not null ,
- deleted_at timestamp
+ deleted_at timestamp null
 
 );
 
@@ -32,5 +34,5 @@ create table hanadb_active_object_detail (
   is_required_for_flow BOOLEAN  default true,
   created_at timestamp not null,
   updated_at timestamp not null,
-  deleted_at timestamp
+  deleted_at timestamp null
 )
