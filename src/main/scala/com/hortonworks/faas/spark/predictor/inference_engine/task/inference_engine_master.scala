@@ -1,5 +1,6 @@
 package com.hortonworks.faas.spark.predictor.inference_engine.task
 
+import java.sql.Timestamp
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 /**
@@ -9,7 +10,7 @@ object inference_engine_master {
 
   val TASK: String = "inference_engine_master"
 
-  def getData(spark: SparkSession): DataFrame = {
+  def getData(spark: SparkSession,  current_time: Timestamp): DataFrame = {
     null
   }
 }

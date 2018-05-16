@@ -7,8 +7,17 @@ import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.DateTime
 
+
 /**
-  * Created by njayakumar on 5/16/2018.
+  * Acquires a SAS file from S3, uses readstat to convert it to CSV, and then loads it into a hive table in the specified schema. Temporary files are cleaned up
+  * automatically.
+  *
+  *
+  * Sample spark-submit call for this when running locally (using /tmp as temp):
+  * spark-submit --master "local[*]" --packages org.apache.hadoop:hadoop-aws:2.7.3 --class ConvertSasToHive ./hive-spark_2.11-1.0.jar s3a://cafe-data-factory-sample-data /rwe_demo/m2_demo lb.sas7bdat matt_test lb /tmp "local[*]" "file://tmp"
+  *
+  * Sample spark-submit call for this on the HDP dev cluster (using /dev/shm as temp):
+  * spark-submit --master "yarn" --class ConvertSasToHive ./hive-spark_2.11-1.0.jar s3a://cafe-data-factory-sample-data /rwe_demo/m2_demo lb.sas7bdat matt_test lb /dev/shm
   */
 object InferenceEngine extends ExecutionTiming with Logging
   with DfsUtils
@@ -38,7 +47,7 @@ object InferenceEngine extends ExecutionTiming with Logging
       val output_df = opts.task match {
         case inference_engine_master.TASK =>
           time(s"run task for ${inference_engine_master.TASK}",
-            inference_engine_master.getData(spark))
+            inference_engine_master.getData(spark, current_time))
       }
 
 

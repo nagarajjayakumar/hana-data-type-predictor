@@ -269,6 +269,14 @@
             <version>${hana.spark.connector.version}</version>
         </dependency>
 
+        <!-- Apache Spark hive connector -->
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-hive_${scala.abi.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
