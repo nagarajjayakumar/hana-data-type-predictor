@@ -48,11 +48,14 @@ class UserQuerySpec extends FlatSpec with SharedHanaDbContext{
       val table = ss
         .read
         .format("com.hortonworks.faas.spark.connector")
-        .options(Map("query" -> ("SELECT * FROM " + dbName + "." + "hanadb_active_object" )))
+        .options(Map("query" -> ("SELECT * FROM \"" + dbName + "\"." + "\"DataLake.Deltaviews.TransactionViews/InstallationOwnershipTS\" " )))
+       // .options(Map("query" -> ("SELECT * FROM \"" + dbName + "\"." + "DFKKOPK" )))
         .load()
 
       table.show()
       table.printSchema()
+
+      println(table.rdd.count())
 
       val schema: StructType = InferSchema(table.rdd,table.schema.fieldNames, table.schema.fields)
 
