@@ -2,9 +2,13 @@ package com.hortonworks.faas.spark.predictor.inference_engine
 
 import java.sql.Timestamp
 
+import com.hortonworks.faas.spark.connector.hana.util.HanaDbConnectionInfo
 import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
 import com.hortonworks.faas.spark.predictor.util._
+import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.hive.HiveContext
+import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.DateTime
 
@@ -23,6 +27,19 @@ object InferenceEngine extends ExecutionTiming with Logging
   with DfsUtils
   with SparkUtils {
 
+  val dbName: String = {
+    "_SYS_BIC"
+  }
+
+  val masterHost = sys.env.get("HANADB_HOST_TEST").getOrElse("127.0.0.1")
+  //val masterHost = sys.env.get("MYSQLDB_HOST_TEST").getOrElse("127.0.0.1")
+  val masterConnectionInfo: HanaDbConnectionInfo =
+    HanaDbConnectionInfo(masterHost, 30015, "SYS_VDM", "Cnct2VDM4", dbName) // scalastyle:ignore
+  val leafConnectionInfo: HanaDbConnectionInfo =
+    HanaDbConnectionInfo(masterHost, 30015, "SYS_VDM", "Cnct2VDM4", dbName) // scalastyle:ignore
+
+  val local: Boolean = true
+
   def main(args: Array[String]): Unit = {
     val opts: InferenceEngineOptions = InferenceEngineOptions(args)
 
@@ -31,15 +48,26 @@ object InferenceEngine extends ExecutionTiming with Logging
       System.exit(1)
     }
 
+    var conf = new SparkConf()
+      .setAppName("HanaDb Connector Test")
+      .set("spark.hanadb.host", masterConnectionInfo.dbHost)
+      .set("spark.hanadb.port", masterConnectionInfo.dbPort.toString)
+      .set("spark.hanadb.user", masterConnectionInfo.user)
+      .set("spark.hanadb.password", masterConnectionInfo.password)
+      .set("spark.hanadb.defaultDatabase", masterConnectionInfo.dbName)
+      .set("spark.driver.host", "localhost")
+      .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+
+    if (local) {
+      conf = conf.setMaster("local")
+    }
+
     val sparkBuilder = createSparkBuilder(
       s"Inference Engine ",
+      conf,
       args,
       6)
     val spark = sparkBuilder.getOrCreate()
-
-    val conf: SparkConf = new SparkConf().setAppName("RDFApp")
-    val sc: SparkContext = new SparkContext(conf)
-    val hiveContext: HiveContext = new HiveContext(sc)
 
     val current_time: Timestamp = new Timestamp(DateTime.now().toDate.getTime)
 
@@ -48,8 +76,13 @@ object InferenceEngine extends ExecutionTiming with Logging
         case inference_engine_master.TASK =>
           time(s"run task for ${inference_engine_master.TASK}",
             inference_engine_master.getData(spark, current_time))
+        case _ =>
+          val d:RDD[Row] = spark.sparkContext.parallelize( Seq[Row]( Row.fromSeq(Seq("Unknown task type"))))
+          spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))
+
       }
 
+      output_df.printSchema()
 
     } finally {
       //make sure to call spark.stop so the history works
