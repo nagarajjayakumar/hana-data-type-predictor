@@ -6,7 +6,7 @@ import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engi
 import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkConf, SparkContext}
-import org.joda.time.DateTime\r\n
+import org.joda.time.DateTime
 
 
 /**
