@@ -4,20 +4,20 @@ import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
 import com.hortonworks.faas.spark.predictor.util._
+import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkConf, SparkContext}
-import org.joda.time.DateTime
+import org.joda.time.DateTime\r\n
 
 
 /**
-  * Acquires a SAS file from S3, uses readstat to convert it to CSV, and then loads it into a hive table in the specified schema. Temporary files are cleaned up
-  * automatically.
+  * Inference Engine to infer the data type from HANA Samples.
   *
+  * Multiple Sampling method
+  *   1) equally weighted Sample
+  *   2) population size for each group "on the fly":
+  *   3) stratified reservoir sampling
+  *   4) stratified constant proportion
   *
-  * Sample spark-submit call for this when running locally (using /tmp as temp):
-  * spark-submit --master "local[*]" --packages org.apache.hadoop:hadoop-aws:2.7.3 --class ConvertSasToHive ./hive-spark_2.11-1.0.jar s3a://cafe-data-factory-sample-data /rwe_demo/m2_demo lb.sas7bdat matt_test lb /tmp "local[*]" "file://tmp"
-  *
-  * Sample spark-submit call for this on the HDP dev cluster (using /dev/shm as temp):
-  * spark-submit --master "yarn" --class ConvertSasToHive ./hive-spark_2.11-1.0.jar s3a://cafe-data-factory-sample-data /rwe_demo/m2_demo lb.sas7bdat matt_test lb /dev/shm
   */
 object InferenceEngine extends ExecutionTiming with Logging
   with DfsUtils
@@ -39,7 +39,7 @@ object InferenceEngine extends ExecutionTiming with Logging
 
     val conf: SparkConf = new SparkConf().setAppName("RDFApp")
     val sc: SparkContext = new SparkContext(conf)
-    //val hiveContext: HiveContext = new HiveContext(sc)
+    val hiveContext: HiveContext = new HiveContext(sc)
 
     val current_time: Timestamp = new Timestamp(DateTime.now().toDate.getTime)
 
