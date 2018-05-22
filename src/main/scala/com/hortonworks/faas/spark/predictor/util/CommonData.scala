@@ -1,4 +1,4 @@
-package com.hortonworks.faas.spark.predictor.inference_engine.analytic.common
+package com.hortonworks.faas.spark.predictor.util
 
 import java.sql.{Date, Timestamp}
 import java.util
