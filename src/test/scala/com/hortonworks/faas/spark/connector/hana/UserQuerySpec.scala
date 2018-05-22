@@ -3,10 +3,14 @@
 package com.hortonworks.faas.spark.connector.hana
 
 import com.hortonworks.faas.spark.connector.util.InferSchema
+import com.hortonworks.faas.spark.predictor.inference_engine.model.HanaActiveObject
+import com.hortonworks.faas.spark.predictor.inference_engine.task.hana_active_object
+import com.hortonworks.faas.spark.predictor.util.Schema2CaseClass
+import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.types.StructType
 import org.scalatest.FlatSpec
 
-/**
+/*
   * Read HanaDb tables as dataframes using the Spark DataSource API and
   * a SQL query to specify the desired data
   */
@@ -45,6 +49,17 @@ class UserQuerySpec extends FlatSpec with SharedHanaDbContext{
 //
 //      mandtCount.show()
 
+
+      val tableds: Dataset[HanaActiveObject] =hana_active_object.getData(ss,dbName,"DataLake.Deltaviews.TransactionViews/InstallationOwnershipTS",null)
+
+      val s2cc = new Schema2CaseClass
+      import s2cc.implicits._
+      println(s2cc.schemaToCaseClass(tableds.schema, "MyClass"))
+
+      val logicalModelAttribute = hana_active_object.parseXml(tableds.head().CDATA.get)
+
+      logicalModelAttribute.foreach(println)
+
       val table = ss
         .read
         .format("com.hortonworks.faas.spark.connector")
@@ -54,6 +69,7 @@ class UserQuerySpec extends FlatSpec with SharedHanaDbContext{
 
       table.show()
       table.printSchema()
+
 
       println(table.rdd.count())
 
