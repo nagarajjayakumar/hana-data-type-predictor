@@ -1,4 +1,4 @@
-package com.hortonworks.faas.spark.predictor.inference_engine.task
+package com.hortonworks.faas.spark.predictor.schema_crawler.task
 
 import java.sql.Timestamp
 
@@ -12,9 +12,9 @@ import scala.xml.XML
 /**
   * Created by njayakumar on 5/16/2018.
   */
-object hana_active_object {
+object schema_crawler_master {
 
-  val TASK: String = "hana_active_object"
+  val TASK: String = "schema_crawler_master"
 
   val hana_active_object_query: String = "select * from \"_SYS_REPO\".\"ACTIVE_OBJECT\" where lower(object_suffix) in ('calculationview', 'attributeview', 'analyticview')  "
 

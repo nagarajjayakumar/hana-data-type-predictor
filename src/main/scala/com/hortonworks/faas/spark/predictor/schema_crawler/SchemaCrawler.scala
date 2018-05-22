@@ -6,6 +6,7 @@ import java.sql.Timestamp
 import com.hortonworks.faas.spark.connector.hana.util.HanaDbConnectionInfo
 import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOptions
 import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
+import com.hortonworks.faas.spark.predictor.schema_crawler.task.schema_crawler_master
 import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
@@ -75,9 +76,9 @@ object SchemaCrawler extends ExecutionTiming with Logging
 
     try {
       val output_df = opts.task match {
-        case inference_engine_master.TASK =>
-          time(s"run task for ${inference_engine_master.TASK}",
-            inference_engine_master.getData(spark, current_time))
+        case schema_crawler_master.TASK =>
+          time(s"run task for ${schema_crawler_master.TASK}",
+            schema_crawler_master.getData(spark, "","" ,current_time))
         case _ =>
           val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown task type"))))
           spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))

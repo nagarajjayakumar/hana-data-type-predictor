@@ -4,7 +4,7 @@ package com.hortonworks.faas.spark.connector.hana
 
 import com.hortonworks.faas.spark.connector.util.InferSchema
 import com.hortonworks.faas.spark.predictor.inference_engine.model.HanaActiveObject
-import com.hortonworks.faas.spark.predictor.inference_engine.task.hana_active_object
+import com.hortonworks.faas.spark.predictor.schema_crawler.task.hana_active_object
 import com.hortonworks.faas.spark.predictor.util.Schema2CaseClass
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.types.StructType
