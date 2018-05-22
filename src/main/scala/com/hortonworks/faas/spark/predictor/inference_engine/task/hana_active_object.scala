@@ -3,10 +3,9 @@ package com.hortonworks.faas.spark.predictor.inference_engine.task
 import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.predictor.inference_engine.model.HanaActiveObject
-import com.hortonworks.faas.spark.predictor.util.CommonData
-import com.hortonworks.faas.spark.predictor.xml.models.{Calculation, LogicalModelAttribute}
+import com.hortonworks.faas.spark.predictor.xml.models.LogicalModelAttribute
 import com.hortonworks.faas.spark.predictor.xml.parser.XmlParser
-import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.xml.XML
 
@@ -40,10 +39,10 @@ object hana_active_object {
   }
 
   def getHeadData(spark: SparkSession,
-              namespace: String = "default",
-              dboname: String = "default",
-              current_time: Timestamp): HanaActiveObject = {
-    val ds = getData(spark,namespace,dboname,current_time)
+                  namespace: String = "default",
+                  dboname: String = "default",
+                  current_time: Timestamp): HanaActiveObject = {
+    val ds = getData(spark, namespace, dboname, current_time)
     ds.head()
   }
 
