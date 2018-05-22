@@ -4,5 +4,5 @@ package com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.an
   * Created by njayakumar on 5/16/2018.
   */
 object AdvancedAnalyticType extends Enumeration {
-  val CDM, DRM, BLR, DET = Value
+  val HANADB, ORACLE, MSSQL, MYSQL = Value
 }
