@@ -5,7 +5,7 @@ import scalikejdbc._
 import skinny.orm.SkinnyCRUDMapper
 import skinny.orm.feature.TimestampsFeature
 
-case class HanaDbActiveObjectDetail(
+case class SourceDbActiveObjectDetail(
                                      id: Long,
                                      haoid: Long,
                                      columnName: String,
@@ -21,9 +21,9 @@ case class HanaDbActiveObjectDetail(
                                      updatedAt: DateTime
                                    )
 
-object HanaDbActiveObjectDetail
-  extends SkinnyCRUDMapper[HanaDbActiveObjectDetail]
-    with TimestampsFeature[HanaDbActiveObjectDetail] {
+object SourceDbActiveObjectDetail
+  extends SkinnyCRUDMapper[SourceDbActiveObjectDetail]
+    with TimestampsFeature[SourceDbActiveObjectDetail] {
 
   override val connectionPoolName = 'service
   override val tableName = "hanadb_active_object_detail"
@@ -32,7 +32,7 @@ object HanaDbActiveObjectDetail
 
   override def defaultAlias = createAlias("haod")
 
-  override def extract(rs: WrappedResultSet, n: ResultName[HanaDbActiveObjectDetail]) = autoConstruct(rs, n)
+  override def extract(rs: WrappedResultSet, n: ResultName[SourceDbActiveObjectDetail]) = autoConstruct(rs, n)
 
 
 }

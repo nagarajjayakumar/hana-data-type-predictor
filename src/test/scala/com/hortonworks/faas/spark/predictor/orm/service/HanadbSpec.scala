@@ -15,7 +15,7 @@ object HanadbSpec extends DBSettings with Matchers with Connection with CreateTa
 
   def main(args: Array[String]): Unit = {
 
-    val haoid = HanaDbActiveObject.createWithAttributes('namespace -> "testService",
+    val haoid = SourceDbActiveObject.createWithAttributes('namespace -> "testService",
       'dbObjectName -> "testObjectName",
       'dbObjectType -> "testObjectType",
       'dbObjectTypeSuffix -> "testObjectTypeSuffix",
@@ -25,27 +25,27 @@ object HanadbSpec extends DBSettings with Matchers with Connection with CreateTa
       'isActive -> true)
 
 
-    HanaDbActiveObjectDetail.createWithAttributes('columnName -> "testColumnName1", 'haoid -> haoid,
+    SourceDbActiveObjectDetail.createWithAttributes('columnName -> "testColumnName1", 'haoid -> haoid,
       'isKey -> true, 'col_order -> 1, 'attributeHierarchyActive -> true, 'displayAttribute -> false,
       'defaultDescription -> "testDescription1", 'sourceObjectName -> "testSrcObjectName",
       'sourceColumnName -> "testSrcColumnName", 'isRequiredForFlow -> true)
 
-    HanaDbActiveObjectDetail.createWithAttributes('columnName -> "testColumnName2", 'haoid -> haoid,
+    SourceDbActiveObjectDetail.createWithAttributes('columnName -> "testColumnName2", 'haoid -> haoid,
       'isKey -> true, 'col_order -> 1, 'attributeHierarchyActive -> true, 'displayAttribute -> false,
       'defaultDescription -> "testDescription2", 'sourceObjectName -> "testSrcObjectName",
       'sourceColumnName -> "testSrcColumnName", 'isRequiredForFlow -> true)
 
-    HanaDbActiveObjectDetail.createWithAttributes('columnName -> "testColumnName3", 'haoid -> haoid,
+    SourceDbActiveObjectDetail.createWithAttributes('columnName -> "testColumnName3", 'haoid -> haoid,
       'isKey -> false, 'col_order -> 1, 'attributeHierarchyActive -> true, 'displayAttribute -> false,
       'defaultDescription -> "testDescription3", 'sourceObjectName -> "testSrcObjectName",
       'sourceColumnName -> "testSrcColumnName", 'isRequiredForFlow -> true)
 
-    val hao = HanaDbActiveObject.joins(HanaDbActiveObject.hanaDbActiveObjectDetails).findAll().head
+    val hao = SourceDbActiveObject.joins(SourceDbActiveObject.hanaDbActiveObjectDetails).findAll().head
     println(hao.hanaDbActiveObjectDetails)
 
-    val haod = HanaDbActiveObjectDetail.deleteById(hao.hanaDbActiveObjectDetails.head.id)
+    val haod = SourceDbActiveObjectDetail.deleteById(hao.hanaDbActiveObjectDetails.head.id)
     println(haod)
-    val hao1 = HanaDbActiveObject.joins(HanaDbActiveObject.hanaDbActiveObjectDetails).findAll().head
+    val hao1 = SourceDbActiveObject.joins(SourceDbActiveObject.hanaDbActiveObjectDetails).findAll().head
 
     println(hao1.hanaDbActiveObjectDetails)
   }
