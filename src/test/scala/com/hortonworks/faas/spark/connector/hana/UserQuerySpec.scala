@@ -50,13 +50,13 @@ class UserQuerySpec extends FlatSpec with SharedHanaDbContext{
 //      mandtCount.show()
 
 
-      val tableds: Dataset[HanaActiveObject] =hana_active_object.getData(ss,dbName,"DataLake.Deltaviews.TransactionViews/InstallationOwnershipTS",null)
+      val tableds: HanaActiveObject =hana_active_object.getHeadData(ss,dbName,"DataLake.Deltaviews.TransactionViews/InstallationOwnershipTS",null)
 
-      val s2cc = new Schema2CaseClass
-      import s2cc.implicits._
-      println(s2cc.schemaToCaseClass(tableds.schema, "MyClass"))
+//      val s2cc = new Schema2CaseClass
+//      import s2cc.implicits._
+//      println(s2cc.schemaToCaseClass(tableds.schema, "MyClass"))
 
-      val logicalModelAttribute = hana_active_object.parseXml(tableds.head().CDATA.get)
+      val logicalModelAttribute = hana_active_object.parseXml(tableds.CDATA.get)
 
       logicalModelAttribute.foreach(println)
 
