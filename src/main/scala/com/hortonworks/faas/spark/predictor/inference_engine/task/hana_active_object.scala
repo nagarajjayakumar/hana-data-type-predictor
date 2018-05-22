@@ -43,7 +43,7 @@ object hana_active_object {
                   dboname: String = "default",
                   current_time: Timestamp): HanaActiveObject = {
     val ds = getData(spark, namespace, dboname, current_time)
-    ds.head()
+    ds.head
   }
 
   def parseXml(xmlString: String): Array[LogicalModelAttribute] = {
