@@ -1,12 +1,10 @@
 package com.hortonworks.faas.spark.predictor.util
 
-import ch.qos.logback.classic.Logger
 
-
-trait ExecutionTiming extends Logging{
+trait ExecutionTiming extends Logging {
   // Spark uses the log4j logger by default
 
-  def time[R](name:String, block: => R): R = {
+  def time[R](name: String, block: => R): R = {
     val start = System.currentTimeMillis()
     val result = block
     // call-by-name

@@ -4,8 +4,7 @@ package com.hortonworks.faas.spark.predictor.schema_crawler
 import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.connector.hana.util.HanaDbConnectionInfo
-import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOptions
-import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
+import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
 import com.hortonworks.faas.spark.predictor.schema_crawler.task.schema_crawler_master
 import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.SparkConf
@@ -43,10 +42,10 @@ object SchemaCrawler extends ExecutionTiming with Logging
   val local: Boolean = true
 
   def main(args: Array[String]): Unit = {
-    val opts: InferenceEngineOptions = InferenceEngineOptions(args)
+    val opts: SchemaCrawlerOptions = SchemaCrawlerOptions(args)
 
     if (!opts.isValid()) {
-      InferenceEngineOptions.printUsage()
+      SchemaCrawlerOptions.printUsage()
       System.exit(1)
     }
 
@@ -66,7 +65,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
     }
 
     val sparkBuilder = createSparkBuilder(
-      s"Schema Crawler - Theani",
+      s"Schema Crawler - Dorsata",
       conf,
       args,
       6)
@@ -76,16 +75,31 @@ object SchemaCrawler extends ExecutionTiming with Logging
 
     try {
       val output_df = opts.task match {
-        case schema_crawler_master.TASK =>
-          time(s"run task for ${schema_crawler_master.TASK}",
-            schema_crawler_master.getData(spark, "","" ,current_time))
+        case schema_crawler_master.TASK => {
+          val result_df = AdvancedAnalyticType.withNameWithDefault(opts.analytic_type) match {
+            case AdvancedAnalyticType.HANADB => {
+              // step 1: get Hana meta data for the database object name
+              val df = time(s"run task for ${schema_crawler_master.TASK} and for the analytic type ${AdvancedAnalyticType.HANADB.toString}",
+                schema_crawler_master.getHanaMetaData(spark, dbName, "", current_time))
+
+              // Step 2 : get Head Hana Active Object
+
+
+              df
+            }
+            case _ =>
+              val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown task type"))))
+              spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))
+          }
+          result_df
+        }
         case _ =>
           val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown task type"))))
           spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))
 
       }
 
-      output_df.printSchema()
+      output_df.printSchema
 
     } finally {
       //make sure to call spark.stop so the history works

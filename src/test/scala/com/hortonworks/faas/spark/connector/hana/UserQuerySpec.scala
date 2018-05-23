@@ -3,7 +3,7 @@
 package com.hortonworks.faas.spark.connector.hana
 
 import com.hortonworks.faas.spark.connector.util.InferSchema
-import com.hortonworks.faas.spark.predictor.inference_engine.model.HanaActiveObject
+import com.hortonworks.faas.spark.predictor.schema_crawler.model.HanaActiveObject
 import com.hortonworks.faas.spark.predictor.schema_crawler.task.hana_active_object
 import com.hortonworks.faas.spark.predictor.util.Schema2CaseClass
 import org.apache.spark.sql.Dataset
@@ -56,7 +56,7 @@ class UserQuerySpec extends FlatSpec with SharedHanaDbContext{
 //      import s2cc.implicits._
 //      println(s2cc.schemaToCaseClass(tableds.schema, "MyClass"))
 
-      val logicalModelAttribute = hana_active_object.parseXml(tableds.CDATA.get)
+      val logicalModelAttribute = hana_active_object.parseMetaDataXml(tableds.CDATA.get)
 
       logicalModelAttribute.foreach(println)
 

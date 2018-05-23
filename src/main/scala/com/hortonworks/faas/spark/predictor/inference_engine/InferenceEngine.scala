@@ -5,11 +5,10 @@ import java.sql.Timestamp
 import com.hortonworks.faas.spark.connector.hana.util.HanaDbConnectionInfo
 import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
 import com.hortonworks.faas.spark.predictor.util._
+import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.{Row, SparkSession}
-import org.apache.spark.sql.hive.HiveContext
+import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
-import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.DateTime
 
 
@@ -17,10 +16,10 @@ import org.joda.time.DateTime
   * Inference Engine to infer the data type from HANA Samples.
   *
   * Multiple Sampling method
-  *   1) equally weighted Sample
-  *   2) population size for each group "on the fly":
-  *   3) stratified reservoir sampling
-  *   4) stratified constant proportion
+  * 1) equally weighted Sample
+  * 2) population size for each group "on the fly":
+  * 3) stratified reservoir sampling
+  * 4) stratified constant proportion
   *
   */
 object InferenceEngine extends ExecutionTiming with Logging
@@ -57,7 +56,7 @@ object InferenceEngine extends ExecutionTiming with Logging
       .set("spark.hanadb.defaultDatabase", masterConnectionInfo.dbName)
       .set("spark.driver.host", "localhost")
       .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-      //.set("spark.ui.port", (4040 + scala.util.Random.nextInt(1000)).toString)
+    //.set("spark.ui.port", (4040 + scala.util.Random.nextInt(1000)).toString)
 
     if (local) {
       conf = conf.setMaster("local")
@@ -78,7 +77,7 @@ object InferenceEngine extends ExecutionTiming with Logging
           time(s"run task for ${inference_engine_master.TASK}",
             inference_engine_master.getData(spark, current_time))
         case _ =>
-          val d:RDD[Row] = spark.sparkContext.parallelize( Seq[Row]( Row.fromSeq(Seq("Unknown task type"))))
+          val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown task type"))))
           spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))
 
       }

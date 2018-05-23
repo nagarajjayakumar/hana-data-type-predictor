@@ -1,6 +1,6 @@
 package com.hortonworks.faas.spark.predictor.schema_crawler.model
 
-case class HanaActiveObject(
+case class HanaActiveObject (
     PACKAGE_ID: Option[String],
     OBJECT_NAME: Option[String],
     OBJECT_SUFFIX: Option[String],
@@ -20,4 +20,4 @@ case class HanaActiveObject(
     OBJECT_STATUS: Option[Int],
     CHANGE_NUMBER: Option[Int],
     RELEASED_AT: Option[java.sql.Timestamp]
-)
+) extends DbActiveObject

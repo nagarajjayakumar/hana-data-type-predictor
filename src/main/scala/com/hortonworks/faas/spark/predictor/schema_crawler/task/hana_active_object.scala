@@ -2,7 +2,7 @@ package com.hortonworks.faas.spark.predictor.schema_crawler.task
 
 import java.sql.Timestamp
 
-import com.hortonworks.faas.spark.predictor.inference_engine.model.HanaActiveObject
+import com.hortonworks.faas.spark.predictor.schema_crawler.model.HanaActiveObject
 import com.hortonworks.faas.spark.predictor.xml.models.LogicalModelAttribute
 import com.hortonworks.faas.spark.predictor.xml.parser.XmlParser
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -43,6 +43,10 @@ object hana_active_object {
                   dboname: String = "default",
                   current_time: Timestamp): HanaActiveObject = {
     val ds = getData(spark, namespace, dboname, current_time)
+    ds.head
+  }
+
+  def getHeadData(ds: Dataset[HanaActiveObject]) : HanaActiveObject= {
     ds.head
   }
 
