@@ -66,7 +66,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
     }
 
     val sparkBuilder = createSparkBuilder(
-      s"Inference Engine ",
+      s"Schema Crawler - Theani",
       conf,
       args,
       6)
