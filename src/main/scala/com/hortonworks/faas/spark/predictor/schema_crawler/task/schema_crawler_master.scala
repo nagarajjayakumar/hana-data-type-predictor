@@ -13,7 +13,7 @@ object schema_crawler_master {
 
   val TASK: String = "schema_crawler_master"
 
-  val ANALYTIC_TYPE = AdvancedAnalyticType.HANADB
+  val ANALYTIC_TYPE = AdvancedAnalyticType.HANA
 
 
   def getHanaMetaData(spark: SparkSession,

@@ -13,6 +13,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.joda.time.DateTime
+import scalikejdbc.{DB, NamedDB}
 
 
 /**
@@ -32,6 +33,11 @@ object SchemaCrawler extends ExecutionTiming with Logging
   val dbName: String = {
     "_SYS_BIC"
   }
+
+  // Following env and db is for the metadata
+  def env(): String = "development_mysql"
+  // Following env and db is for the metadata
+  def db(): DB = NamedDB('service).toDB()
 
   val masterHost = sys.env.get("HANADB_HOST_TEST").getOrElse("127.0.0.1")
   //val masterHost = sys.env.get("MYSQLDB_HOST_TEST").getOrElse("127.0.0.1")
@@ -78,14 +84,12 @@ object SchemaCrawler extends ExecutionTiming with Logging
       val output_df = opts.task match {
         case schema_crawler_master.TASK => {
           val result_df = AdvancedAnalyticType.withNameWithDefault(opts.analytic_type) match {
-            case AdvancedAnalyticType.HANADB => {
+            case AdvancedAnalyticType.HANA => {
               // step 1: get Hana meta data for the database object name
-              val df = time(s"run task for ${schema_crawler_master.TASK} and for the analytic type ${AdvancedAnalyticType.HANADB.toString}",
+              val df = time(s"run task for ${schema_crawler_master.TASK} and for the analytic type ${AdvancedAnalyticType.HANA.toString}",
                 schema_crawler_master.getHanaMetaData(spark, dbName, "", current_time))
 
-              // Step 2 : get Head Hana Active Object
-              val handactiveobject: HanaActiveObject = hana_active_object.getHeadData(df)
-
+              // Step 2: Persist the metadata
 
 
               df
