@@ -5,7 +5,8 @@ import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.connector.hana.util.HanaDbConnectionInfo
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
-import com.hortonworks.faas.spark.predictor.schema_crawler.task.schema_crawler_master
+import com.hortonworks.faas.spark.predictor.schema_crawler.model.HanaActiveObject
+import com.hortonworks.faas.spark.predictor.schema_crawler.task.{hana_active_object, schema_crawler_master}
 import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
@@ -83,6 +84,8 @@ object SchemaCrawler extends ExecutionTiming with Logging
                 schema_crawler_master.getHanaMetaData(spark, dbName, "", current_time))
 
               // Step 2 : get Head Hana Active Object
+              val handactiveobject: HanaActiveObject = hana_active_object.getHeadData(df)
+
 
 
               df

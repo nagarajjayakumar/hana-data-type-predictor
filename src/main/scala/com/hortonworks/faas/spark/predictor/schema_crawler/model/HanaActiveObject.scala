@@ -20,4 +20,4 @@ case class HanaActiveObject (
     OBJECT_STATUS: Option[Int],
     CHANGE_NUMBER: Option[Int],
     RELEASED_AT: Option[java.sql.Timestamp]
-) 
+)
