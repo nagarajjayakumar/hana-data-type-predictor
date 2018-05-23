@@ -12,7 +12,7 @@ object schema_crawler_master {
 
   val TASK: String = "schema_crawler_master"
 
-  
+
   def getData(spark: SparkSession,
               namespace: String = "default",
               dboname: String = "default",

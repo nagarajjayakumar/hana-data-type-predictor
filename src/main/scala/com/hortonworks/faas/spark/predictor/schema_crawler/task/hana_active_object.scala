@@ -46,7 +46,7 @@ object hana_active_object {
     ds.head
   }
 
-  def parseXml(xmlString: String): Array[LogicalModelAttribute] = {
+  def parseMetaDataXml(xmlString: String): Array[LogicalModelAttribute] = {
 
     val xmlSource = XML.loadString(xmlString)
     val logicalModelAttribute = XmlParser.parse(xmlSource)(LogicalModelAttribute.xmlRead)
