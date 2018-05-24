@@ -69,7 +69,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
     }
 
     val sparkBuilder = createSparkBuilder(
-      s"Schema Crawler - Dorsata",
+      s"Schema Crawler - Teani",
       conf,
       args,
       -6)

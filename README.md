@@ -7,7 +7,7 @@ Pass test skip flag in case if you need to skip Test case execution during insta
 
 mvn clean install -Dmaven.test.skip=true
 
-# Schema Crawler தேனீ
+# Schema Crawler தேனீ [teani] 
 
 Following parameters need to be passed as argument to the schema crawler 
 Pass HANADB_HOST as system level environment variable
