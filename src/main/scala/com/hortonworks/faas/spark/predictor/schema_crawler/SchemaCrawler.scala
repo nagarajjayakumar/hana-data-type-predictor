@@ -5,16 +5,14 @@ import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.connector.hana.util.HanaDbConnectionInfo
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
-import com.hortonworks.faas.spark.predictor.schema_crawler.model.HanaActiveObject
 import com.hortonworks.faas.spark.predictor.schema_crawler.persistor.{MetaDataPersistor, MetaDataPersistorOptions}
-import com.hortonworks.faas.spark.predictor.schema_crawler.task.{hana_active_object, schema_crawler_master}
+import com.hortonworks.faas.spark.predictor.schema_crawler.task.schema_crawler_master
 import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.joda.time.DateTime
-import scalikejdbc.{DB, NamedDB}
 
 
 /**
@@ -102,8 +100,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
 
       // Step 2: Persist the metadata
       val mdpopts: MetaDataPersistorOptions = MetaDataPersistorOptions(args)
-      MetaDataPersistor.persist(output_ds,spark,mdpopts)
-
+      MetaDataPersistor.persist(output_ds, spark, mdpopts)
 
 
     } finally {
