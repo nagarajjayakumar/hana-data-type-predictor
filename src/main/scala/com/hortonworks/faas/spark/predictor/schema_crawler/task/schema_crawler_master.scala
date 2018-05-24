@@ -15,6 +15,7 @@ object schema_crawler_master {
 
   val ANALYTIC_TYPE = AdvancedAnalyticType.HANA
 
+  val SRCDBONAME = "default/default"
 
   def getHanaMetaData(spark: SparkSession,
               namespace: String = "default",

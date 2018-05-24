@@ -7,10 +7,14 @@ import com.hortonworks.faas.spark.predictor.schema_crawler.task.schema_crawler_m
 /**
   * Created by njayakumar on 5/16/2018.
   */
-class SchemaCrawlerOptions(val task: String, val analytic_type: String, val o: String, val w: String) extends CommonDataFrameWriterOption(o, w) {
+class SchemaCrawlerOptions(val task: String,
+                           val analytic_type: String,
+                           val src_dbo_name: String,
+                           val o: String,
+                           val w: String) extends CommonDataFrameWriterOption(o, w) {
 
-  def this(t: String, at: String, cdfw: CommonDataFrameWriterOption) {
-    this(t, at, cdfw.output, cdfw.write_mode)
+  def this(t: String, at: String, src_dbo_name: String, cdfw: CommonDataFrameWriterOption) {
+    this(t, at, src_dbo_name, cdfw.output, cdfw.write_mode)
   }
 
   def isValid(): Boolean = {
@@ -22,6 +26,8 @@ object SchemaCrawlerOptions {
   val TASK_KEY = "task"
 
   val ANALYTIC_TYPE = "analytic_type"
+
+  val SRCDBONAME = "src_dbo_name"
 
   def apply(args: Array[String]): SchemaCrawlerOptions = {
     apply(ConfigurationOptionMap(args))
@@ -35,7 +41,9 @@ object SchemaCrawlerOptions {
 
     val at = if (options.opts.contains(ANALYTIC_TYPE) && options.opts(ANALYTIC_TYPE).nonEmpty) options.opts(ANALYTIC_TYPE)(0) else schema_crawler_master.ANALYTIC_TYPE.toString
 
-    new SchemaCrawlerOptions(t, at, cdfw)
+    val src_dbo_name = if (options.opts.contains(SRCDBONAME) && options.opts(SRCDBONAME).nonEmpty) options.opts(SRCDBONAME)(0) else schema_crawler_master.SRCDBONAME
+
+    new SchemaCrawlerOptions(t, at, src_dbo_name, cdfw)
   }
 
   def printUsage(): Unit = {
