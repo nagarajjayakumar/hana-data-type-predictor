@@ -218,6 +218,18 @@ object CommonData {
     }
   }
 
+  def getBooleanFromStringForDBKeys(value: String): Boolean = {
+    if (value == null) false
+    value.trim.toLowerCase match {
+      case "true" =>
+        (true)
+      case "false" =>
+        (false)
+      case _ =>
+        false
+    }
+  }
+
   /**
     * This method is used to convert array of int type to array of double type. This method will return null if
     * originalArray is null.

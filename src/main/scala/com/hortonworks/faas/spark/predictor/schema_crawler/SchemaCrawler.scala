@@ -29,6 +29,9 @@ object SchemaCrawler extends ExecutionTiming with Logging
   with DfsUtils
   with SparkUtils {
 
+  //initialize logger
+  log
+
   val dbName: String = {
     "_SYS_BIC"
   }
@@ -111,5 +114,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
     }
 
     logDebug("""Done processing ...""")
+    logDebug("""Done processing !!!...""")
+
   }
 }

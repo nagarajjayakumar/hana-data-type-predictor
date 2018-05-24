@@ -5,7 +5,7 @@ import java.util.Calendar
 import com.hortonworks.faas.spark.predictor.orm.service.Connection
 import com.hortonworks.faas.spark.predictor.orm.setting.DBSettings
 import com.hortonworks.faas.spark.predictor.schema_crawler.model.{HanaActiveObject, SourceDbActiveObject, SourceDbActiveObjectDetail}
-import com.hortonworks.faas.spark.predictor.util.Logging
+import com.hortonworks.faas.spark.predictor.util.{CommonData, Logging}
 import com.hortonworks.faas.spark.predictor.xml.models.LogicalModelAttribute
 import com.hortonworks.faas.spark.predictor.xml.parser.XmlParser
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -47,10 +47,10 @@ class hana_metadata_persistor(val ds: Dataset[HanaActiveObject],
       SourceDbActiveObjectDetail.createWithAttributes(
         'columnName -> haodetail.id,
         'haoid -> haoid,
-        'isKey -> haodetail.key,
+        'isKey -> CommonData.getBooleanFromStringForDBKeys(haodetail.key),
         'col_order -> haodetail.order,
-        'attributeHierarchyActive -> haodetail.attributeHierarchyActive,
-        'displayAttribute -> haodetail.displayAttribute,
+        'attributeHierarchyActive -> CommonData.getBooleanFromStringForDBKeys(haodetail.attributeHierarchyActive),
+        'displayAttribute -> CommonData.getBooleanFromStringForDBKeys(haodetail.displayAttribute),
         'defaultDescription -> haodetail.logicalModelAttributesAttribDesc.head.defaultDescription,
         'sourceObjectName -> haodetail.logicalModelAttributesAttribKeyMapping.head.columnObjectName,
         'sourceColumnName -> haodetail.logicalModelAttributesAttribKeyMapping.head.columnName,
