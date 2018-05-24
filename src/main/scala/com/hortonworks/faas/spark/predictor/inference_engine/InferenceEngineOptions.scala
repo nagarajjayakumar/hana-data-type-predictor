@@ -9,11 +9,14 @@ import com.hortonworks.faas.spark.predictor.schema_crawler.persistor.MetaDataPer
   * Created by njayakumar on 5/16/2018.
   */
 class InferenceEngineOptions(val task:String,
+                             val o:String,
+                             val w:String ,
                              val analytic_type: String,
                              val mdbenvironment: String,
                              val mdbservice: String)  {
+
   def this( t:String, cdfw:CommonDataFrameWriterOption , mdpo:MetaDataPersistorOptions) {
-    this( t, mdpo.analytic_type, mdpo.mdbenvironment, mdpo.mdbservice)
+    this( t, cdfw.output, cdfw.write_mode,mdpo.analytic_type, mdpo.mdbenvironment, mdpo.mdbservice)
   }
 
   def isValid(): Boolean = {
