@@ -6,6 +6,7 @@ import java.sql.Timestamp
 import com.hortonworks.faas.spark.connector.hana.util.HanaDbConnectionInfo
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
 import com.hortonworks.faas.spark.predictor.schema_crawler.model.HanaActiveObject
+import com.hortonworks.faas.spark.predictor.schema_crawler.persistor.{MetaDataPersistor, MetaDataPersistorOptions}
 import com.hortonworks.faas.spark.predictor.schema_crawler.task.{hana_active_object, schema_crawler_master}
 import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.SparkConf
@@ -81,21 +82,17 @@ object SchemaCrawler extends ExecutionTiming with Logging
     val current_time: Timestamp = new Timestamp(DateTime.now().toDate.getTime)
 
     try {
-      val output_df = opts.task match {
+      val output_ds = opts.task match {
         case schema_crawler_master.TASK => {
           val result_df = AdvancedAnalyticType.withNameWithDefault(opts.analytic_type) match {
             case AdvancedAnalyticType.HANA => {
               // step 1: get Hana meta data for the database object name
-              val df = time(s"run task for ${schema_crawler_master.TASK} and for the analytic type ${AdvancedAnalyticType.HANA.toString}",
+              val ds = time(s"run task for ${schema_crawler_master.TASK} and for the analytic type ${AdvancedAnalyticType.HANA.toString}",
                 schema_crawler_master.getHanaMetaData(spark, dbName, "", current_time))
-
-              // Step 2: Persist the metadata
-
-
-              df
+              ds
             }
             case _ =>
-              val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown task type"))))
+              val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown advanced analytic type"))))
               spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))
           }
           result_df
@@ -106,7 +103,13 @@ object SchemaCrawler extends ExecutionTiming with Logging
 
       }
 
-      output_df.printSchema
+      output_ds.printSchema
+
+      // Step 2: Persist the metadata
+      val mdpopts: MetaDataPersistorOptions = MetaDataPersistorOptions(args)
+      MetaDataPersistor.persist(output_ds,spark,mdpopts)
+
+
 
     } finally {
       //make sure to call spark.stop so the history works

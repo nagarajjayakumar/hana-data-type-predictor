@@ -4,7 +4,7 @@ import com.hortonworks.faas.spark.predictor.inference_engine.configuration.Confi
 import com.hortonworks.faas.spark.predictor.util.Logging
 
 
-class MetaDataPersistorOptions(val analytic_type: String , val environment: String, val dbService: String) {}
+class MetaDataPersistorOptions(val analytic_type: String, val environment: String, val dbService: String) {}
 
 /**
   * Created by njayakumar on 5/16/2018.
@@ -14,6 +14,11 @@ object MetaDataPersistorOptions extends Logging {
   val ANALYTIC_TYPE = "analytic_type"
   val ENVIRONMENT = "env"
   val DBSERVICE = "service"
+
+
+  def apply(args: Array[String]): MetaDataPersistorOptions = {
+    apply(ConfigurationOptionMap(args))
+  }
 
   def apply(options: ConfigurationOptionMap): MetaDataPersistorOptions = {
     val analytic_type: String = if (options.opts.contains(ANALYTIC_TYPE) && options.opts(ANALYTIC_TYPE).nonEmpty) options.opts(ANALYTIC_TYPE).head else "unknown"
