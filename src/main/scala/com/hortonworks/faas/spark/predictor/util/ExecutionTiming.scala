@@ -3,6 +3,8 @@ package com.hortonworks.faas.spark.predictor.util
 
 trait ExecutionTiming extends Logging {
   // Spark uses the log4j logger by default
+  //initialize log
+  log
 
   def time[R](name: String, block: => R): R = {
     val start = System.currentTimeMillis()
