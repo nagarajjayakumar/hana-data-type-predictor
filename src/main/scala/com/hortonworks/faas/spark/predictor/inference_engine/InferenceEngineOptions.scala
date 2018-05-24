@@ -3,20 +3,18 @@ package com.hortonworks.faas.spark.predictor.inference_engine
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common._
 import com.hortonworks.faas.spark.predictor.inference_engine.configuration.ConfigurationOptionMap
 import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
-import com.hortonworks.faas.spark.predictor.schema_crawler.persistor.MetaDataPersistorOptions
 
 /**
   * Created by njayakumar on 5/16/2018.
   */
-class InferenceEngineOptions(val task:String,
-                             val o:String,
-                             val w:String ,
+class InferenceEngineOptions(val task: String,
                              val analytic_type: String,
-                             val mdbenvironment: String,
-                             val mdbservice: String)  {
+                             val src_dbo_name: String,
+                             val o: String,
+                             val w: String) {
 
-  def this( t:String, cdfw:CommonDataFrameWriterOption , mdpo:MetaDataPersistorOptions) {
-    this( t, cdfw.output, cdfw.write_mode,mdpo.analytic_type, mdpo.mdbenvironment, mdpo.mdbservice)
+  def this(t: String, at: String, src_dbo_name: String, cdfw: CommonDataFrameWriterOption) {
+    this(t, at, src_dbo_name, cdfw.output, cdfw.write_mode)
   }
 
   def isValid(): Boolean = {
@@ -25,7 +23,11 @@ class InferenceEngineOptions(val task:String,
 }
 
 object InferenceEngineOptions {
-  val TASK_KEY="task"
+  val TASK_KEY = "task"
+
+  val ANALYTIC_TYPE = "analytic_type"
+
+  val SRCDBONAME = "src_dbo_name"
 
   def apply(args: Array[String]): InferenceEngineOptions = {
     apply(ConfigurationOptionMap(args))
@@ -33,12 +35,15 @@ object InferenceEngineOptions {
 
   def apply(options: ConfigurationOptionMap): InferenceEngineOptions = {
 
-    val cdfw:CommonDataFrameWriterOption = CommonDataFrameWriterOption(options)
-    val mdpo:MetaDataPersistorOptions = MetaDataPersistorOptions(options)
+    val cdfw: CommonDataFrameWriterOption = CommonDataFrameWriterOption(options)
 
-    val t:String = if(options.opts.contains(TASK_KEY) && options.opts(TASK_KEY).nonEmpty) options.opts(TASK_KEY)(0) else inference_engine_master.TASK
+    val t: String = if (options.opts.contains(TASK_KEY) && options.opts(TASK_KEY).nonEmpty) options.opts(TASK_KEY)(0) else inference_engine_master.TASK
 
-    new InferenceEngineOptions(t, cdfw, mdpo)
+    val at = if (options.opts.contains(ANALYTIC_TYPE) && options.opts(ANALYTIC_TYPE).nonEmpty) options.opts(ANALYTIC_TYPE)(0) else inference_engine_master.ANALYTIC_TYPE.toString
+
+    val src_dbo_name = if (options.opts.contains(SRCDBONAME) && options.opts(SRCDBONAME).nonEmpty) options.opts(SRCDBONAME)(0) else inference_engine_master.SRCDBONAME
+
+    new InferenceEngineOptions(t, at, src_dbo_name, cdfw)
   }
 
   def printUsage(): Unit = {

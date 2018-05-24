@@ -3,7 +3,7 @@ package com.hortonworks.faas.spark.predictor.schema_crawler.task
 import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
-import com.hortonworks.faas.spark.predictor.schema_crawler.model.HanaActiveObject
+import com.hortonworks.faas.spark.predictor.model.HanaActiveObject
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 /**

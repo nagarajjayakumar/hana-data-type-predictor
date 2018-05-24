@@ -2,7 +2,7 @@ package com.hortonworks.faas.spark.predictor.schema_crawler.task
 
 import java.sql.Timestamp
 
-import com.hortonworks.faas.spark.predictor.schema_crawler.model.HanaActiveObject
+import com.hortonworks.faas.spark.predictor.model.HanaActiveObject
 import com.hortonworks.faas.spark.predictor.xml.models.LogicalModelAttribute
 import com.hortonworks.faas.spark.predictor.xml.parser.XmlParser
 import org.apache.spark.sql.{Dataset, SparkSession}

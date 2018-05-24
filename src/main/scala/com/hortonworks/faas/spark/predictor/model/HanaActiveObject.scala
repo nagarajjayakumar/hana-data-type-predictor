@@ -1,6 +1,6 @@
-package com.hortonworks.faas.spark.predictor.inference_engine.model
+package com.hortonworks.faas.spark.predictor.model
 
-case class HanaActiveObject(
+case class HanaActiveObject (
     PACKAGE_ID: Option[String],
     OBJECT_NAME: Option[String],
     OBJECT_SUFFIX: Option[String],

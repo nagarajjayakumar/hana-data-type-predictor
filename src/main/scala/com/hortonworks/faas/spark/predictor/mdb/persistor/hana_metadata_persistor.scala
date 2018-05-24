@@ -1,10 +1,11 @@
-package com.hortonworks.faas.spark.predictor.schema_crawler.persistor
+package com.hortonworks.faas.spark.predictor.mdb.persistor
 
 import java.util.Calendar
 
+import com.hortonworks.faas.spark.predictor.model.HanaActiveObject
 import com.hortonworks.faas.spark.predictor.orm.service.Connection
 import com.hortonworks.faas.spark.predictor.orm.setting.DBSettings
-import com.hortonworks.faas.spark.predictor.schema_crawler.model.{HanaActiveObject, SourceDbActiveObject, SourceDbActiveObjectDetail}
+import com.hortonworks.faas.spark.predictor.mdb.model.{SourceDbActiveObject, SourceDbActiveObjectDetail}
 import com.hortonworks.faas.spark.predictor.util.{CommonData, Logging}
 import com.hortonworks.faas.spark.predictor.xml.models.LogicalModelAttribute
 import com.hortonworks.faas.spark.predictor.xml.parser.XmlParser

@@ -1,4 +1,4 @@
-package com.hortonworks.faas.spark.predictor.schema_crawler.persistor
+package com.hortonworks.faas.spark.predictor.mdb.persistor
 
 import com.hortonworks.faas.spark.predictor.util.Logging
 import org.apache.spark.sql.{Dataset, SparkSession}

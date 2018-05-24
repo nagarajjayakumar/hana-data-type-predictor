@@ -5,7 +5,7 @@ import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.connector.hana.util.HanaDbConnectionInfo
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
-import com.hortonworks.faas.spark.predictor.schema_crawler.persistor.{MetaDataPersistor, MetaDataPersistorOptions}
+import com.hortonworks.faas.spark.predictor.mdb.persistor.{MetaDataPersistor, MetaDataPersistorOptions}
 import com.hortonworks.faas.spark.predictor.schema_crawler.task.schema_crawler_master
 import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.SparkConf

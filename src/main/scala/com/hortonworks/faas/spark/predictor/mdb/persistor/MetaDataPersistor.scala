@@ -1,6 +1,6 @@
-package com.hortonworks.faas.spark.predictor.schema_crawler.persistor
+package com.hortonworks.faas.spark.predictor.mdb.persistor
 
-import com.hortonworks.faas.spark.predictor.schema_crawler.model.HanaActiveObject
+import com.hortonworks.faas.spark.predictor.model.HanaActiveObject
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 object MetaDataPersistor {

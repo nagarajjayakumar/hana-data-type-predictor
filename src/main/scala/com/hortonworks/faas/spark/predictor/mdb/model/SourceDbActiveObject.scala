@@ -1,4 +1,4 @@
-package com.hortonworks.faas.spark.predictor.schema_crawler.model
+package com.hortonworks.faas.spark.predictor.mdb.model
 
 import org.joda.time.DateTime
 import scalikejdbc._
