@@ -4,7 +4,12 @@ import com.hortonworks.faas.spark.predictor.inference_engine.configuration.Confi
 import com.hortonworks.faas.spark.predictor.util.Logging
 
 
-class MetaDataPersistorOptions(val analytic_type: String, val environment: String, val dbService: String) {}
+class MetaDataPersistorOptions(val analytic_type: String, val environment: String, val dbService: String) {
+
+  def isValid(): Boolean = {
+    true
+  }
+}
 
 /**
   * Created by njayakumar on 5/16/2018.
