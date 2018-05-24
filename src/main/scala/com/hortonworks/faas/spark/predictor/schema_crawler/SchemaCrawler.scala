@@ -35,11 +35,6 @@ object SchemaCrawler extends ExecutionTiming with Logging
     "_SYS_BIC"
   }
 
-  // Following env and db is for the metadata
-  def env(): String = "development_mysql"
-  // Following env and db is for the metadata
-  def db(): DB = NamedDB('service).toDB()
-
   val masterHost = sys.env.get("HANADB_HOST_TEST").getOrElse("127.0.0.1")
   //val masterHost = sys.env.get("MYSQLDB_HOST_TEST").getOrElse("127.0.0.1")
   val masterConnectionInfo: HanaDbConnectionInfo =

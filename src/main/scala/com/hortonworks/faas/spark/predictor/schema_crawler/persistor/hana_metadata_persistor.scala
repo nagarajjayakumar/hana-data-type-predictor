@@ -21,9 +21,9 @@ class hana_metadata_persistor(val ds: Dataset[HanaActiveObject],
   def isValid(): Boolean = {
     true
   }
-
+  // Following env and db is for the metadata
   def env(): String = environment
-
+  // Following env and db is for the metadata
   def db(): DB = NamedDB(dbService).toDB()
 
   def persist(): Unit = {
