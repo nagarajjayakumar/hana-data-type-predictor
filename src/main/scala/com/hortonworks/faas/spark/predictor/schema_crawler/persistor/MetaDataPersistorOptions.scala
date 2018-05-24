@@ -12,8 +12,8 @@ class MetaDataPersistorOptions(val analytic_type: String, val environment: Strin
 object MetaDataPersistorOptions extends Logging {
 
   val ANALYTIC_TYPE = "analytic_type"
-  val ENVIRONMENT = "env"
-  val DBSERVICE = "service"
+  val ENVIRONMENT = "mdbenv"
+  val DBSERVICE = "mdbservice"
 
 
   def apply(args: Array[String]): MetaDataPersistorOptions = {

@@ -15,7 +15,7 @@ trait SparkUtils {
       .config(conf)
       .appName(name)
       .enableHiveSupport()
-    if (args.length > argNumber) {
+    if (args.length > argNumber && argNumber > 0) {
       sparkBuilder.master(args(argNumber))
     } else {
       sparkBuilder

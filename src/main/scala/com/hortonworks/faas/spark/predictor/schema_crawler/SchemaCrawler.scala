@@ -69,7 +69,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
       s"Schema Crawler - Dorsata",
       conf,
       args,
-      6)
+      -6)
     val spark = sparkBuilder.getOrCreate()
 
     val current_time: Timestamp = new Timestamp(DateTime.now().toDate.getTime)
