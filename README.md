@@ -18,6 +18,9 @@ Pass HANADB_HOST as system level environment variable
 --task schema_crawler_master --src_dbo_name "<<hana_db_namespace/hana_dbo_name>>" \
 --analytic_type hana --mdbenv development_mysql --mdbservice service local
 ```
+
+Additional properties supported by app.
+
 ```
 --task schema_crawler_master --src_dbo_name "<<hana_db_namespace/hana_dbo_name>>" \
 --output /tmp --write_mode csv --analytic_type hana \
