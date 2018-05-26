@@ -83,7 +83,7 @@ object InferenceEngine extends ExecutionTiming with Logging
         case inference_engine_master.TASK => {
           val result_ds = AdvancedAnalyticType.withNameWithDefault(opts.analytic_type) match {
             case AdvancedAnalyticType.HANA => {
-              // step 1: get Hana meta data for the database object name
+              // step 1: get Hana meta data for the database object name from metastore
               val ds = time(s"run task for ${inference_engine_master.TASK} and for the analytic type ${AdvancedAnalyticType.HANA.toString}",
                 inference_engine_master.getData(spark, opts, current_time))
               ds
