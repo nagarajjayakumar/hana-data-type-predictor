@@ -2,6 +2,7 @@ package com.hortonworks.faas.spark.predictor.mdb.persistor
 
 import java.util.Calendar
 
+import com.hortonworks.faas.spark.predictor.mdb.common.MetaDataBaseOptions
 import com.hortonworks.faas.spark.predictor.model.HanaActiveObject
 import com.hortonworks.faas.spark.predictor.orm.service.Connection
 import com.hortonworks.faas.spark.predictor.orm.setting.DBSettings
@@ -14,20 +15,19 @@ import scalikejdbc.{DB, NamedDB}
 
 import scala.xml.XML
 
-class hana_metadata_persistor(val ds: Dataset[HanaActiveObject],
-                              val spark: SparkSession,
-                              val mdbenvironment: String,
-                              val mdbservice: String) extends Logging with DBSettings with Connection {
+class hana_metadata_persistor(val spark: SparkSession,
+                              val mdpopts: MetaDataBaseOptions,
+                              val ds: Dataset[HanaActiveObject]) extends Logging with DBSettings with Connection {
 
   def isValid(): Boolean = {
     true
   }
 
   // Following env and db is for the metadata
-  def env(): String = mdbenvironment
+  def env(): String = mdpopts.mdbenvironment
 
   // Following env and db is for the metadata
-  def db(): DB = NamedDB(mdbservice).toDB()
+  def db(): DB = NamedDB(mdpopts.mdbservice).toDB()
 
   def persist(): Unit = {
     val hao: HanaActiveObject = ds.head
@@ -72,8 +72,10 @@ class hana_metadata_persistor(val ds: Dataset[HanaActiveObject],
 
 object hana_metadata_persistor {
 
-  def apply(ds: Dataset[HanaActiveObject], spark: SparkSession, environment: String, dbService: String): hana_metadata_persistor = {
-    new hana_metadata_persistor(ds, spark, environment, dbService)
+  def apply( spark: SparkSession,
+             mdpopts: MetaDataBaseOptions,
+             ds: Dataset[HanaActiveObject]): hana_metadata_persistor = {
+    new hana_metadata_persistor( spark, mdpopts, ds)
   }
 
 

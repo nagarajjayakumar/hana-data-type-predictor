@@ -1,10 +1,10 @@
-package com.hortonworks.faas.spark.predictor.mdb.persistor
+package com.hortonworks.faas.spark.predictor.mdb.common
 
 import com.hortonworks.faas.spark.predictor.configuration.ConfigurationOptionMap
 import com.hortonworks.faas.spark.predictor.util.Logging
 
 
-class MetaDataPersistorOptions(val analytic_type: String, val mdbenvironment: String, val mdbservice: String) {
+class MetaDataBaseOptions(val analytic_type: String, val mdbenvironment: String, val mdbservice: String) {
 
   def isValid(): Boolean = {
     true
@@ -14,23 +14,23 @@ class MetaDataPersistorOptions(val analytic_type: String, val mdbenvironment: St
 /**
   * Created by njayakumar on 5/16/2018.
   */
-object MetaDataPersistorOptions extends Logging {
+object MetaDataBaseOptions extends Logging {
 
   val ANALYTIC_TYPE = "analytic_type"
   val MDBENVIRONMENT = "mdbenv"
   val MDBSERVICE = "mdbservice"
 
 
-  def apply(args: Array[String]): MetaDataPersistorOptions = {
+  def apply(args: Array[String]): MetaDataBaseOptions = {
     apply(ConfigurationOptionMap(args))
   }
 
-  def apply(options: ConfigurationOptionMap): MetaDataPersistorOptions = {
+  def apply(options: ConfigurationOptionMap): MetaDataBaseOptions = {
     val analytic_type: String = if (options.opts.contains(ANALYTIC_TYPE) && options.opts(ANALYTIC_TYPE).nonEmpty) options.opts(ANALYTIC_TYPE).head else "unknown"
     val mdbenvironment: String = if (options.opts.contains(MDBENVIRONMENT) && options.opts(MDBENVIRONMENT).nonEmpty) options.opts(MDBENVIRONMENT).head else "development_mysql"
     val mdbservice: String = if (options.opts.contains(MDBSERVICE) && options.opts(MDBSERVICE).nonEmpty) options.opts(MDBSERVICE).head else "service"
 
-    new MetaDataPersistorOptions(analytic_type, mdbenvironment, mdbservice)
+    new MetaDataBaseOptions(analytic_type, mdbenvironment, mdbservice)
   }
 
   def printUsage(): Unit = {

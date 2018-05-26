@@ -5,6 +5,7 @@ import java.sql.Timestamp
 import com.hortonworks.faas.spark.connector.hana.util.HanaDbConnectionInfo
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
 import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
+import com.hortonworks.faas.spark.predictor.mdb.common.MetaDataBaseOptions
 import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
