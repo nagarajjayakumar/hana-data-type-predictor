@@ -20,14 +20,13 @@ object schema_crawler_master {
   val RUNTIME_ENV = "local"
 
   def getHanaMetaData(spark: SparkSession,
-              namespace: String = "default",
-              dboname: String = "default",
-              current_time: Timestamp): Dataset[HanaActiveObject] = {
+                      namespace: String = "default",
+                      dboname: String = "default",
+                      current_time: Timestamp): Dataset[HanaActiveObject] = {
 
     hana_active_object.getData(spark, namespace, dboname, current_time)
 
- }
-
+  }
 
 
 }
