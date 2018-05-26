@@ -4,6 +4,7 @@ set sql_mode ="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO
 create table hanadb_active_object (
  id bigint auto_increment primary key not null,
  namespace VARCHAR(4000) not null,
+ package_id VARCHAR(4000) not null,
  db_object_name VARCHAR(4000) not null,
  db_object_type VARCHAR(4000) not null,
  db_object_type_suffix VARCHAR(4000) not null,
@@ -14,7 +15,6 @@ create table hanadb_active_object (
  created_at timestamp not null ,
  updated_at timestamp not null ,
  deleted_at timestamp null
-
 );
 
 

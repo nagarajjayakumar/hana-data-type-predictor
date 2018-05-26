@@ -8,6 +8,7 @@ import skinny.orm.feature.TimestampsFeature
 case class SourceDbActiveObject(
                                  id: Long,
                                  namespace: String,
+                                 packageId: String,
                                  dbObjectName: String,
                                  dbObjectType: String,
                                  dbObjectTypeSuffix: String,
