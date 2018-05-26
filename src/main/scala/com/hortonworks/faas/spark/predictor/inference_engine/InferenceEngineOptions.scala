@@ -9,18 +9,18 @@ import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engi
   */
 class InferenceEngineOptions(val task: String,
                              val analytic_type: String,
+                             val src_namespace: String,
                              val src_dbo_name: String,
                              val sampling_techniq: String,
                              val sampling_percentage: String,
                              val runtime_env: String,
-                             val src_namespace: String,
                              val o: String,
                              val w: String) {
 
-  def this(t: String, at: String, src_dbo_name: String, sampling_techniq:
-           String, sampling_percentage: String, runtime_env: String, src_namespace: String,
+  def this(t: String, at: String,  src_namespace: String, src_dbo_name: String, sampling_techniq:
+           String, sampling_percentage: String, runtime_env: String,
            cdfw: CommonDataFrameWriterOption) {
-    this(t, at, src_dbo_name,sampling_techniq, sampling_percentage, runtime_env, src_namespace, cdfw.output, cdfw.write_mode)
+    this(t, at, src_namespace, src_dbo_name,sampling_techniq, sampling_percentage, runtime_env,  cdfw.output, cdfw.write_mode)
   }
 
   def isValid(): Boolean = {
@@ -65,7 +65,7 @@ object InferenceEngineOptions {
 
     val src_namespace = if (options.opts.contains(SRCNAMESPACE) && options.opts(SRCNAMESPACE).nonEmpty) options.opts(SRCNAMESPACE)(0) else inference_engine_master.SRCNAMESPACE
 
-    new InferenceEngineOptions(t, at, src_dbo_name,sampling_techniq, sampling_percentage,runtime_env,src_namespace, cdfw)
+    new InferenceEngineOptions(t, at, src_namespace, src_dbo_name,sampling_techniq, sampling_percentage,runtime_env, cdfw)
   }
 
   def printUsage(): Unit = {

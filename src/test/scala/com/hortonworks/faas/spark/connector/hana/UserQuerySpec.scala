@@ -55,9 +55,7 @@ class UserQuerySpec extends FlatSpec with SharedHanaDbContext{
 
 
       val current_time: Timestamp = new Timestamp(DateTime.now().toDate.getTime)
-      val sco: SchemaCrawlerOptions = new SchemaCrawlerOptions("","",
-                                                  "DataLake.Deltaviews.TransactionViews/InstallationOwnershipTS",
-                                          "", dbName,  "", "")
+      val sco: SchemaCrawlerOptions = new SchemaCrawlerOptions("", "", dbName,"DataLake.Deltaviews.TransactionViews/InstallationOwnershipTS","local","","")
       val tableds: HanaActiveObject =hana_active_object.getHeadData(ss,sco,current_time)
 
 //      val s2cc = new Schema2CaseClass

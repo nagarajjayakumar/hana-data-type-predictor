@@ -9,14 +9,14 @@ import com.hortonworks.faas.spark.predictor.schema_crawler.task.schema_crawler_m
   */
 class SchemaCrawlerOptions(val task: String,
                            val analytic_type: String,
+                           val src_namespace: String,
                            val src_dbo_name: String,
                            val runtime_env: String,
-                           val src_namespace: String,
                            val o: String,
                            val w: String) extends CommonDataFrameWriterOption(o, w) {
 
-  def this(t: String, at: String, src_dbo_name: String, runtime_env: String, src_namespace: String, cdfw: CommonDataFrameWriterOption) {
-    this(t, at, src_dbo_name,runtime_env, src_namespace, cdfw.output, cdfw.write_mode)
+  def this(t: String, at: String, src_namespace: String, src_dbo_name: String, runtime_env: String, cdfw: CommonDataFrameWriterOption) {
+    this(t, at,src_namespace, src_dbo_name,runtime_env, cdfw.output, cdfw.write_mode)
   }
 
   def isValid(): Boolean = {
@@ -53,7 +53,7 @@ object SchemaCrawlerOptions {
 
     val src_namespace = if (options.opts.contains(SRCNAMESPACE) && options.opts(SRCNAMESPACE).nonEmpty) options.opts(SRCNAMESPACE)(0) else schema_crawler_master.SRCNAMESPACE
 
-    new SchemaCrawlerOptions(t, at, src_dbo_name, runtime_env,src_namespace, cdfw)
+    new SchemaCrawlerOptions(t, at,src_namespace, src_dbo_name, runtime_env, cdfw)
   }
 
   def printUsage(): Unit = {
