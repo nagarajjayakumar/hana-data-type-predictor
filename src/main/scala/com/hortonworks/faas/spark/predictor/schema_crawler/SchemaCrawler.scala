@@ -85,7 +85,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
             case AdvancedAnalyticType.HANA => {
               // step 1: get Hana meta data for the database object name
               val ds = time(s"run task for ${schema_crawler_master.TASK} and for the analytic type ${AdvancedAnalyticType.HANA.toString}",
-                schema_crawler_master.getHanaMetaData(spark, dbName, opts.src_dbo_name, current_time))
+                schema_crawler_master.getHanaMetaData(spark, opts, current_time))
               ds
             }
             case _ =>

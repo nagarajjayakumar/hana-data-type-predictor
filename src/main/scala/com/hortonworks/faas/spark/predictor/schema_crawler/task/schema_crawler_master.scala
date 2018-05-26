@@ -4,6 +4,7 @@ import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
 import com.hortonworks.faas.spark.predictor.model.HanaActiveObject
+import com.hortonworks.faas.spark.predictor.schema_crawler.SchemaCrawlerOptions
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 /**
@@ -19,12 +20,13 @@ object schema_crawler_master {
 
   val RUNTIME_ENV = "local"
 
+  val SRCNAMESPACE = "_SYS_BIC"
+
   def getHanaMetaData(spark: SparkSession,
-                      namespace: String = "default",
-                      dboname: String = "default",
+                      opts: SchemaCrawlerOptions,
                       current_time: Timestamp): Dataset[HanaActiveObject] = {
 
-    hana_active_object.getData(spark, namespace, dboname, current_time)
+    hana_active_object.getData(spark, opts.src_namespace, opts.src_dbo_name, current_time)
 
   }
 

@@ -11,11 +11,12 @@ class SchemaCrawlerOptions(val task: String,
                            val analytic_type: String,
                            val src_dbo_name: String,
                            val runtime_env: String,
+                           val src_namespace: String,
                            val o: String,
                            val w: String) extends CommonDataFrameWriterOption(o, w) {
 
-  def this(t: String, at: String, src_dbo_name: String, runtime_env: String, cdfw: CommonDataFrameWriterOption) {
-    this(t, at, src_dbo_name,runtime_env, cdfw.output, cdfw.write_mode)
+  def this(t: String, at: String, src_dbo_name: String, runtime_env: String, src_namespace: String, cdfw: CommonDataFrameWriterOption) {
+    this(t, at, src_dbo_name,runtime_env, src_namespace, cdfw.output, cdfw.write_mode)
   }
 
   def isValid(): Boolean = {
@@ -31,6 +32,8 @@ object SchemaCrawlerOptions {
   val SRCDBONAME = "src_dbo_name"
 
   val RUNTIME_ENV = "local"
+
+  val SRCNAMESPACE = "dbName"
 
   def apply(args: Array[String]): SchemaCrawlerOptions = {
     apply(ConfigurationOptionMap(args))
@@ -48,7 +51,9 @@ object SchemaCrawlerOptions {
 
     val runtime_env = if (options.opts.contains(RUNTIME_ENV) && options.opts(RUNTIME_ENV).nonEmpty) options.opts(RUNTIME_ENV)(0) else schema_crawler_master.RUNTIME_ENV
 
-    new SchemaCrawlerOptions(t, at, src_dbo_name, runtime_env, cdfw)
+    val src_namespace = if (options.opts.contains(SRCNAMESPACE) && options.opts(SRCNAMESPACE).nonEmpty) options.opts(SRCNAMESPACE)(0) else schema_crawler_master.SRCNAMESPACE
+
+    new SchemaCrawlerOptions(t, at, src_dbo_name, runtime_env,src_namespace, cdfw)
   }
 
   def printUsage(): Unit = {
