@@ -65,7 +65,7 @@ object InferenceEngineOptions {
 
     val src_namespace = if (options.opts.contains(SRCNAMESPACE) && options.opts(SRCNAMESPACE).nonEmpty) options.opts(SRCNAMESPACE)(0) else inference_engine_master.SRCNAMESPACE
 
-    new InferenceEngineOptions(t, at, src_dbo_name,sampling_techniq, sampling_percentage,runtime_env,src_namespace cdfw)
+    new InferenceEngineOptions(t, at, src_dbo_name,sampling_techniq, sampling_percentage,runtime_env,src_namespace, cdfw)
   }
 
   def printUsage(): Unit = {
