@@ -26,7 +26,7 @@ object schema_crawler_master {
                       opts: SchemaCrawlerOptions,
                       current_time: Timestamp): Dataset[HanaActiveObject] = {
 
-    hana_active_object.getData(spark, opts.src_namespace, opts.src_dbo_name, current_time)
+    hana_active_object.getData(spark, opts, current_time)
 
   }
 
