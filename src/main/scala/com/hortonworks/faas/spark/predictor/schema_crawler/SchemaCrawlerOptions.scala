@@ -31,9 +31,9 @@ object SchemaCrawlerOptions {
 
   val SRCDBONAME = "src_dbo_name"
 
-  val RUNTIME_ENV = "local"
+  val RUNTIME_ENV = "runtime_env"
 
-  val SRCNAMESPACE = "dbName"
+  val SRCNAMESPACE = "src_name_space"
 
   def apply(args: Array[String]): SchemaCrawlerOptions = {
     apply(ConfigurationOptionMap(args))
