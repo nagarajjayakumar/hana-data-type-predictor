@@ -26,6 +26,9 @@ object InferenceEngine extends ExecutionTiming with Logging
   with DfsUtils
   with SparkUtils {
 
+  //initialize logger
+  log
+
   val dbName: String = {
     "_SYS_BIC"
   }
@@ -62,11 +65,13 @@ object InferenceEngine extends ExecutionTiming with Logging
       conf = conf.setMaster("local")
     }
 
+    // set some negative value for the local run purpose
+    // remove it @
     val sparkBuilder = createSparkBuilder(
-      s"Inference Engine ",
+      s"Inference Engine - Naarai",
       conf,
       args,
-      6)
+      -6)
     val spark = sparkBuilder.getOrCreate()
 
     val current_time: Timestamp = new Timestamp(DateTime.now().toDate.getTime)

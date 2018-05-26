@@ -10,11 +10,12 @@ import com.hortonworks.faas.spark.predictor.schema_crawler.task.schema_crawler_m
 class SchemaCrawlerOptions(val task: String,
                            val analytic_type: String,
                            val src_dbo_name: String,
+                           val runtime_env: String,
                            val o: String,
                            val w: String) extends CommonDataFrameWriterOption(o, w) {
 
-  def this(t: String, at: String, src_dbo_name: String, cdfw: CommonDataFrameWriterOption) {
-    this(t, at, src_dbo_name, cdfw.output, cdfw.write_mode)
+  def this(t: String, at: String, src_dbo_name: String, runtime_env: String, cdfw: CommonDataFrameWriterOption) {
+    this(t, at, src_dbo_name,runtime_env, cdfw.output, cdfw.write_mode)
   }
 
   def isValid(): Boolean = {
@@ -28,6 +29,8 @@ object SchemaCrawlerOptions {
   val ANALYTIC_TYPE = "analytic_type"
 
   val SRCDBONAME = "src_dbo_name"
+
+  val RUNTIME_ENV = "local"
 
   def apply(args: Array[String]): SchemaCrawlerOptions = {
     apply(ConfigurationOptionMap(args))
@@ -43,7 +46,9 @@ object SchemaCrawlerOptions {
 
     val src_dbo_name = if (options.opts.contains(SRCDBONAME) && options.opts(SRCDBONAME).nonEmpty) options.opts(SRCDBONAME)(0) else schema_crawler_master.SRCDBONAME
 
-    new SchemaCrawlerOptions(t, at, src_dbo_name, cdfw)
+    val runtime_env = if (options.opts.contains(RUNTIME_ENV) && options.opts(RUNTIME_ENV).nonEmpty) options.opts(RUNTIME_ENV)(0) else schema_crawler_master.RUNTIME_ENV
+
+    new SchemaCrawlerOptions(t, at, src_dbo_name, runtime_env, cdfw)
   }
 
   def printUsage(): Unit = {

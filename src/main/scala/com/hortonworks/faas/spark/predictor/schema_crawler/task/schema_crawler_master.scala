@@ -17,6 +17,8 @@ object schema_crawler_master {
 
   val SRCDBONAME = "default/default"
 
+  val RUNTIME_ENV = "local"
+
   def getHanaMetaData(spark: SparkSession,
               namespace: String = "default",
               dboname: String = "default",
