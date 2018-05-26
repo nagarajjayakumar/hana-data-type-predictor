@@ -2,6 +2,7 @@ package com.hortonworks.faas.spark.predictor.inference_engine.task
 
 import java.sql.Timestamp
 
+import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOptions
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -26,7 +27,7 @@ object inference_engine_master {
     " eng_cnfg_start_dt, eng_cnfg_end_dt, trim(icao_cd) as icao_cd FROM s3_data.phm_serialized_engine"
 
 
-  def getData(spark: SparkSession,  current_time: Timestamp): DataFrame = {
+  def getData(spark: SparkSession, opts: InferenceEngineOptions, current_time: Timestamp): DataFrame = {
      spark
       .read
       .format("com.hortonworks.faas.spark.connector")
