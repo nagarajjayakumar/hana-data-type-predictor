@@ -1,4 +1,4 @@
-package com.hortonworks.faas.spark.predictor.schema_crawler.task
+package com.hortonworks.faas.spark.predictor.schema_crawler.task.hana
 
 import java.sql.Timestamp
 
