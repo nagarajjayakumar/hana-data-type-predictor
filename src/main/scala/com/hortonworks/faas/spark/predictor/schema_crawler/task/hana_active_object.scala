@@ -47,6 +47,7 @@ object hana_active_object {
     ds.head
   }
 
+
   def getHeadData(ds: Dataset[HanaActiveObject]) : HanaActiveObject= {
     ds.head
   }

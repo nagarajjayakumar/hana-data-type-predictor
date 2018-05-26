@@ -2,12 +2,16 @@
 
 package com.hortonworks.faas.spark.connector.hana
 
+import java.sql.Timestamp
+
 import com.hortonworks.faas.spark.connector.util.InferSchema
 import com.hortonworks.faas.spark.predictor.model.HanaActiveObject
+import com.hortonworks.faas.spark.predictor.schema_crawler.SchemaCrawlerOptions
 import com.hortonworks.faas.spark.predictor.schema_crawler.task.hana_active_object
 import com.hortonworks.faas.spark.predictor.util.Schema2CaseClass
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.types.StructType
+import org.joda.time.DateTime
 import org.scalatest.FlatSpec
 
 /*
@@ -50,7 +54,11 @@ class UserQuerySpec extends FlatSpec with SharedHanaDbContext{
 //      mandtCount.show()
 
 
-      val tableds: HanaActiveObject =hana_active_object.getHeadData(ss,dbName,"DataLake.Deltaviews.TransactionViews/InstallationOwnershipTS",null)
+      val current_time: Timestamp = new Timestamp(DateTime.now().toDate.getTime)
+      val sco: SchemaCrawlerOptions = new SchemaCrawlerOptions("","",
+                                                  "DataLake.Deltaviews.TransactionViews/InstallationOwnershipTS",
+                                          "", dbName,  "", "")
+      val tableds: HanaActiveObject =hana_active_object.getHeadData(ss,sco,current_time)
 
 //      val s2cc = new Schema2CaseClass
 //      import s2cc.implicits._
