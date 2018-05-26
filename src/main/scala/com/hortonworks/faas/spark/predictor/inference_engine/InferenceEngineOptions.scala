@@ -10,11 +10,13 @@ import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engi
 class InferenceEngineOptions(val task: String,
                              val analytic_type: String,
                              val src_dbo_name: String,
+                             val sampling_techniq: String,
+                             val sampling_percentage: String,
                              val o: String,
                              val w: String) {
 
-  def this(t: String, at: String, src_dbo_name: String, cdfw: CommonDataFrameWriterOption) {
-    this(t, at, src_dbo_name, cdfw.output, cdfw.write_mode)
+  def this(t: String, at: String, src_dbo_name: String, sampling_techniq: String, sampling_percentage: String, cdfw: CommonDataFrameWriterOption) {
+    this(t, at, src_dbo_name,sampling_techniq, sampling_percentage, cdfw.output, cdfw.write_mode)
   }
 
   def isValid(): Boolean = {
@@ -28,6 +30,10 @@ object InferenceEngineOptions {
   val ANALYTIC_TYPE = "analytic_type"
 
   val SRCDBONAME = "src_dbo_name"
+
+  val SAMPLING_TECHNIQ = "full"
+
+  val SAMPLING_PERCENTAGE = "1"
 
   def apply(args: Array[String]): InferenceEngineOptions = {
     apply(ConfigurationOptionMap(args))
@@ -43,7 +49,11 @@ object InferenceEngineOptions {
 
     val src_dbo_name = if (options.opts.contains(SRCDBONAME) && options.opts(SRCDBONAME).nonEmpty) options.opts(SRCDBONAME)(0) else inference_engine_master.SRCDBONAME
 
-    new InferenceEngineOptions(t, at, src_dbo_name, cdfw)
+    val sampling_techniq = if (options.opts.contains(SAMPLING_TECHNIQ) && options.opts(SAMPLING_TECHNIQ).nonEmpty) options.opts(SAMPLING_TECHNIQ)(0) else inference_engine_master.SAMPLING_TECHNIQ
+
+    val sampling_percentage = if (options.opts.contains(SAMPLING_PERCENTAGE) && options.opts(SAMPLING_PERCENTAGE).nonEmpty) options.opts(SAMPLING_PERCENTAGE)(0) else inference_engine_master.SAMPLING_PERCENTAGE
+
+    new InferenceEngineOptions(t, at, src_dbo_name,sampling_techniq, sampling_percentage,cdfw)
   }
 
   def printUsage(): Unit = {
