@@ -1,6 +1,6 @@
 package com.hortonworks.faas.spark.predictor.mdb.persistor
 
-import com.hortonworks.faas.spark.predictor.inference_engine.configuration.ConfigurationOptionMap
+import com.hortonworks.faas.spark.predictor.configuration.ConfigurationOptionMap
 import com.hortonworks.faas.spark.predictor.util.Logging
 
 

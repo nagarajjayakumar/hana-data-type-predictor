@@ -1,6 +1,6 @@
 package com.hortonworks.faas.spark.predictor.inference_engine.analytic.common
 
-import com.hortonworks.faas.spark.predictor.inference_engine.configuration._
+import com.hortonworks.faas.spark.predictor.configuration.ConfigurationOptionMap
 import com.hortonworks.faas.spark.predictor.util.Logging
 
 class CommonDataFrameWriterOption(val output: String, val write_mode: String) {}
@@ -8,7 +8,7 @@ class CommonDataFrameWriterOption(val output: String, val write_mode: String) {}
 /**
   * Created by njayakumar on 5/16/2018.
   */
-object CommonDataFrameWriterOption extends Logging{
+object CommonDataFrameWriterOption extends Logging {
   val OUTPUT_KEY: String = "output"
   val WRITE_MODE_KEY: String = "write_mode"
 

@@ -1,7 +1,7 @@
 package com.hortonworks.faas.spark.predictor.schema_crawler
 
+import com.hortonworks.faas.spark.predictor.configuration.ConfigurationOptionMap
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common._
-import com.hortonworks.faas.spark.predictor.inference_engine.configuration.ConfigurationOptionMap
 import com.hortonworks.faas.spark.predictor.schema_crawler.task.schema_crawler_master
 
 /**

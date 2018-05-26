@@ -1,4 +1,4 @@
-package com.hortonworks.faas.spark.predictor.inference_engine.configuration
+package com.hortonworks.faas.spark.predictor.configuration
 
 import scala.collection.immutable.HashMap
 

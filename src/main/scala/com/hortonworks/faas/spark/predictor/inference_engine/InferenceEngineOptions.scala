@@ -1,7 +1,7 @@
 package com.hortonworks.faas.spark.predictor.inference_engine
 
+import com.hortonworks.faas.spark.predictor.configuration.ConfigurationOptionMap
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common._
-import com.hortonworks.faas.spark.predictor.inference_engine.configuration.ConfigurationOptionMap
 import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
 
 /**
