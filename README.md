@@ -14,6 +14,13 @@ Pass HANADB_HOST as system level environment variable
 
 @minimal we need the following parameters
 
+##src_dbo_name => source database object name
+##analytic_type => source db type {hana | oracle | mysql}
+##mdbenv => Schema crawler metadata db environment
+##mdbservice => Schema crawler metadata db service {Needed for Skinny CURD framework}
+##runtime_env => Runtime environment  {local | yarn [client | cluster]}
+##src_name_space => source name space {db name | schema name}
+
 ```
 --task schema_crawler_master --src_dbo_name "<<hana_db_namespace/hana_dbo_name>>" \
 --analytic_type hana --mdbenv development_mysql --mdbservice service --runtime_env local \
