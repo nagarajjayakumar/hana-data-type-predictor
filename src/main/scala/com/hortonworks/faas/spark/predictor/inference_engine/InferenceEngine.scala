@@ -3,6 +3,7 @@ package com.hortonworks.faas.spark.predictor.inference_engine
 import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.connector.hana.util.HanaDbConnectionInfo
+import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
 import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
 import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.SparkConf
@@ -66,7 +67,7 @@ object InferenceEngine extends ExecutionTiming with Logging
     }
 
     // set some negative value for the local run purpose
-    // remove it @
+
     val sparkBuilder = createSparkBuilder(
       s"Inference Engine - Naarai",
       conf,
@@ -76,11 +77,23 @@ object InferenceEngine extends ExecutionTiming with Logging
 
     val current_time: Timestamp = new Timestamp(DateTime.now().toDate.getTime)
 
+    logInfo(s"BEGIN RUN TASK FOR INFERENCE ENGINE ${current_time}")
     try {
       val output_df = opts.task match {
-        case inference_engine_master.TASK =>
-          time(s"run task for ${inference_engine_master.TASK}",
-            inference_engine_master.getData(spark, current_time))
+        case inference_engine_master.TASK => {
+          val result_ds = AdvancedAnalyticType.withNameWithDefault(opts.analytic_type) match {
+            case AdvancedAnalyticType.HANA => {
+              // step 1: get Hana meta data for the database object name
+              val ds = time(s"run task for ${inference_engine_master.TASK} and for the analytic type ${AdvancedAnalyticType.HANA.toString}",
+                inference_engine_master.getData(spark, current_time))
+              ds
+            }
+            case _ =>
+              val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown advanced analytic type"))))
+              spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))
+          }
+          result_ds
+        }
         case _ =>
           val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown task type"))))
           spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))
