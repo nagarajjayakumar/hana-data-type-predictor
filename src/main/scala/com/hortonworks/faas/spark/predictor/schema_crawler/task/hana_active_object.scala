@@ -3,6 +3,7 @@ package com.hortonworks.faas.spark.predictor.schema_crawler.task
 import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.predictor.model.HanaActiveObject
+import com.hortonworks.faas.spark.predictor.schema_crawler.SchemaCrawlerOptions
 import com.hortonworks.faas.spark.predictor.xml.models.LogicalModelAttribute
 import com.hortonworks.faas.spark.predictor.xml.parser.XmlParser
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -20,10 +21,11 @@ object hana_active_object {
 
 
   def getData(spark: SparkSession,
-              namespace: String = "default",
-              dboname: String = "default",
+              opts: SchemaCrawlerOptions,
               current_time: Timestamp): Dataset[HanaActiveObject] = {
 
+
+    val dboname = opts.src_dbo_name
     import spark.implicits._
     val Array(package_id, object_name, _*) = dboname.split("/")
     val whereClause = "and package_id like '".concat(package_id).concat("%' and object_name like '").concat(object_name).concat("%'")
@@ -39,10 +41,9 @@ object hana_active_object {
   }
 
   def getHeadData(spark: SparkSession,
-                  namespace: String = "default",
-                  dboname: String = "default",
+                  opts: SchemaCrawlerOptions,
                   current_time: Timestamp): HanaActiveObject = {
-    val ds = getData(spark, namespace, dboname, current_time)
+    val ds = getData(spark, opts, current_time)
     ds.head
   }
 

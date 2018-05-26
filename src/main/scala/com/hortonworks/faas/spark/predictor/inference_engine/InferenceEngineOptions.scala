@@ -13,13 +13,14 @@ class InferenceEngineOptions(val task: String,
                              val sampling_techniq: String,
                              val sampling_percentage: String,
                              val runtime_env: String,
+                             val src_namespace: String,
                              val o: String,
                              val w: String) {
 
   def this(t: String, at: String, src_dbo_name: String, sampling_techniq:
-           String, sampling_percentage: String, runtime_env: String,
+           String, sampling_percentage: String, runtime_env: String, src_namespace: String,
            cdfw: CommonDataFrameWriterOption) {
-    this(t, at, src_dbo_name,sampling_techniq, sampling_percentage, runtime_env, cdfw.output, cdfw.write_mode)
+    this(t, at, src_dbo_name,sampling_techniq, sampling_percentage, runtime_env, src_namespace, cdfw.output, cdfw.write_mode)
   }
 
   def isValid(): Boolean = {
@@ -39,6 +40,8 @@ object InferenceEngineOptions {
   val SAMPLING_PERCENTAGE = "1"
 
   val RUNTIME_ENV = "local"
+
+  val SRCNAMESPACE = "dbName"
 
   def apply(args: Array[String]): InferenceEngineOptions = {
     apply(ConfigurationOptionMap(args))
@@ -60,7 +63,9 @@ object InferenceEngineOptions {
 
     val runtime_env = if (options.opts.contains(RUNTIME_ENV) && options.opts(RUNTIME_ENV).nonEmpty) options.opts(RUNTIME_ENV)(0) else inference_engine_master.RUNTIME_ENV
 
-    new InferenceEngineOptions(t, at, src_dbo_name,sampling_techniq, sampling_percentage,runtime_env, cdfw)
+    val src_namespace = if (options.opts.contains(SRCNAMESPACE) && options.opts(SRCNAMESPACE).nonEmpty) options.opts(SRCNAMESPACE)(0) else inference_engine_master.SRCNAMESPACE
+
+    new InferenceEngineOptions(t, at, src_dbo_name,sampling_techniq, sampling_percentage,runtime_env,src_namespace cdfw)
   }
 
   def printUsage(): Unit = {

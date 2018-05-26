@@ -23,7 +23,9 @@ object inference_engine_master {
 
   val RUNTIME_ENV = "local"
 
-  
+  val SRCNAMESPACE = "_SYS_BIC"
+
+
   def getData(spark: SparkSession, opts: InferenceEngineOptions, current_time: Timestamp): DataFrame = {
      spark
       .read
