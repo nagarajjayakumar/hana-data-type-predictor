@@ -5,7 +5,6 @@ import java.sql.Timestamp
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
 import com.hortonworks.faas.spark.predictor.model.HanaActiveObject
 import com.hortonworks.faas.spark.predictor.schema_crawler.SchemaCrawlerOptions
-import com.hortonworks.faas.spark.predictor.schema_crawler.task.hana.hana_active_object
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 /**
