@@ -83,6 +83,7 @@ object InferenceEngine extends ExecutionTiming with Logging
     logInfo(s"BEGIN RUN TASK FOR INFERENCE ENGINE ${current_time}")
 
     // Step 1: fetch the metadata
+
     val mdopts: MetaDataBaseOptions = MetaDataBaseOptions(args)
     val dbaoDetails = MetaDataFetcher.fetchDbActiveObjectDetailsByName(spark,mdopts)
     val keys = MetaDataFetcher.fetchDbActiveObjectDetailsKeysOnly(dbaoDetails)
@@ -121,7 +122,8 @@ object InferenceEngine extends ExecutionTiming with Logging
 
 
       // Step 2: update the metadata details with the original and the infer data type
-      MetaDataPersistor.updateDbActiveObjectDetails( spark, mdopts, dbaoDetails, output_schema_map)
+      time("Update the metadata details with the Original and Infer data type",
+          MetaDataPersistor.updateDbActiveObjectDetails( spark, mdopts, dbaoDetails, output_schema_map))
 
 
     } finally {
