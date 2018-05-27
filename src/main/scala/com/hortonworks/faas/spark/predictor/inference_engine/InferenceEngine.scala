@@ -121,8 +121,7 @@ object InferenceEngine extends ExecutionTiming with Logging
 
 
       // Step 2: update the metadata details with the original and the infer data type
-      val mdpopts: MetaDataBaseOptions = MetaDataBaseOptions(args)
-      MetaDataPersistor.updateDbActiveObjectDetails( spark, mdpopts, dbaoDetails, output_schema_map)
+      MetaDataPersistor.updateDbActiveObjectDetails( spark, mdopts, dbaoDetails, output_schema_map)
 
 
     } finally {
