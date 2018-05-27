@@ -95,10 +95,10 @@ object inference_engine_master extends Logging {
       }
       case SamplingTechniqType.RNDM_SMPL_BER => {
 
-        val sampleData: DataFrame = hana_random_uniform_bernouli.getData(spark, opts, dbaoDetails, keys, current_time)
+        val sampleData: DataFrame = hana_random_uniform_bernoulli.getData(spark, opts, dbaoDetails, keys, current_time)
         logDebug(s"Data schema after applying ${SamplingTechniqType.RNDM_SMPL_BER.toString} ${sampleData.printSchema}")
 
-        val inferData: DataFrame = hana_random_uniform_bernouli.inferSchema(spark, sampleData, current_time)
+        val inferData: DataFrame = hana_random_uniform_bernoulli.inferSchema(spark, sampleData, current_time)
         logDebug(s"Data schema after Inferring data type ${SamplingTechniqType.RNDM_SMPL_BER.toString} ${inferData.printSchema}")
 
         var bothSrcAndInferSchema = scala.collection.mutable.Map[String, StructType]()

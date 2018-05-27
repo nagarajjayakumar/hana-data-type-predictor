@@ -10,11 +10,11 @@ import com.hortonworks.faas.spark.predictor.util.Logging
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-object hana_random_uniform_bernouli extends Logging {
+object hana_random_uniform_bernoulli extends Logging {
 
 
   log
-  val TASK: String = "hana_random_uniform_bernouli"
+  val TASK: String = "hana_random_uniform_bernoulli"
 
   /*
 
