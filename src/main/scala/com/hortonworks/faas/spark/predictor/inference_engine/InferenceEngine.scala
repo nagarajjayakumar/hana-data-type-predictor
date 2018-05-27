@@ -85,6 +85,14 @@ object InferenceEngine extends ExecutionTiming with Logging
     val mdopts: MetaDataBaseOptions = MetaDataBaseOptions(args)
     val keys = MetaDataFetcher.fetchDbActiveObjectKeysOnly(spark,mdopts)
 
+    if (keys.isEmpty) {
+      logError(s"[FATAL] No keys found for the provided DBO ${opts.src_dbo_name}  and analytic type ${opts.analytic_type}")
+      logError(s"[FATAL] Please check namespace or db or schems ${opts.src_namespace}  ")
+      logError("Time to say bye [Error]  ....")
+      System.exit(1)
+    }
+
+
     try {
       val output_df = opts.task match {
         case inference_engine_master.TASK => {
