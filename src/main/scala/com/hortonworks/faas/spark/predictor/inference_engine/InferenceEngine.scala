@@ -83,9 +83,10 @@ object InferenceEngine extends ExecutionTiming with Logging
 
     // Step 1: fetch the metadata
     val mdopts: MetaDataBaseOptions = MetaDataBaseOptions(args)
-    val keys = MetaDataFetcher.fetchDbActiveObjectKeysOnly(spark,mdopts)
+    val dbaoDetails = MetaDataFetcher.fetchDbActiveObjectDetailsByName(spark,mdopts)
+    val keys = MetaDataFetcher.fetchDbActiveObjectDetailsKeysOnly(dbaoDetails)
 
-    if (keys.isEmpty) {
+    if (dbaoDetails.isEmpty) {
       logError(s"[FATAL] No keys found for the provided DBO ${opts.src_dbo_name}  and analytic type ${opts.analytic_type}")
       logError(s"[FATAL] Please check namespace or db or schems ${opts.src_namespace}  ")
       logError("Time to say bye [Error]  ....")
@@ -100,7 +101,7 @@ object InferenceEngine extends ExecutionTiming with Logging
             case AdvancedAnalyticType.HANA => {
               // step 1: get Hana meta data for the database object name from metastore
               val ds = time(s"run task for ${inference_engine_master.TASK} and for the analytic type ${AdvancedAnalyticType.HANA.toString}",
-                inference_engine_master.inferSchema(spark, opts, keys, current_time))
+                inference_engine_master.inferSchema(spark, opts, dbaoDetails,keys, current_time))
               ds
             }
             case _ =>

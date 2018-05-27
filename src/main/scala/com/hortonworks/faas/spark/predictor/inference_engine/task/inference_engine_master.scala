@@ -31,10 +31,12 @@ object inference_engine_master {
   val SRCNAMESPACE = "_SYS_BIC"
 
 
-  def inferSchema(spark: SparkSession, opts: InferenceEngineOptions, keys : List[SourceDbActiveObjectDetail], current_time: Timestamp): DataFrame = {
+  def inferSchema(spark: SparkSession, opts: InferenceEngineOptions,
+                  dbaoDetails : List[SourceDbActiveObjectDetail], keys : List[SourceDbActiveObjectDetail],
+                  current_time: Timestamp): DataFrame = {
     val output_df = SamplingTechniqType.withNameWithDefault(opts.sampling_techniq) match {
       case SamplingTechniqType.STRT_RSVR_SMPL => {
-        hana_stratified_reservoir_sampler.inferSchema(spark,opts,keys,current_time)
+        hana_stratified_reservoir_sampler.inferSchema(spark,opts,dbaoDetails,keys,current_time)
       }
       case _ =>
         val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown Sampling techniq "))))

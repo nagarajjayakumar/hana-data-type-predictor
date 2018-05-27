@@ -7,13 +7,13 @@ import org.apache.spark.sql.SparkSession
 
 object nop_metadata_fetcher extends Logging {
 
-  def fetchDbActiveObjectDetailByName(spark: SparkSession,
+  def fetchDbActiveObjectDetailsByName(spark: SparkSession,
                   mdpopts: MetaDataBaseOptions ): List[SourceDbActiveObjectDetail] = {
     logError("FATAL :: No data fetcher for the given advanced analytic type ... ")
     List[SourceDbActiveObjectDetail]()
   }
 
-  def fetchDbActiveObjectKeysOnly(spark: SparkSession,
+  def fetchDbActiveObjectDetailsKeysOnly(spark: SparkSession,
                   mdpopts: MetaDataBaseOptions): List[SourceDbActiveObjectDetail] = {
     logError("FATAL :: No data fetcher for the given advanced analytic type ... ")
     List[SourceDbActiveObjectDetail]()

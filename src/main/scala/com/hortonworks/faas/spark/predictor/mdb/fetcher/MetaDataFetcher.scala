@@ -8,36 +8,45 @@ import org.apache.spark.sql.SparkSession
 object MetaDataFetcher {
 
 
-  def fetchDbActiveObjectDetailByName(spark: SparkSession,
-            mdpo: MetaDataBaseOptions ): List[SourceDbActiveObjectDetail] = {
+  def fetchDbActiveObjectDetailsByName(spark: SparkSession,
+                                       mdpo: MetaDataBaseOptions): List[SourceDbActiveObjectDetail] = {
 
 
     mdpo.analytic_type.toLowerCase match {
       case "hana" =>
         val hmp: hana_metadata_fetcher = hana_metadata_fetcher(spark, mdpo)
-        hmp.fetchDbActiveObjectDetailByName()
+        hmp.fetchDbActiveObjectDetailsByName()
       case _ =>
-        nop_metadata_fetcher.fetchDbActiveObjectDetailByName(spark, mdpo)
+        nop_metadata_fetcher.fetchDbActiveObjectDetailsByName(spark, mdpo)
 
     }
 
 
   }
 
-  def fetchDbActiveObjectKeysOnly(spark: SparkSession,
-            mdpo: MetaDataBaseOptions ): List[SourceDbActiveObjectDetail] = {
+  def fetchDbActiveObjectDetailsKeysOnly(spark: SparkSession,
+                                         mdpo: MetaDataBaseOptions): List[SourceDbActiveObjectDetail] = {
 
 
     mdpo.analytic_type.toLowerCase match {
       case "hana" =>
         val hmp: hana_metadata_fetcher = hana_metadata_fetcher(spark, mdpo)
-        hmp.fetchDbActiveObjectKeysOnly()
+        hmp.fetchDbActiveObjectDetailsKeysOnly()
       case _ =>
-        nop_metadata_fetcher.fetchDbActiveObjectKeysOnly(spark, mdpo)
+        nop_metadata_fetcher.fetchDbActiveObjectDetailsKeysOnly(spark, mdpo)
 
     }
 
 
+  }
+
+  def fetchDbActiveObjectDetailsKeysOnly(dboaDetails: List[SourceDbActiveObjectDetail]):
+  List[SourceDbActiveObjectDetail] = {
+
+    val filteredDboadetail: List[SourceDbActiveObjectDetail] = dboaDetails.filter {
+      dboaDetail => dboaDetail.isKey == true
+    }
+    filteredDboadetail
   }
 
 }

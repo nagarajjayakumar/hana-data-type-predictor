@@ -32,7 +32,8 @@ WHERE rnk <= 3
 
   def inferSchema(spark: SparkSession,
                   opts: InferenceEngineOptions,
-                  keys : List[SourceDbActiveObjectDetail],
+                  dbaoDetails : List[SourceDbActiveObjectDetail],
+                  keys: List[SourceDbActiveObjectDetail],
                   current_time: Timestamp): DataFrame = {
 
 
@@ -51,15 +52,17 @@ WHERE rnk <= 3
 
     val schema: StructType = InferSchema(df.rdd,df.schema.fieldNames, df.schema.fields)
 
-    df
+    val final_df = spark.sqlContext.createDataFrame(df.rdd, schema)
+
+    final_df
 
   }
 
-  def getKeysAsCsv(keys : List[SourceDbActiveObjectDetail]): String ={
+  def getKeysAsCsv(dbaoDetails : List[SourceDbActiveObjectDetail]): String ={
 
-    val keyInArray : Array[AnyRef] = new Array[AnyRef](keys.length)
+    val keyInArray : Array[AnyRef] = new Array[AnyRef](dbaoDetails.length)
 
-    for((key: SourceDbActiveObjectDetail, index) <- keys.zipWithIndex){
+    for((key: SourceDbActiveObjectDetail, index) <- dbaoDetails.zipWithIndex){
       keyInArray(index) = key.sourceColumnName
     }
 

@@ -32,7 +32,7 @@ class hana_metadata_fetcher(val spark: SparkSession,
     sao
   }
 
-  def fetchDbActiveObjectDetailByName(): List[SourceDbActiveObjectDetail] = {
+  def fetchDbActiveObjectDetailsByName(): List[SourceDbActiveObjectDetail] = {
 
     val sao: SourceDbActiveObject = fetchDbActiveObjectByName
 
@@ -43,7 +43,7 @@ class hana_metadata_fetcher(val spark: SparkSession,
 
   }
 
-  def fetchDbActiveObjectKeysOnly(): List[SourceDbActiveObjectDetail] = {
+  def fetchDbActiveObjectDetailsKeysOnly(): List[SourceDbActiveObjectDetail] = {
     val sao: SourceDbActiveObject = fetchDbActiveObjectByName
 
     val a1 = SourceDbActiveObjectDetail.defaultAlias
