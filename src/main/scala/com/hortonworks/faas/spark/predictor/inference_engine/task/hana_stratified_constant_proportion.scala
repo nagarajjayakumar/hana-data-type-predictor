@@ -6,13 +6,15 @@ import com.google.common.base.Joiner
 import com.hortonworks.faas.spark.connector.util.InferSchema
 import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOptions
 import com.hortonworks.faas.spark.predictor.mdb.model.SourceDbActiveObjectDetail
+import com.hortonworks.faas.spark.predictor.util.Logging
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.types.StructType
 
-object hana_stratified_constant_proportion {
+object hana_stratified_constant_proportion extends Logging{
 
 
-
+  log
+  
   val TASK: String = "hana_stratified_constant_proportion"
 
   /*

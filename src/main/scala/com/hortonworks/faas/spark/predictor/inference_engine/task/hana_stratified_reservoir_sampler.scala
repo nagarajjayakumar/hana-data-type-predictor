@@ -7,10 +7,12 @@ import com.hortonworks.faas.spark.predictor.mdb.model.SourceDbActiveObjectDetail
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import com.google.common.base.Joiner
 import com.hortonworks.faas.spark.connector.util.InferSchema
+import com.hortonworks.faas.spark.predictor.util.Logging
 import org.apache.spark.sql.types.StructType
 
-object hana_stratified_reservoir_sampler {
+object hana_stratified_reservoir_sampler extends Logging{
 
+  log
 
   val TASK: String = "hana_stratified_reservoir_sampler"
 
