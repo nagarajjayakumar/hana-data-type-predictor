@@ -5,30 +5,25 @@ import com.hortonworks.faas.spark.predictor.mdb.model.{SourceDbActiveObject, Sou
 import com.hortonworks.faas.spark.predictor.orm.service.Connection
 import com.hortonworks.faas.spark.predictor.orm.setting.DBSettings
 import com.hortonworks.faas.spark.predictor.util.Logging
-import com.hortonworks.faas.spark.predictor.xml.models.LogicalModelAttribute
-import com.hortonworks.faas.spark.predictor.xml.parser.XmlParser
 import org.apache.spark.sql.SparkSession
-import scalikejdbc.{DB, NamedDB}
-
-import scala.xml.XML
-import scalikejdbc._
+import scalikejdbc.{DB, NamedDB, _}
 
 
 class hana_metadata_fetcher(val spark: SparkSession,
-                            val mdpopts: MetaDataBaseOptions,
+                            val mdopts: MetaDataBaseOptions,
                             val namespace: String,
                             val packge_id: String,
-                            val dboname: String ) extends Logging with DBSettings with Connection {
+                            val dboname: String) extends Logging with DBSettings with Connection {
 
   def isValid(): Boolean = {
     true
   }
 
   // Following env and db is for the metadata
-  def env(): String = mdpopts.mdbenvironment
+  def env(): String = mdopts.mdbenvironment
 
   // Following env and db is for the metadata
-  def db(): DB = NamedDB(mdpopts.mdbservice).toDB()
+  def db(): DB = NamedDB(mdopts.mdbservice).toDB()
 
   def fetchDbActiveObjectByName = {
     val a = SourceDbActiveObject.defaultAlias
@@ -42,7 +37,7 @@ class hana_metadata_fetcher(val spark: SparkSession,
     val sao: SourceDbActiveObject = fetchDbActiveObjectByName
 
     val a1 = SourceDbActiveObjectDetail.defaultAlias
-    val saod :List[SourceDbActiveObjectDetail]= SourceDbActiveObjectDetail.where(sqls.eq(a1.haoid, sao.id)).apply()
+    val saod: List[SourceDbActiveObjectDetail] = SourceDbActiveObjectDetail.where(sqls.eq(a1.haoid, sao.id)).apply()
 
     saod
 
@@ -52,7 +47,7 @@ class hana_metadata_fetcher(val spark: SparkSession,
     val sao: SourceDbActiveObject = fetchDbActiveObjectByName
 
     val a1 = SourceDbActiveObjectDetail.defaultAlias
-    val saod :List[SourceDbActiveObjectDetail]= SourceDbActiveObjectDetail.where(sqls.eq(a1.haoid, sao.id).and.eq(a1.isKey, true)).apply
+    val saod: List[SourceDbActiveObjectDetail] = SourceDbActiveObjectDetail.where(sqls.eq(a1.haoid, sao.id).and.eq(a1.isKey, true)).apply
 
     saod
   }
@@ -61,12 +56,12 @@ class hana_metadata_fetcher(val spark: SparkSession,
 
 object hana_metadata_fetcher {
 
-  def apply( spark: SparkSession,
-             mdpopts: MetaDataBaseOptions,
-             namespace: String,
-             packge_id: String,
-             dboname: String ): hana_metadata_fetcher = {
-    new hana_metadata_fetcher( spark, mdpopts, namespace, packge_id,dboname)
+  def apply(spark: SparkSession,
+            mdopts: MetaDataBaseOptions) : hana_metadata_fetcher = {
+
+    val namespace = mdopts.src_namespace
+    val Array(package_id, db_object_name, _*) = mdopts.src_dbo_name.split("/")
+    new hana_metadata_fetcher(spark, mdopts, namespace, package_id, db_object_name)
   }
 
 }

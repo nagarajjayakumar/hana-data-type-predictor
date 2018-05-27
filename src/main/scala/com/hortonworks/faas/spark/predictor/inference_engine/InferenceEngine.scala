@@ -6,6 +6,7 @@ import com.hortonworks.faas.spark.connector.hana.util.HanaDbConnectionInfo
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
 import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
 import com.hortonworks.faas.spark.predictor.mdb.common.MetaDataBaseOptions
+import com.hortonworks.faas.spark.predictor.mdb.fetcher.MetaDataFetcher
 import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
@@ -79,6 +80,11 @@ object InferenceEngine extends ExecutionTiming with Logging
     val current_time: Timestamp = new Timestamp(DateTime.now().toDate.getTime)
 
     logInfo(s"BEGIN RUN TASK FOR INFERENCE ENGINE ${current_time}")
+
+    // Step 1: fetch the metadata
+    val mdopts: MetaDataBaseOptions = MetaDataBaseOptions(args)
+    val keys = MetaDataFetcher.fetchDbActiveObjectKeysOnly(spark,mdopts)
+
     try {
       val output_df = opts.task match {
         case inference_engine_master.TASK => {
