@@ -3,7 +3,9 @@ package com.hortonworks.faas.spark.predictor.inference_engine.task
 import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOptions
+import com.hortonworks.faas.spark.predictor.mdb.model.SourceDbActiveObjectDetail
 import org.apache.spark.sql.{DataFrame, SparkSession}
+import com.google.common.base.Joiner
 
 object hana_stratified_reservoir_sampler {
 
@@ -15,6 +17,7 @@ object hana_stratified_reservoir_sampler {
 
   def inferSchema(spark: SparkSession,
                   opts: InferenceEngineOptions,
+                  keys : List[SourceDbActiveObjectDetail],
                   current_time: Timestamp): DataFrame = {
 
 
@@ -29,6 +32,19 @@ object hana_stratified_reservoir_sampler {
       .load()
 
     df
+
+  }
+
+  def getKeysAsCsv(keys : List[SourceDbActiveObjectDetail]): String ={
+
+    val keyInArray : Array[AnyRef] = new Array[AnyRef](keys.length)
+
+    for((key: SourceDbActiveObjectDetail, index) <- keys.zipWithIndex){
+      keyInArray(index) = key.sourceColumnName
+    }
+
+    val joiner = Joiner.on(", ").skipNulls()
+    joiner.join(keyInArray)
 
   }
 

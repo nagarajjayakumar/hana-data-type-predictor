@@ -14,14 +14,15 @@ class InferenceEngineOptions(val task: String,
                              val src_dbo_name: String,
                              val sampling_techniq: String,
                              val sampling_percentage: String,
+                             val sampling_size: String,
                              val runtime_env: String,
                              val o: String,
                              val w: String) {
 
   def this(t: String, at: String,  src_namespace: String, src_dbo_name: String, sampling_techniq:
-           String, sampling_percentage: String, runtime_env: String,
+           String, sampling_percentage: String, sampling_size: String,runtime_env: String,
            cdfw: CommonDataFrameWriterOption) {
-    this(t, at, src_namespace, src_dbo_name,sampling_techniq, sampling_percentage, runtime_env,  cdfw.output, cdfw.write_mode)
+    this(t, at, src_namespace, src_dbo_name,sampling_techniq, sampling_percentage, sampling_size, runtime_env,  cdfw.output, cdfw.write_mode)
   }
 
   def isValid(): Boolean = {
@@ -39,6 +40,8 @@ object InferenceEngineOptions extends Logging{
   val SAMPLING_TECHNIQ = "smpl_techniq"
 
   val SAMPLING_PERCENTAGE = "smpl_percentage"
+
+  val RSVR_SAMPLE_SIZE = "smpl_size"
 
   val RUNTIME_ENV = "runtime_env"
 
@@ -65,11 +68,13 @@ object InferenceEngineOptions extends Logging{
 
     val sampling_percentage = if (options.opts.contains(SAMPLING_PERCENTAGE) && options.opts(SAMPLING_PERCENTAGE).nonEmpty) options.opts(SAMPLING_PERCENTAGE)(0) else inference_engine_master.SAMPLING_PERCENTAGE
 
+    val smpl_size = if (options.opts.contains(RSVR_SAMPLE_SIZE) && options.opts(RSVR_SAMPLE_SIZE).nonEmpty) options.opts(RSVR_SAMPLE_SIZE)(0) else inference_engine_master.RSVR_SAMPLE_SIZE
+
     val runtime_env = if (options.opts.contains(RUNTIME_ENV) && options.opts(RUNTIME_ENV).nonEmpty) options.opts(RUNTIME_ENV)(0) else inference_engine_master.RUNTIME_ENV
 
     val src_namespace = if (options.opts.contains(SRCNAMESPACE) && options.opts(SRCNAMESPACE).nonEmpty) options.opts(SRCNAMESPACE)(0) else inference_engine_master.SRCNAMESPACE
 
-    new InferenceEngineOptions(t, at, src_namespace, src_dbo_name,sampling_techniq, sampling_percentage,runtime_env, cdfw)
+    new InferenceEngineOptions(t, at, src_namespace, src_dbo_name,sampling_techniq, sampling_percentage,smpl_size ,runtime_env, cdfw)
   }
 
   def printUsage(): Unit = {
@@ -77,6 +82,7 @@ object InferenceEngineOptions extends Logging{
     logInfo(s"${TASK_KEY} | Task to perform : { ${inference_engine_master.TASK} }; Default: ${inference_engine_master.TASK}")
     logInfo(s"--${SAMPLING_TECHNIQ}     | Sampling techniq [Select between STARTIFIED_RESERVOIR_SAMPLING | STRATIFIED_CONSTANT_PROPORTION | RANDOM_SAMPLING | NONE ] ")
     logInfo(s"--${SAMPLING_TECHNIQ}     | Sampling percentage [Number only 1 -100] ")
+    logInfo(s"--${RSVR_SAMPLE_SIZE}     | Sampling Size       [Number only > 0] ")
     logInfo(s"--${SRCNAMESPACE}   | Source DB or Schema or Namespace   ")
     logInfo(s"--${SRCDBONAME}     | Source Database Object Name  ")
     logInfo(s"--${ANALYTIC_TYPE} | Analytic Type    [Select between HANA | ORACLE | MSSQL | MYSQL | OTHERS]")

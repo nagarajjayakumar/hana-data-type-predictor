@@ -4,6 +4,7 @@ import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOptions
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.{AdvancedAnalyticType, SamplingTechniqType}
+import com.hortonworks.faas.spark.predictor.mdb.model.SourceDbActiveObjectDetail
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
@@ -23,15 +24,17 @@ object inference_engine_master {
 
   val SAMPLING_PERCENTAGE = "1"
 
+  val RSVR_SAMPLE_SIZE = "1"
+
   val RUNTIME_ENV = "local"
 
   val SRCNAMESPACE = "_SYS_BIC"
 
 
-  def inferSchema(spark: SparkSession, opts: InferenceEngineOptions, current_time: Timestamp): DataFrame = {
+  def inferSchema(spark: SparkSession, opts: InferenceEngineOptions, keys : List[SourceDbActiveObjectDetail], current_time: Timestamp): DataFrame = {
     val output_df = SamplingTechniqType.withNameWithDefault(opts.sampling_techniq) match {
       case SamplingTechniqType.STRT_RSVR_SMPL => {
-        hana_stratified_reservoir_sampler.inferSchema(spark,opts,current_time)
+        hana_stratified_reservoir_sampler.inferSchema(spark,opts,keys,current_time)
       }
       case _ =>
         val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown Sampling techniq "))))
