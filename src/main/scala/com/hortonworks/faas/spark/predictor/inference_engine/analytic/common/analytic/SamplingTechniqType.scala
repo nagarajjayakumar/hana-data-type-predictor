@@ -19,10 +19,18 @@ object SamplingTechniqType extends Enumeration {
     Calculate the population size for each group "on the fly":
    */
   val STRT_DYNMC_POPL = Value("HANA_STARTIFIED_DYNAMIC_POPULATION")
+
   /*
   In other words all rows are equally weighted
    */
-  val RNDM_SMPL = Value("RANDOM_SAMPLING")
+  val RNDM_SMPL_SYS = Value("RANDOM_UNIFORM_SYSTEM")
+
+  /*
+  In other words all rows are equally weighted
+   */
+  val RNDM_SMPL_BER = Value("RANDOM_UNIFORM_BERNOULI")
+
+
   val Unknown = Value("Unknown")
 
 
