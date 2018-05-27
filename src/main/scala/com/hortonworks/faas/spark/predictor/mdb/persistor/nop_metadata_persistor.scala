@@ -6,6 +6,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 object nop_metadata_persistor extends Logging {
 
+  log
+
   def persist[T]( spark: SparkSession,mdpopts: MetaDataBaseOptions, ds: Dataset[T]): Unit = {
     logError("FATAL :: No Persistor for the given advanced analytic type ... ")
   }

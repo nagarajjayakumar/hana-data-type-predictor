@@ -7,6 +7,7 @@ import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.ana
 import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
 import com.hortonworks.faas.spark.predictor.mdb.common.MetaDataBaseOptions
 import com.hortonworks.faas.spark.predictor.mdb.fetcher.MetaDataFetcher
+import com.hortonworks.faas.spark.predictor.mdb.persistor.MetaDataPersistor
 import com.hortonworks.faas.spark.predictor.util._
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
@@ -118,6 +119,10 @@ object InferenceEngine extends ExecutionTiming with Logging
           scala.collection.mutable.Map[String, StructType]().toMap
       }
 
+
+      // Step 2: update the metadata details with the original and the infer data type
+      val mdpopts: MetaDataBaseOptions = MetaDataBaseOptions(args)
+      MetaDataPersistor.updateDbActiveObjectDetails( spark, mdpopts, dbaoDetails, output_schema_map)
 
 
     } finally {
