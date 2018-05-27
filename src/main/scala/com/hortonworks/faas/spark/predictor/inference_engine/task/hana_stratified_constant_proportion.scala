@@ -14,7 +14,7 @@ object hana_stratified_constant_proportion extends Logging{
 
 
   log
-  
+
   val TASK: String = "hana_stratified_constant_proportion"
 
   /*

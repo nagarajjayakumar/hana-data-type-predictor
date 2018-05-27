@@ -17,17 +17,17 @@ object hana_stratified_reservoir_sampler extends Logging{
   val TASK: String = "hana_stratified_reservoir_sampler"
 
   /*
-  SELECT MANDT, SPRAS, GNTYP, GNTXT
-FROM
-(
-    SELECT *, ROW_NUMBER() OVER (PARTITION BY MANDT ORDER BY rnd) as rnk
-    FROM (
-        SELECT MANDT, SPRAS,GNTYP,GNTXT, RAND() AS rnd
-        FROM  SLTECC.T352T_T
-    ) bucketed
-) sampled
--- assuming we want 3 records from each group
-WHERE rnk <= 3
+      SELECT MANDT, SPRAS, GNTYP, GNTXT
+    FROM
+    (
+        SELECT *, ROW_NUMBER() OVER (PARTITION BY MANDT ORDER BY rnd) as rnk
+        FROM (
+            SELECT MANDT, SPRAS,GNTYP,GNTXT, RAND() AS rnd
+            FROM  SLTECC.T352T_T
+        ) bucketed
+    ) sampled
+    -- assuming we want 3 records from each group
+    WHERE rnk <= 3
    */
 
 
