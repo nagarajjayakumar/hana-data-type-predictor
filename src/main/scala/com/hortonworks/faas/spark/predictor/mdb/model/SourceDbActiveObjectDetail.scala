@@ -16,6 +16,8 @@ case class SourceDbActiveObjectDetail(
                                      defaultDescription: String,
                                      sourceObjectName: String,
                                      sourceColumnName: String,
+                                     sourceDataType: String,
+                                     inferDataType: String,
                                      isRequiredForFlow: Boolean,
                                      createdAt: DateTime,
                                      updatedAt: DateTime

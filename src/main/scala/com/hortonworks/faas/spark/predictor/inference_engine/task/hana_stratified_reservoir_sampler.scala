@@ -30,7 +30,7 @@ WHERE rnk <= 3
 
 
 
-  def inferSchema(spark: SparkSession,
+  def getData(spark: SparkSession,
                   opts: InferenceEngineOptions,
                   dbaoDetails : List[SourceDbActiveObjectDetail],
                   keys: List[SourceDbActiveObjectDetail],
@@ -50,10 +50,17 @@ WHERE rnk <= 3
       .options(Map("query" -> (sql)))
       .load()
 
+    df
+
+  }
+
+  def inferSchema(spark: SparkSession,
+                  df: DataFrame,
+                  current_time: Timestamp): DataFrame = {
+
+
     val schema: StructType = InferSchema(df.rdd,df.schema.fieldNames, df.schema.fields)
-
     val final_df = spark.sqlContext.createDataFrame(df.rdd, schema)
-
     final_df
 
   }
@@ -70,6 +77,5 @@ WHERE rnk <= 3
     joiner.join(keyInArray)
 
   }
-
 
 }

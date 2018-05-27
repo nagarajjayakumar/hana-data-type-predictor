@@ -95,28 +95,30 @@ object InferenceEngine extends ExecutionTiming with Logging
 
 
     try {
-      val output_df = opts.task match {
+      val output_schema_map = opts.task match {
         case inference_engine_master.TASK => {
-          val result_ds = AdvancedAnalyticType.withNameWithDefault(opts.analytic_type) match {
+          val result_schema_map = AdvancedAnalyticType.withNameWithDefault(opts.analytic_type) match {
             case AdvancedAnalyticType.HANA => {
               // step 1: get Hana meta data for the database object name from metastore
-              val ds = time(s"run task for ${inference_engine_master.TASK} and for the analytic type ${AdvancedAnalyticType.HANA.toString}",
+              val schemaMap: Map[String, StructType]  = time(s"run task for ${inference_engine_master.TASK} and for the analytic type ${AdvancedAnalyticType.HANA.toString}",
                 inference_engine_master.inferSchema(spark, opts, dbaoDetails,keys, current_time))
-              ds
+              schemaMap
             }
             case _ =>
               val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown advanced analytic type"))))
               spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))
+
+              scala.collection.mutable.Map[String, StructType]().toMap
           }
-          result_ds
+          result_schema_map
         }
         case _ =>
           val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown task type"))))
           spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))
-
+          scala.collection.mutable.Map[String, StructType]().toMap
       }
 
-      output_df.printSchema()
+
 
     } finally {
       //make sure to call spark.stop so the history works

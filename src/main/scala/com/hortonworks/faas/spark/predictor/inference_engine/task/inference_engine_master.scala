@@ -9,6 +9,8 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
+import scala.collection.mutable.ListBuffer
+
 /**
   * Created by njayakumar on 5/26/2018.
   */
@@ -32,18 +34,55 @@ object inference_engine_master {
 
 
   def inferSchema(spark: SparkSession, opts: InferenceEngineOptions,
-                  dbaoDetails : List[SourceDbActiveObjectDetail], keys : List[SourceDbActiveObjectDetail],
-                  current_time: Timestamp): DataFrame = {
-    val output_df = SamplingTechniqType.withNameWithDefault(opts.sampling_techniq) match {
+                  dbaoDetails: List[SourceDbActiveObjectDetail], keys: List[SourceDbActiveObjectDetail],
+                  current_time: Timestamp): Map[String, StructType] = {
+    val output_schema = SamplingTechniqType.withNameWithDefault(opts.sampling_techniq) match {
       case SamplingTechniqType.STRT_RSVR_SMPL => {
-        hana_stratified_reservoir_sampler.inferSchema(spark,opts,dbaoDetails,keys,current_time)
+
+        val sampleData : DataFrame = hana_stratified_reservoir_sampler.getData(spark, opts, dbaoDetails, keys, current_time)
+        val inferData: DataFrame = hana_stratified_reservoir_sampler.inferSchema(spark, sampleData, current_time)
+
+        var bothSrcAndInferSchema = scala.collection.mutable.Map[String, StructType]()
+        bothSrcAndInferSchema += ( "originalSchema" -> sampleData.schema)
+        bothSrcAndInferSchema += ( "inferSchema" -> inferData.schema)
+        bothSrcAndInferSchema.toMap
       }
       case _ =>
         val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown Sampling techniq "))))
         spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))
-
+        scala.collection.mutable.Map[String, StructType]().toMap
     }
-    output_df
+
+    output_schema
   }
+
+  def updateDbActiveObjectDetailsWithSourceDataType(dbaoDetails: List[SourceDbActiveObjectDetail],
+                                  schema: StructType):   List[SourceDbActiveObjectDetail] = {
+
+    var finalDboaDetails = new ListBuffer[SourceDbActiveObjectDetail]()
+
+    for((dboaDetail : SourceDbActiveObjectDetail, index)  <- dbaoDetails.zipWithIndex) {
+      val fieldDataType = schema(dboaDetail.sourceColumnName)
+      finalDboaDetails += dboaDetail.copy(sourceDataType = fieldDataType.dataType.simpleString)
+    }
+
+    dbaoDetails
+
+  }
+
+  def updateDbActiveObjectDetailsWithInferDataType(dbaoDetails: List[SourceDbActiveObjectDetail],
+                                                    schema: StructType):   List[SourceDbActiveObjectDetail] = {
+
+    var finalDboaDetails = new ListBuffer[SourceDbActiveObjectDetail]()
+
+    for((dboaDetail : SourceDbActiveObjectDetail, index)  <- dbaoDetails.zipWithIndex) {
+      val fieldDataType = schema(dboaDetail.sourceColumnName)
+      finalDboaDetails += dboaDetail.copy(inferDataType = fieldDataType.dataType.simpleString)
+    }
+
+    dbaoDetails
+
+  }
+
 
 }

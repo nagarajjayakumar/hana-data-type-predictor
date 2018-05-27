@@ -31,6 +31,8 @@ create table hanadb_active_object_detail (
   default_description VARCHAR(4000) not null,
   source_object_name VARCHAR(4000) not null,
   source_column_name VARCHAR(4000) not null,
+  source_data_type VARCHAR(4000) not null,
+  infer_data_type VARCHAR(4000) not null,
   is_required_for_flow BOOLEAN  default true,
   created_at timestamp not null,
   updated_at timestamp not null,
