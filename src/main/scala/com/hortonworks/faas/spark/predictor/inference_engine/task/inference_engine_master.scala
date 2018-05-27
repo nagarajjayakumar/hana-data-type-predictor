@@ -44,10 +44,23 @@ object inference_engine_master extends Logging {
       case SamplingTechniqType.STRT_RSVR_SMPL => {
 
         val sampleData: DataFrame = hana_stratified_reservoir_sampler.getData(spark, opts, dbaoDetails, keys, current_time)
-        logDebug(s"Data schema after applying ${SamplingTechniqType.STRT_RSVR_SMPL} ${sampleData.printSchema}")
+        logDebug(s"Data schema after applying ${SamplingTechniqType.STRT_RSVR_SMPL.toString} ${sampleData.printSchema}")
 
         val inferData: DataFrame = hana_stratified_reservoir_sampler.inferSchema(spark, sampleData, current_time)
-        logDebug(s"Data schema after Inferring data type ${SamplingTechniqType.STRT_RSVR_SMPL} ${inferData.printSchema}")
+        logDebug(s"Data schema after Inferring data type ${SamplingTechniqType.STRT_RSVR_SMPL.toString} ${inferData.printSchema}")
+
+        var bothSrcAndInferSchema = scala.collection.mutable.Map[String, StructType]()
+        bothSrcAndInferSchema += ("originalSchema" -> sampleData.schema)
+        bothSrcAndInferSchema += ("inferSchema" -> inferData.schema)
+        bothSrcAndInferSchema.toMap
+      }
+      case SamplingTechniqType.STRT_CONST_PROP => {
+
+        val sampleData: DataFrame = hana_stratified_constant_proportion.getData(spark, opts, dbaoDetails, keys, current_time)
+        logDebug(s"Data schema after applying ${SamplingTechniqType.STRT_CONST_PROP.toString} ${sampleData.printSchema}")
+
+        val inferData: DataFrame = hana_stratified_constant_proportion.inferSchema(spark, sampleData, current_time)
+        logDebug(s"Data schema after Inferring data type ${SamplingTechniqType.STRT_CONST_PROP.toString} ${inferData.printSchema}")
 
         var bothSrcAndInferSchema = scala.collection.mutable.Map[String, StructType]()
         bothSrcAndInferSchema += ("originalSchema" -> sampleData.schema)
