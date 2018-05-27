@@ -3,11 +3,11 @@ package com.hortonworks.faas.spark.predictor.inference_engine.task
 import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOptions
-import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.{AdvancedAnalyticType, SamplingTechniq}
+import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.{AdvancedAnalyticType, SamplingTechniqType}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 /**
-  * Created by njayakumar on 5/16/2018.
+  * Created by njayakumar on 5/26/2018.
   */
 object inference_engine_master {
 
@@ -27,11 +27,12 @@ object inference_engine_master {
 
 
   def inferSchema(spark: SparkSession, opts: InferenceEngineOptions, current_time: Timestamp): DataFrame = {
-    val output_df = SamplingTechniq.withNameWithDefault(opts.sampling_techniq) match {
-      case inference_engine_master.TASK => {
-
+    val output_df = SamplingTechniqType.withNameWithDefault(opts.sampling_techniq) match {
+      case SamplingTechniqType.STRT_RSVR_SMPL => {
+          null
       }
     }
+    null
   }
 
 }
