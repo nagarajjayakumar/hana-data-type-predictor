@@ -14,6 +14,8 @@ object SamplingTechniqType extends Enumeration {
   and 1K records from the second group.
    */
   val STRT_CONST_PROP = Value("STRATIFIED_CONSTANT_PROPORTION")
+
+  val STRT_DYNMC_POPL = Value("HANA_STARTIFIED_DYNAMIC_POPULATION")
   /*
   In other words all rows are equally weighted
    */
