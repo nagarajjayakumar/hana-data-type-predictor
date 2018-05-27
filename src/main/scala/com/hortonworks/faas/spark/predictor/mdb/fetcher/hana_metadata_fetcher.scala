@@ -1,6 +1,7 @@
 package com.hortonworks.faas.spark.predictor.mdb.fetcher
 
 import com.hortonworks.faas.spark.predictor.mdb.common.MetaDataBaseOptions
+import com.hortonworks.faas.spark.predictor.mdb.model.{SourceDbActiveObject, SourceDbActiveObjectDetail}
 import com.hortonworks.faas.spark.predictor.orm.service.Connection
 import com.hortonworks.faas.spark.predictor.orm.setting.DBSettings
 import com.hortonworks.faas.spark.predictor.util.Logging
@@ -10,6 +11,7 @@ import org.apache.spark.sql.SparkSession
 import scalikejdbc.{DB, NamedDB}
 
 import scala.xml.XML
+import scalikejdbc._
 
 
 class hana_metadata_fetcher(val spark: SparkSession,
@@ -28,13 +30,31 @@ class hana_metadata_fetcher(val spark: SparkSession,
   // Following env and db is for the metadata
   def db(): DB = NamedDB(mdpopts.mdbservice).toDB()
 
-  def fetchByName(): Unit = {
+  def fetchDbActiveObjectByName = {
+    val a = SourceDbActiveObject.defaultAlias
+    val sao: SourceDbActiveObject = SourceDbActiveObject.where(sqls.eq(sqls.lower(a.packageId), packge_id.toLowerCase)
+      .and.eq(sqls.lower(a.dbObjectName), dboname.toLowerCase)).apply().head
+    sao
   }
 
-  def parseMetaDataXml(xmlString: String): Array[LogicalModelAttribute] = {
-    val xmlSource = XML.loadString(xmlString)
-    val logicalModelAttribute = XmlParser.parse(xmlSource)(LogicalModelAttribute.xmlRead)
-    logicalModelAttribute.toArray
+  def fetchDbActiveObjectDetailByName(): List[SourceDbActiveObjectDetail] = {
+
+    val sao: SourceDbActiveObject = fetchDbActiveObjectByName
+
+    val a1 = SourceDbActiveObjectDetail.defaultAlias
+    val saod :List[SourceDbActiveObjectDetail]= SourceDbActiveObjectDetail.where(sqls.eq(a1.haoid, sao.id)).apply()
+
+    saod
+
+  }
+
+  def fetchDbActiveObjectKeysOnly(): List[SourceDbActiveObjectDetail] = {
+    val sao: SourceDbActiveObject = fetchDbActiveObjectByName
+
+    val a1 = SourceDbActiveObjectDetail.defaultAlias
+    val saod :List[SourceDbActiveObjectDetail]= SourceDbActiveObjectDetail.where(sqls.eq(a1.haoid, sao.id).and.eq(a1.isKey, true)).apply
+
+    saod
   }
 
 }
