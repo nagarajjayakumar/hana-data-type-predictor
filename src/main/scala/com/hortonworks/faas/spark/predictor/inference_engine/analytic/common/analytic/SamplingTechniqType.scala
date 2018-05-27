@@ -15,6 +15,9 @@ object SamplingTechniqType extends Enumeration {
    */
   val STRT_CONST_PROP = Value("STRATIFIED_CONSTANT_PROPORTION")
 
+  /*
+    Calculate the population size for each group "on the fly":
+   */
   val STRT_DYNMC_POPL = Value("HANA_STARTIFIED_DYNAMIC_POPULATION")
   /*
   In other words all rows are equally weighted
