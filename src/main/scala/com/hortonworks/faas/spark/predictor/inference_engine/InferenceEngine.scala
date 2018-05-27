@@ -59,7 +59,7 @@ object InferenceEngine extends ExecutionTiming with Logging
       .set("spark.hanadb.port", masterConnectionInfo.dbPort.toString)
       .set("spark.hanadb.user", masterConnectionInfo.user)
       .set("spark.hanadb.password", masterConnectionInfo.password)
-      .set("spark.hanadb.defaultDatabase", masterConnectionInfo.z)
+      .set("spark.hanadb.defaultDatabase", masterConnectionInfo.dbName)
       .set("spark.driver.host", "localhost")
       .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     //.set("spark.ui.port", (4040 + scala.util.Random.nextInt(1000)).toString)

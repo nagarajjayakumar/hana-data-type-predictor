@@ -6,13 +6,28 @@ import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOpti
 import com.hortonworks.faas.spark.predictor.mdb.model.SourceDbActiveObjectDetail
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import com.google.common.base.Joiner
+import com.hortonworks.faas.spark.connector.util.InferSchema
+import org.apache.spark.sql.types.StructType
 
 object hana_stratified_reservoir_sampler {
 
 
   val TASK: String = "hana_stratified_reservoir_sampler"
 
-  val hana_active_object_query: String = "select * from \"_SYS_REPO\".\"ACTIVE_OBJECT\" where lower(object_suffix) in ('calculationview', 'attributeview', 'analyticview')  "
+  /*
+  SELECT MANDT, SPRAS, GNTYP, GNTXT
+FROM
+(
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY MANDT ORDER BY rnd) as rnk
+    FROM (
+        SELECT MANDT, SPRAS,GNTYP,GNTXT, RAND() AS rnd
+        FROM  SLTECC.T352T_T
+    ) bucketed
+) sampled
+-- assuming we want 3 records from each group
+WHERE rnk <= 3
+   */
+
 
 
   def inferSchema(spark: SparkSession,
@@ -21,15 +36,20 @@ object hana_stratified_reservoir_sampler {
                   current_time: Timestamp): DataFrame = {
 
 
-    val dboname = opts.src_dbo_name
-    val Array(package_id, object_name, _*) = dboname.split("/")
-    val whereClause = "and package_id like '".concat(package_id).concat("%' and object_name like '").concat(object_name).concat("%'")
-    val sql = hana_active_object_query.concat(whereClause)
+    val keysAsCsv: String = getKeysAsCsv(keys)
+    val hana_active_object_query: String = s"select * from (" +
+      s"                                     select *, ROW_NUMBER() OVER (PARTITION BY ${keysAsCsv} ORDER BY rnd) as rnk FROM ( " +
+      s"                                            SELECT *, RAND() AS rnd  FROM  '${opts.src_dbo_name}'   ) bucketed" +
+      s"                                     ) sampled where rnk <= ${opts.sampling_size}  "
+
+    val sql = hana_active_object_query
     val df = spark
       .read
       .format("com.hortonworks.faas.spark.connector")
       .options(Map("query" -> (sql)))
       .load()
+
+    val schema: StructType = InferSchema(df.rdd,df.schema.fieldNames, df.schema.fields)
 
     df
 
