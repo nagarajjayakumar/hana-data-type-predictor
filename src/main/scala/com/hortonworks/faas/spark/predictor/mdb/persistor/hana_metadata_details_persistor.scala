@@ -14,6 +14,9 @@ class hana_metadata_details_persistor(val spark: SparkSession,
                                       saod: List[SourceDbActiveObjectDetail],
                                       schemaMap: Map[String, StructType]) extends Logging with DBSettings with Connection {
 
+  // initialize logger
+  log
+
   def isValid(): Boolean = {
     true
   }
@@ -25,6 +28,14 @@ class hana_metadata_details_persistor(val spark: SparkSession,
   def db(): DB = NamedDB(mdpopts.mdbservice).toDB()
 
   def updateDbActiveObjectDetails(): Unit = {
+
+    for((dboadetail, index) <- saod.zipWithIndex){
+      SourceDbActiveObjectDetail.updateById(dboadetail.id).
+                withAttributes('sourceDataType -> dboadetail.sourceDataType,
+                                          'inferDataType -> dboadetail.inferDataType)
+
+    }
+    logDebug(s"Updated the active object details hao id -> ${saod.head.haoid} with source and infer data type ")
 
   }
 
