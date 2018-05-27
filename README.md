@@ -18,7 +18,7 @@ Pass HANADB_HOST as system level environment variable
 #### analytic_type => source db type {hana | oracle | mysql}
 #### mdbenv => Schema crawler metadata db environment
 #### mdbservice => Schema crawler metadata db service {Needed for Skinny CURD framework}
-#### runtime_env => Runtime environment  {local | yarn [client | cluster]}
+#### runtime_env => Spark Runtime environment  {local | yarn [client | cluster]}
 #### src_name_space => source name space {db name | schema name}
 
 ```

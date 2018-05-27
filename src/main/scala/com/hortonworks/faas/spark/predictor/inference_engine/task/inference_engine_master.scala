@@ -3,7 +3,7 @@ package com.hortonworks.faas.spark.predictor.inference_engine.task
 import java.sql.Timestamp
 
 import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOptions
-import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.AdvancedAnalyticType
+import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common.analytic.{AdvancedAnalyticType, SamplingTechniq}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 /**
@@ -26,12 +26,12 @@ object inference_engine_master {
   val SRCNAMESPACE = "_SYS_BIC"
 
 
-  def getData(spark: SparkSession, opts: InferenceEngineOptions, current_time: Timestamp): DataFrame = {
-     spark
-      .read
-      .format("com.hortonworks.faas.spark.connector")
-      .options(Map("query" -> ("SELECT * FROM \"" + "" + "\"." + "\"DataLake.Deltaviews.TransactionViews/InstallationOwnershipTS\" " )))
-      // .options(Map("query" -> ("SELECT * FROM \"" + dbName + "\"." + "DFKKOPK" )))
-      .load()
+  def inferSchema(spark: SparkSession, opts: InferenceEngineOptions, current_time: Timestamp): DataFrame = {
+    val output_df = SamplingTechniq.withNameWithDefault(opts.sampling_techniq) match {
+      case inference_engine_master.TASK => {
+
+      }
+    }
   }
+
 }

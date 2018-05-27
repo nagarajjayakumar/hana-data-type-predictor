@@ -3,6 +3,7 @@ package com.hortonworks.faas.spark.predictor.inference_engine
 import com.hortonworks.faas.spark.predictor.configuration.ConfigurationOptionMap
 import com.hortonworks.faas.spark.predictor.inference_engine.analytic.common._
 import com.hortonworks.faas.spark.predictor.inference_engine.task.inference_engine_master
+import com.hortonworks.faas.spark.predictor.util.Logging
 
 /**
   * Created by njayakumar on 5/16/2018.
@@ -28,20 +29,23 @@ class InferenceEngineOptions(val task: String,
   }
 }
 
-object InferenceEngineOptions {
+object InferenceEngineOptions extends Logging{
   val TASK_KEY = "task"
 
   val ANALYTIC_TYPE = "analytic_type"
 
   val SRCDBONAME = "src_dbo_name"
 
-  val SAMPLING_TECHNIQ = "full"
+  val SAMPLING_TECHNIQ = "smpl_techniq"
 
-  val SAMPLING_PERCENTAGE = "1"
+  val SAMPLING_PERCENTAGE = "smpl_percentage"
 
-  val RUNTIME_ENV = "local"
+  val RUNTIME_ENV = "runtime_env"
 
-  val SRCNAMESPACE = "dbName"
+  val SRCNAMESPACE = "src_name_space"
+
+  // initialize log
+  log
 
   def apply(args: Array[String]): InferenceEngineOptions = {
     apply(ConfigurationOptionMap(args))
@@ -70,7 +74,13 @@ object InferenceEngineOptions {
 
   def printUsage(): Unit = {
     CommonDataFrameWriterOption.printUsage()
+    logInfo(s"${TASK_KEY} | Task to perform : { ${inference_engine_master.TASK} }; Default: ${inference_engine_master.TASK}")
+    logInfo(s"--${SAMPLING_TECHNIQ}     | Sampling techniq [Select between STARTIFIED_RESERVOIR_SAMPLING | STRATIFIED_CONSTANT_PROPORTION | RANDOM_SAMPLING | NONE ] ")
+    logInfo(s"--${SAMPLING_TECHNIQ}     | Sampling percentage [Number only 1 -100] ")
+    logInfo(s"--${SRCNAMESPACE}   | Source DB or Schema or Namespace   ")
+    logInfo(s"--${SRCDBONAME}     | Source Database Object Name  ")
+    logInfo(s"--${ANALYTIC_TYPE} | Analytic Type    [Select between HANA | ORACLE | MSSQL | MYSQL | OTHERS]")
+    logInfo(s"--${RUNTIME_ENV} | Spark Runtime environment  [local | yarn {client | cluster} ]")
 
-    println(s"${TASK_KEY} | Task to perform : { ${inference_engine_master.TASK}, ${inference_engine_master.TASK}, ${inference_engine_master.TASK} }; Default: ${inference_engine_master.TASK}")
-  }
+   }
 }
