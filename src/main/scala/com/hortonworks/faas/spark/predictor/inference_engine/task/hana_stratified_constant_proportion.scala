@@ -7,8 +7,8 @@ import com.hortonworks.faas.spark.connector.util.InferSchema
 import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOptions
 import com.hortonworks.faas.spark.predictor.mdb.model.SourceDbActiveObjectDetail
 import com.hortonworks.faas.spark.predictor.util.Logging
-import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.types.StructType
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object hana_stratified_constant_proportion extends Logging{
 

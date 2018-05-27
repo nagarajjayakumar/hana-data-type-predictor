@@ -2,13 +2,13 @@ package com.hortonworks.faas.spark.predictor.inference_engine.task
 
 import java.sql.Timestamp
 
-import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOptions
-import com.hortonworks.faas.spark.predictor.mdb.model.SourceDbActiveObjectDetail
-import org.apache.spark.sql.{DataFrame, SparkSession}
 import com.google.common.base.Joiner
 import com.hortonworks.faas.spark.connector.util.InferSchema
+import com.hortonworks.faas.spark.predictor.inference_engine.InferenceEngineOptions
+import com.hortonworks.faas.spark.predictor.mdb.model.SourceDbActiveObjectDetail
 import com.hortonworks.faas.spark.predictor.util.Logging
 import org.apache.spark.sql.types.StructType
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object hana_stratified_reservoir_sampler extends Logging{
 

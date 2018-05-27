@@ -8,8 +8,6 @@ import com.hortonworks.faas.spark.connector.util.InferSchema
 import com.hortonworks.faas.spark.predictor.model.HanaActiveObject
 import com.hortonworks.faas.spark.predictor.schema_crawler.SchemaCrawlerOptions
 import com.hortonworks.faas.spark.predictor.schema_crawler.task.hana_active_object
-import com.hortonworks.faas.spark.predictor.util.Schema2CaseClass
-import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.types.StructType
 import org.joda.time.DateTime
 import org.scalatest.FlatSpec

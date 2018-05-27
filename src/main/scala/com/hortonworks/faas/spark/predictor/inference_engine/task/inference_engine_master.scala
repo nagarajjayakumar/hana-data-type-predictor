@@ -80,6 +80,32 @@ object inference_engine_master extends Logging {
         bothSrcAndInferSchema += ("inferSchema" -> inferData.schema)
         bothSrcAndInferSchema.toMap
       }
+      case SamplingTechniqType.RNDM_SMPL_SYS => {
+
+        val sampleData: DataFrame = hana_random_uniform_system.getData(spark, opts, dbaoDetails, keys, current_time)
+        logDebug(s"Data schema after applying ${SamplingTechniqType.RNDM_SMPL_SYS.toString} ${sampleData.printSchema}")
+
+        val inferData: DataFrame = hana_random_uniform_system.inferSchema(spark, sampleData, current_time)
+        logDebug(s"Data schema after Inferring data type ${SamplingTechniqType.RNDM_SMPL_SYS.toString} ${inferData.printSchema}")
+
+        var bothSrcAndInferSchema = scala.collection.mutable.Map[String, StructType]()
+        bothSrcAndInferSchema += ("originalSchema" -> sampleData.schema)
+        bothSrcAndInferSchema += ("inferSchema" -> inferData.schema)
+        bothSrcAndInferSchema.toMap
+      }
+      case SamplingTechniqType.RNDM_SMPL_BER => {
+
+        val sampleData: DataFrame = hana_random_uniform_bernouli.getData(spark, opts, dbaoDetails, keys, current_time)
+        logDebug(s"Data schema after applying ${SamplingTechniqType.RNDM_SMPL_BER.toString} ${sampleData.printSchema}")
+
+        val inferData: DataFrame = hana_random_uniform_bernouli.inferSchema(spark, sampleData, current_time)
+        logDebug(s"Data schema after Inferring data type ${SamplingTechniqType.RNDM_SMPL_BER.toString} ${inferData.printSchema}")
+
+        var bothSrcAndInferSchema = scala.collection.mutable.Map[String, StructType]()
+        bothSrcAndInferSchema += ("originalSchema" -> sampleData.schema)
+        bothSrcAndInferSchema += ("inferSchema" -> inferData.schema)
+        bothSrcAndInferSchema.toMap
+      }
       case _ =>
         val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown Sampling techniq "))))
         spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))

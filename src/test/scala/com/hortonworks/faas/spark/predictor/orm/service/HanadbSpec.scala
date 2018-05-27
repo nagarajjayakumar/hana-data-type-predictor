@@ -2,8 +2,8 @@ package com.hortonworks.faas.spark.predictor.orm.service
 
 import java.util.Calendar
 
-import com.hortonworks.faas.spark.predictor.orm.setting.DBSettings
 import com.hortonworks.faas.spark.predictor.mdb.model.{SourceDbActiveObject, SourceDbActiveObjectDetail}
+import com.hortonworks.faas.spark.predictor.orm.setting.DBSettings
 import org.scalatest.Matchers
 import scalikejdbc.{DB, NamedDB}
 
