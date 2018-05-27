@@ -10,11 +10,11 @@ import com.hortonworks.faas.spark.predictor.util.Logging
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-object hana_startified_dynamic_population extends Logging {
+object hana_stratified_dynamic_population extends Logging {
 
   log
 
-  val TASK: String = "hana_startified_dynamic_population"
+  val TASK: String = "hana_stratified_dynamic_population"
 
   /*
 

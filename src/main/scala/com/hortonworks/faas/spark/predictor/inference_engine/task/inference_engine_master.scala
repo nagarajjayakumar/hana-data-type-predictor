@@ -69,10 +69,10 @@ object inference_engine_master extends Logging {
       }
       case SamplingTechniqType.STRT_DYNMC_POPL => {
 
-        val sampleData: DataFrame = hana_startified_dynamic_population.getData(spark, opts, dbaoDetails, keys, current_time)
+        val sampleData: DataFrame = hana_stratified_dynamic_population.getData(spark, opts, dbaoDetails, keys, current_time)
         logDebug(s"Data schema after applying ${SamplingTechniqType.STRT_DYNMC_POPL.toString} ${sampleData.printSchema}")
 
-        val inferData: DataFrame = hana_startified_dynamic_population.inferSchema(spark, sampleData, current_time)
+        val inferData: DataFrame = hana_stratified_dynamic_population.inferSchema(spark, sampleData, current_time)
         logDebug(s"Data schema after Inferring data type ${SamplingTechniqType.STRT_DYNMC_POPL.toString} ${inferData.printSchema}")
 
         var bothSrcAndInferSchema = scala.collection.mutable.Map[String, StructType]()
