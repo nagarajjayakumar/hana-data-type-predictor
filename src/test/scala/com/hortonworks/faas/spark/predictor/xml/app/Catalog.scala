@@ -1,4 +1,4 @@
-package com.hortonworks.faas.spark.predictor.xml.models
+package com.hortonworks.faas.spark.predictor.xml.app
 
 import com.hortonworks.faas.spark.predictor.xml.parser.{XmlNodeReader, XmlNodeWriter, XmlParser}
 

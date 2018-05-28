@@ -1,6 +1,6 @@
 package com.hortonworks.faas.spark.predictor.xml.app
 
-import com.hortonworks.faas.spark.predictor.xml.models.{Catalog, ItemSize}
+
 import com.hortonworks.faas.spark.predictor.xml.parser.XmlParser
 import com.hortonworks.faas.spark.predictor.xml.validator._
 
