@@ -20,7 +20,7 @@ Pass HANADB_HOST as system level environment variable
 #### mdbservice => Schema crawler metadata db service {Needed for Skinny CURD framework}
 #### runtime_env => Spark Runtime environment  {local | yarn [client | cluster]}
 #### src_name_space => source name space {db name | schema name}
-#### smpl_techniq => sampling technique {STARTIFIED_RESERVOIR_SAMPLING|STRATIFIED_CONSTANT_PROPORTION|STARTIFIED_DYNAMIC_POPULATION|RANDOM_UNIFORM_SYSTEM|RANDOM_UNIFORM_BERNOULI}
+#### smpl_techniq => sampling technique {STARTIFIED_RESERVOIR_SAMPLING|STRATIFIED_CONSTANT_PROPORTION|STARTIFIED_DYNAMIC_POPULATION|RANDOM_UNIFORM_SYSTEM|RANDOM_UNIFORM_BERNOULI|NO_SAMPLING}
 #### smpl_percentage => sampling percentage
 #### smpl_size => sampling size
 
