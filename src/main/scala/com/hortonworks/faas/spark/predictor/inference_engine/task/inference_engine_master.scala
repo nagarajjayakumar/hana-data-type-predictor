@@ -106,6 +106,19 @@ object inference_engine_master extends Logging {
         bothSrcAndInferSchema += ("inferSchema" -> inferData.schema)
         bothSrcAndInferSchema.toMap
       }
+      case SamplingTechniqType.NO_SMPL => {
+
+        val sampleData: DataFrame = hana_no_sampling_techniq.getData(spark, opts, dbaoDetails, keys, current_time)
+        logDebug(s"Data schema after applying ${SamplingTechniqType.NO_SMPL.toString} ${sampleData.printSchema}")
+
+        val inferData: DataFrame = hana_no_sampling_techniq.inferSchema(spark, sampleData, current_time)
+        logDebug(s"Data schema after Inferring data type ${SamplingTechniqType.NO_SMPL.toString} ${inferData.printSchema}")
+
+        var bothSrcAndInferSchema = scala.collection.mutable.Map[String, StructType]()
+        bothSrcAndInferSchema += ("originalSchema" -> sampleData.schema)
+        bothSrcAndInferSchema += ("inferSchema" -> inferData.schema)
+        bothSrcAndInferSchema.toMap
+      }
       case _ =>
         val d: RDD[Row] = spark.sparkContext.parallelize(Seq[Row](Row.fromSeq(Seq("Unknown Sampling techniq "))))
         spark.createDataFrame(d, StructType(StructField("ERROR", StringType, nullable = true) :: Nil))
