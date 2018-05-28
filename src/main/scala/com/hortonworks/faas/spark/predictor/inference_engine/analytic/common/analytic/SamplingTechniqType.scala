@@ -30,7 +30,14 @@ object SamplingTechniqType extends Enumeration {
    */
   val RNDM_SMPL_BER = Value("RANDOM_UNIFORM_BERNOULI")
 
+  /*
+   Dont apply any samples - can be used for Small Tables
+   */
+  val NO_SMPL = Value("NO_SAMPLING")
 
+  /*
+    Unknown SAMPLING techniq
+  */
   val Unknown = Value("Unknown")
 
 
