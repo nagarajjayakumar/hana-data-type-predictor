@@ -88,7 +88,7 @@ object InferenceEngine extends ExecutionTiming with Logging
     val dbaoDetails = MetaDataFetcher.fetchDbActiveObjectDetailsByName(spark,mdopts)
     val keys = MetaDataFetcher.fetchDbActiveObjectDetailsKeysOnly(dbaoDetails)
 
-    if (dbaoDetails.isEmpty) {
+    if (keys.isEmpty) {
       logError(s"[FATAL] No keys found for the provided DBO ${opts.src_dbo_name}  and analytic type ${opts.analytic_type}")
       logError(s"[FATAL] Please check namespace or db or schems ${opts.src_namespace}  ")
       logError("Time to say bye [Error]  ....")

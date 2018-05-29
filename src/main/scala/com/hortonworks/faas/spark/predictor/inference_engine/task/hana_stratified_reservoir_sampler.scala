@@ -40,10 +40,10 @@ object hana_stratified_reservoir_sampler extends Logging{
 
 
     val keysAsCsv: String = getKeysAsCsv(keys)
-    val hana_sampling_query: String = s"select * from (" +
-      s"                                     select *, ROW_NUMBER() OVER (PARTITION BY ${keysAsCsv} ORDER BY rnd) as rnk FROM ( " +
-      s"                                            SELECT *, RAND() AS rnd  FROM  \"${opts.src_namespace}\".\"${opts.src_dbo_name}\"   ) bucketed" +
-      s"                                     ) sampled where rnk <= ${opts.sampling_size}  "
+    val hana_sampling_query: String = s"""select * from (""" +
+      s"""                                     select *, ROW_NUMBER() OVER (PARTITION BY ${keysAsCsv} ORDER BY rnd) as rnk FROM ( """ +
+      s"""                                            SELECT *, RAND() AS rnd  FROM  \"${opts.src_namespace}\".\"${opts.src_dbo_name}\"   ) bucketed """ +
+      s"""                                     ) sampled where rnk <= ${opts.sampling_size}  """
 
     val sql = hana_sampling_query
     val df = spark
@@ -72,7 +72,7 @@ object hana_stratified_reservoir_sampler extends Logging{
     val keyInArray : Array[AnyRef] = new Array[AnyRef](dbaoDetails.length)
 
     for((key: SourceDbActiveObjectDetail, index) <- dbaoDetails.zipWithIndex){
-      keyInArray(index) = key.sourceColumnName
+      keyInArray(index) = "\"" + key.columnName + "\""
     }
 
     val joiner = Joiner.on(", ").skipNulls()

@@ -29,10 +29,19 @@ class hana_metadata_details_persistor(val spark: SparkSession,
 
   def updateDbActiveObjectDetails(): Unit = {
 
+    val sourceSchema: StructType = schemaMap.get("originalSchema").get
+    val inferSchema: StructType  = schemaMap.get("inferSchema").get
+
     for((dboadetail, index) <- saod.zipWithIndex){
+      val colSourceStructType :StructType = StructType(sourceSchema.fields.filter(f => dboadetail.columnName.contains(f.name)))
+      logDebug("colSourceStructType " + colSourceStructType)
+
+      val colInferStructType :StructType = StructType(inferSchema.fields.filter(f => dboadetail.columnName.contains(f.name)))
+      logDebug("colInferStructType " + colInferStructType)
+
       SourceDbActiveObjectDetail.updateById(dboadetail.id).
-                withAttributes('sourceDataType -> dboadetail.sourceDataType,
-                                          'inferDataType -> dboadetail.inferDataType)
+                withAttributes('sourceDataType -> colSourceStructType.fields.head.dataType.simpleString,
+                                          'inferDataType -> colInferStructType.fields.head.dataType.simpleString)
 
     }
     logDebug(s"Updated the active object details hao id -> ${saod.head.haoid} with source and infer data type ")
