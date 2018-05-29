@@ -42,7 +42,7 @@ object hana_stratified_dynamic_population extends Logging {
       s"                                     select *, ROW_NUMBER() OVER (PARTITION BY ${keysAsCsv} ORDER BY rnd) as rnk," +
       s"                                     count(*) over () as cnt, count(*) over (partition by ${keysAsCsv}) as cc_cnt" +
       s"                                     FROM ( " +
-      s"                                            SELECT *, RAND() AS rnd  FROM  '${opts.src_dbo_name}'   " +
+      s"""                                            SELECT *, RAND() AS rnd  FROM  \"${opts.src_namespace}\".\"${opts.src_dbo_name}\"    """ +
       s"                                           ) bucketed" +
       s"                                              ) sampled where rnk < ${opts.sampling_size} * (cc_cnt * 1.0 / cnt) "
 
@@ -73,7 +73,7 @@ object hana_stratified_dynamic_population extends Logging {
     val keyInArray: Array[AnyRef] = new Array[AnyRef](dbaoDetails.length)
 
     for ((key: SourceDbActiveObjectDetail, index) <- dbaoDetails.zipWithIndex) {
-      keyInArray(index) = key.sourceColumnName
+      keyInArray(index) = "\"" + key.columnName + "\""
     }
 
     val joiner = Joiner.on(", ").skipNulls()
