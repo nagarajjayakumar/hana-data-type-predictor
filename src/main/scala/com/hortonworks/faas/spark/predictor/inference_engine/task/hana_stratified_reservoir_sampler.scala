@@ -42,7 +42,7 @@ object hana_stratified_reservoir_sampler extends Logging{
     val keysAsCsv: String = getKeysAsCsv(keys)
     val hana_sampling_query: String = s"select * from (" +
       s"                                     select *, ROW_NUMBER() OVER (PARTITION BY ${keysAsCsv} ORDER BY rnd) as rnk FROM ( " +
-      s"                                            SELECT *, RAND() AS rnd  FROM  '${opts.src_dbo_name}'   ) bucketed" +
+      s"                                            SELECT *, RAND() AS rnd  FROM  \"${opts.src_namespace}\".\"${opts.src_dbo_name}\"   ) bucketed" +
       s"                                     ) sampled where rnk <= ${opts.sampling_size}  "
 
     val sql = hana_sampling_query
