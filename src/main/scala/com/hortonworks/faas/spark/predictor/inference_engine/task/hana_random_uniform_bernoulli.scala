@@ -35,7 +35,7 @@ object hana_random_uniform_bernoulli extends Logging {
 
 
     val keysAsCsv: String = getKeysAsCsv(keys)
-    val hana_sampling_query: String = s"select * from '${opts.src_dbo_name}' TABLESAMPLE BERNOULLI(${opts.sampling_percentage}) order by rand()"
+    val hana_sampling_query: String = s"""select * from \"${opts.src_namespace}\".\"${opts.src_dbo_name}\"  TABLESAMPLE BERNOULLI(${opts.sampling_percentage}) order by rand() """
 
     val sql = hana_sampling_query
     val df = spark

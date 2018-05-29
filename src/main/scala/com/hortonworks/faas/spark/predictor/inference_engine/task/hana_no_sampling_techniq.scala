@@ -27,7 +27,7 @@ object hana_no_sampling_techniq extends Logging{
 
 
     val keysAsCsv: String = getKeysAsCsv(keys)
-    val hana_sampling_query: String = s"select * from '${opts.src_dbo_name}' "
+    val hana_sampling_query: String = s""" select * from \"${opts.src_namespace}\".\"${opts.src_dbo_name}\"  """
 
     val sql = hana_sampling_query
     val df = spark
