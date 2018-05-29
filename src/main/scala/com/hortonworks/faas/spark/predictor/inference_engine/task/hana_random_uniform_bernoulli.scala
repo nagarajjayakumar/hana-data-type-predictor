@@ -64,7 +64,7 @@ object hana_random_uniform_bernoulli extends Logging {
     val keyInArray: Array[AnyRef] = new Array[AnyRef](dbaoDetails.length)
 
     for ((key: SourceDbActiveObjectDetail, index) <- dbaoDetails.zipWithIndex) {
-      keyInArray(index) = key.sourceColumnName
+      keyInArray(index) = "\"" + key.columnName + "\""
     }
 
     val joiner = Joiner.on(", ").skipNulls()

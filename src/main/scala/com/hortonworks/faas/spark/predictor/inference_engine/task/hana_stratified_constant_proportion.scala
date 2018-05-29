@@ -45,7 +45,7 @@ object hana_stratified_constant_proportion extends Logging{
     val keysAsCsv: String = getKeysAsCsv(keys)
     val hana_sampling_query: String = s"select * from (" +
       s"                                     SELECT  *, NTILE(${opts.sampling_size}) OVER (PARTITION BY ${keysAsCsv} ORDER BY rnd) as tile FROM ( " +
-      s"                                            SELECT *, RAND() AS rnd  FROM  '${opts.src_dbo_name}'   ) bucketed" +
+      s"""                                            SELECT *, RAND() AS rnd  FROM  \"${opts.src_namespace}\".\"${opts.src_dbo_name}\"   ) bucketed """ +
       s"                                     ) sampled where tile <= ${opts.sampling_percentage}  "
 
     val sql = hana_sampling_query
@@ -75,7 +75,7 @@ object hana_stratified_constant_proportion extends Logging{
     val keyInArray : Array[AnyRef] = new Array[AnyRef](dbaoDetails.length)
 
     for((key: SourceDbActiveObjectDetail, index) <- dbaoDetails.zipWithIndex){
-      keyInArray(index) = key.sourceColumnName
+      keyInArray(index) = "\"" + key.columnName + "\""
     }
 
     val joiner = Joiner.on(", ").skipNulls()
