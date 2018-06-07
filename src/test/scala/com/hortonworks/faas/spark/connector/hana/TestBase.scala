@@ -23,11 +23,14 @@ trait TestBase {
   }
 
   val masterHost = sys.env.get("HANADB_HOST_TEST").getOrElse("127.0.0.1")
+  val masterUser = sys.env.get("HANADB_USER").getOrElse("user")
+  val masterPwd =  sys.env.get("HANADB_PWD").getOrElse("password")
+
   //val masterHost = sys.env.get("MYSQLDB_HOST_TEST").getOrElse("127.0.0.1")
   val masterConnectionInfo: HanaDbConnectionInfo =
-  HanaDbConnectionInfo(masterHost, 30015, "SYS_VDM", "Cnct2VDM4", dbName) // scalastyle:ignore
+  HanaDbConnectionInfo(masterHost, 30015, masterUser, masterPwd, dbName) // scalastyle:ignore
   val leafConnectionInfo: HanaDbConnectionInfo =
-    HanaDbConnectionInfo(masterHost, 30015, "SYS_VDM", "Cnct2VDM4", dbName) // scalastyle:ignore
+    HanaDbConnectionInfo(masterHost, 30015, masterUser, masterPwd, dbName) // scalastyle:ignore
 
 //  val masterConnectionInfo: HanaDbConnectionInfo =
 //    HanaDbConnectionInfo(masterHost, 3306, "root", "passw0rd", dbName) // scalastyle:ignore
