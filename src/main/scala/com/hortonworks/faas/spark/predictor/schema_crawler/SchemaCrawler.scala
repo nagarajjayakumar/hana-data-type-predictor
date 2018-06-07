@@ -81,7 +81,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
 
     val current_time: Timestamp = new Timestamp(DateTime.now().toDate.getTime)
 
-    logInfo(s"BEGIN RUN TASK FOR SCHEM CRAWLER ${current_time}")
+    logInfo(s"BEGIN RUN TASK FOR SCHEMA CRAWLER ${current_time}")
     try {
       val output_ds = opts.task match {
         case schema_crawler_master.TASK => {
