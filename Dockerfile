@@ -1,7 +1,5 @@
 FROM yogeshprabhu/myhana
 
-COPY ngdbc.jar naarai/
-
 COPY pom.xml naarai/
 
 COPY Jenkinsfile naarai/
