@@ -38,11 +38,14 @@ object SchemaCrawler extends ExecutionTiming with Logging
   }
 
   val masterHost = sys.env.get("HANADB_HOST_TEST").getOrElse("127.0.0.1")
+  val masterUser = sys.env.get("HANADB_USER").getOrElse("user")
+  val masterPwd =  sys.env.get("HANADB_PWD").getOrElse("password")
+
   //val masterHost = sys.env.get("MYSQLDB_HOST_TEST").getOrElse("127.0.0.1")
   val masterConnectionInfo: HanaDbConnectionInfo =
-    HanaDbConnectionInfo(masterHost, 30015, "SYS_VDM", "Cnct2VDM4", dbName) // scalastyle:ignore
+    HanaDbConnectionInfo(masterHost, 30015, masterUser, masterPwd, dbName) // scalastyle:ignore
   val leafConnectionInfo: HanaDbConnectionInfo =
-    HanaDbConnectionInfo(masterHost, 30015, "SYS_VDM", "Cnct2VDM4", dbName) // scalastyle:ignore
+    HanaDbConnectionInfo(masterHost, 30015, masterUser, masterPwd, dbName) // scalastyle:ignore
 
   val local: Boolean = true
 
@@ -78,7 +81,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
 
     val current_time: Timestamp = new Timestamp(DateTime.now().toDate.getTime)
 
-    logInfo(s"BEGIN RUN TASK FOR SCHEM CRAWLER ${current_time}")
+    logInfo(s"BEGIN RUN TASK FOR SCHEMA CRAWLER ${current_time}")
     try {
       val output_ds = opts.task match {
         case schema_crawler_master.TASK => {
