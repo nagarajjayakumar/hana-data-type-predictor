@@ -32,7 +32,7 @@ class hana_metadata_persistor(val spark: SparkSession,
   def persist(): Unit = {
     val hao: HanaActiveObject = ds.head
 
-    val haoid = SourceDbActiveObject.createWithAttributes('namespace -> hao.PACKAGE_ID,
+    val haoid = SourceDbActiveObject.createWithAttributes('namespace -> mdpopts.src_namespace,
       'packageId -> hao.PACKAGE_ID,
       'dbObjectName -> hao.OBJECT_NAME,
       'dbObjectType -> hao.OBJECT_SUFFIX,

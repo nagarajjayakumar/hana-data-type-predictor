@@ -24,7 +24,7 @@ object MetaDataBaseOptions extends Logging {
   val MDBENVIRONMENT = "mdbenv"
   val MDBSERVICE = "mdbservice"
   val SRCDBONAME = "src_dbo_name"
-  val SRCNAMESPACE = "dbName"
+  val SRCNAMESPACE = "src_name_space"
 
 
   def apply(args: Array[String]): MetaDataBaseOptions = {
