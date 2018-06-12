@@ -47,7 +47,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
   val leafConnectionInfo: HanaDbConnectionInfo =
     HanaDbConnectionInfo(masterHost, 30015, masterUser, masterPwd, dbName) // scalastyle:ignore
 
-  val local: Boolean = false
+  val local: Boolean = true
 
   def main(args: Array[String]): Unit = {
     val opts: SchemaCrawlerOptions = SchemaCrawlerOptions(args)
