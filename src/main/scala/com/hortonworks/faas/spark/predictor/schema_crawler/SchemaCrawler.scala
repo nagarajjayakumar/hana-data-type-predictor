@@ -47,7 +47,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
   val leafConnectionInfo: HanaDbConnectionInfo =
     HanaDbConnectionInfo(masterHost, 30015, masterUser, masterPwd, dbName) // scalastyle:ignore
 
-  val local: Boolean = true
+  val local: Boolean = false
 
   def main(args: Array[String]): Unit = {
     val opts: SchemaCrawlerOptions = SchemaCrawlerOptions(args)
@@ -68,7 +68,7 @@ object SchemaCrawler extends ExecutionTiming with Logging
       .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     //.set("spark.ui.port", (4040 + scala.util.Random.nextInt(1000)).toString)
 
-    if (local) {
+    if ("local".equalsIgnoreCase(opts.runtime_env.toLowerCase())) {
       conf = conf.setMaster("local")
     }
 
