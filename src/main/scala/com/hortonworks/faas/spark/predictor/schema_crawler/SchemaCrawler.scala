@@ -64,12 +64,12 @@ object SchemaCrawler extends ExecutionTiming with Logging
       .set("spark.hanadb.user", masterConnectionInfo.user)
       .set("spark.hanadb.password", masterConnectionInfo.password)
       .set("spark.hanadb.defaultDatabase", masterConnectionInfo.dbName)
-      .set("spark.driver.host", "localhost")
       .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     //.set("spark.ui.port", (4040 + scala.util.Random.nextInt(1000)).toString)
 
     if ("local".equalsIgnoreCase(opts.runtime_env.toLowerCase())) {
       conf = conf.setMaster("local")
+      conf.set("spark.driver.host", "localhost")
     }
 
     val sparkBuilder = createSparkBuilder(
