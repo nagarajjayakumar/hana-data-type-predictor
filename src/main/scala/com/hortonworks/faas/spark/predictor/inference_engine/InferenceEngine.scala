@@ -68,7 +68,7 @@ object InferenceEngine extends ExecutionTiming with Logging
       .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     //.set("spark.ui.port", (4040 + scala.util.Random.nextInt(1000)).toString)
 
-    if (local) {
+    if ("local".equalsIgnoreCase(opts.runtime_env.toLowerCase())) {
       conf = conf.setMaster("local")
     }
 
