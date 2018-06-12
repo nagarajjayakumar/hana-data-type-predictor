@@ -1,4 +1,4 @@
-FROM yogeshprabhu/myhana
+FROM yogeshprabhu/sparkhana
 
 COPY pom.xml naarai/
 
