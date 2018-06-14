@@ -30,6 +30,13 @@ object SamplingTechniqType extends Enumeration {
    */
   val RNDM_SMPL_BER = Value("RANDOM_UNIFORM_BERNOULI")
 
+
+  /*
+ In other words all rows are equally weighted
+  */
+  val RNDM_SMPL_CUSTOM = Value("RANDOM_UNIFORM_CUSTOM")
+
+
   /*
    Dont apply any samples - can be used for Small Tables
    */

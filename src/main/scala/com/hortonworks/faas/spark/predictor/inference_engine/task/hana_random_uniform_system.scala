@@ -21,6 +21,8 @@ object hana_random_uniform_system extends Logging {
   SQL Select statements returns randomly selected rows forming approximately 10% of the source object
   use Bernoulli sampling in case you can pay the performance cost.
 
+  IMP - ONLY WORKS FOR TABLE not FOR HANA VIEWs
+
   select * from Products TABLESAMPLE BERNOULLI(10) order by rand()
     or
   select * from Products TABLESAMPLE SYSTEM (10) order by rand();
@@ -35,7 +37,7 @@ object hana_random_uniform_system extends Logging {
 
 
     val keysAsCsv: String = getKeysAsCsv(keys)
-    val hana_sampling_query: String = s""" select * from \"${opts.src_namespace}\".\"${opts.src_dbo_name}\"  TABLESAMPLE SYSTEM(${opts.sampling_percentage}) order by rand() """
+    val hana_sampling_query: String = s""" select * from \"${opts.src_namespace}\".\"${opts.src_dbo_name}\"  TABLESAMPLE SYSTEM(${opts.sampling_percentage}) """
 
     val sql = hana_sampling_query
     val df = spark

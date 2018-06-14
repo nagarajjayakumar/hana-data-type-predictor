@@ -10,22 +10,20 @@ import com.hortonworks.faas.spark.predictor.util.Logging
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-object hana_random_uniform_bernoulli extends Logging {
+object hana_random_uniform_custom extends Logging {
 
 
   log
-  val TASK: String = "hana_random_uniform_bernoulli"
+  val TASK: String = "hana_random_uniform_custom"
 
   /*
 
-  SQL Select statements returns randomly selected rows forming approximately 10% of the source object
-  use Bernoulli sampling in case you can pay the performance cost.
+    for large tables .. it is tough to get the sample data ..
 
-  IMP - ONLY WORKS FOR TABLE not FOR HANA VIEWs
+    first we need to get the count of the targeted view ..
 
-  select * from Products TABLESAMPLE BERNOULLI(10) order by rand()
-    or
-  select * from Products TABLESAMPLE SYSTEM (10) order by rand();
+    Calculate the percentage and do the top query for the random uniform sampling
+
    */
 
 
@@ -37,16 +35,33 @@ object hana_random_uniform_bernoulli extends Logging {
 
 
     val keysAsCsv: String = getKeysAsCsv(keys)
-    val hana_sampling_query: String = s"""select * from \"${opts.src_namespace}\".\"${opts.src_dbo_name}\"  TABLESAMPLE BERNOULLI(${opts.sampling_percentage})  """
+    val hana_count_query = s""" select count(*) from \"${opts.src_namespace}\".\"${opts.src_dbo_name}\" """
 
-    val sql = hana_sampling_query
+    val sql = hana_count_query
     val df = spark
       .read
       .format("com.hortonworks.faas.spark.connector")
       .options(Map("query" -> (sql)))
       .load()
 
-    df
+    val view_count = df.head().getLong(0)
+
+    val sample_percentage =opts.sampling_percentage.toFloat
+
+    val top_records = (view_count * (sample_percentage / 100f)).toLong
+
+
+    val hana_sampling_query = s""" select top ${top_records} * from \"${opts.src_namespace}\".\"${opts.src_dbo_name}\" """
+
+    val hana_sample_sql = hana_sampling_query
+    val result_df = spark
+      .read
+      .format("com.hortonworks.faas.spark.connector")
+      .options(Map("query" -> (hana_sample_sql)))
+      .load()
+
+
+    result_df
 
   }
 
