@@ -30,18 +30,30 @@ class hana_metadata_details_persistor(val spark: SparkSession,
   def updateDbActiveObjectDetails(): Unit = {
 
     val sourceSchema: StructType = schemaMap.get("originalSchema").get
+    logInfo(s"sourceSchema --> ${sourceSchema} " )
     val inferSchema: StructType  = schemaMap.get("inferSchema").get
+    logInfo(s"inferSchema --> ${inferSchema} " )
 
     for((dboadetail, index) <- saod.zipWithIndex){
-      val colSourceStructType :StructType = StructType(sourceSchema.fields.filter(f => dboadetail.columnName.contains(f.name)))
+      val colSourceStructType :StructType = StructType(sourceSchema.fields.filter(f => dboadetail.columnName.equalsIgnoreCase(f.name)))
       logDebug("colSourceStructType " + colSourceStructType)
 
-      val colInferStructType :StructType = StructType(inferSchema.fields.filter(f => dboadetail.columnName.contains(f.name)))
+      val colInferStructType :StructType = StructType(inferSchema.fields.filter(f => dboadetail.columnName.equalsIgnoreCase(f.name)))
       logDebug("colInferStructType " + colInferStructType)
 
+      var sourceDataType = "string"
+      if(colSourceStructType.fields.nonEmpty){
+        sourceDataType = colSourceStructType.fields.head.dataType.simpleString
+      }
+
+      var inferDataType = "string"
+      if(colSourceStructType.fields.nonEmpty){
+        inferDataType = colInferStructType.fields.head.dataType.simpleString
+      }
+
       SourceDbActiveObjectDetail.updateById(dboadetail.id).
-                withAttributes('sourceDataType -> colSourceStructType.fields.head.dataType.simpleString,
-                                          'inferDataType -> colInferStructType.fields.head.dataType.simpleString)
+          withAttributes('sourceDataType -> sourceDataType,
+            'inferDataType -> inferDataType)
 
     }
     logDebug(s"Updated the active object details hao id -> ${saod.head.haoid} with source and infer data type ")
