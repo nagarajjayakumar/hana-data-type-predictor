@@ -19,6 +19,10 @@ class hana_metadata_persistor(val spark: SparkSession,
                               val mdpopts: MetaDataBaseOptions,
                               val ds: Dataset[HanaActiveObject]) extends Logging with DBSettings with Connection {
 
+
+  // initialize logger
+  log
+
   def isValid(): Boolean = {
     true
   }
