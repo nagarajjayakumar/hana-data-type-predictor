@@ -41,12 +41,12 @@ class hana_metadata_details_persistor(val spark: SparkSession,
       val colInferStructType :StructType = StructType(inferSchema.fields.filter(f => dboadetail.columnName.equalsIgnoreCase(f.name)))
       logDebug("colInferStructType " + colInferStructType)
 
-      var sourceDataType = "string"
+      var sourceDataType = "null"
       if(colSourceStructType.fields.nonEmpty){
         sourceDataType = colSourceStructType.fields.head.dataType.simpleString
       }
 
-      var inferDataType = "string"
+      var inferDataType = "null"
       if(colSourceStructType.fields.nonEmpty){
         inferDataType = colInferStructType.fields.head.dataType.simpleString
       }
