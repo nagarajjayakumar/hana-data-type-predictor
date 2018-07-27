@@ -64,6 +64,7 @@ class hana_metadata_persistor(val spark: SparkSession,
   }
 
   def parseMetaDataXml(xmlString: String): Array[LogicalModelAttribute] = {
+    logDebug(s"CDATA xmlString ${xmlString}")
     val xmlSource = XML.loadString(xmlString)
     val logicalModelAttribute = XmlParser.parse(xmlSource)(LogicalModelAttribute.xmlRead)
     logicalModelAttribute.toArray
