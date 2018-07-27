@@ -53,7 +53,7 @@ object LogicalModelAttributes {
 }
 
 // id="SAPClient" key="true" order="1" attributeHierarchyActive="false" displayAttribute="false"
-case class LogicalModelAttribute(id: String, key: String, order: String,
+case class LogicalModelAttribute(id: String, hidden: String, key: String, order: String,
                                  attributeHierarchyActive: String, displayAttribute: String,
                                  logicalModelAttributesAttribDesc: Seq[LogicalModelAttributesAttribDesc],
                                  logicalModelAttributesAttribKeyMapping: Seq[LogicalModelAttributesAttribKeyMapping]
@@ -69,6 +69,7 @@ object LogicalModelAttribute {
 
       LogicalModelAttribute(
         (n \ "@id").text,
+        (n \ "@hidden").text,
         (n \ "@key").text,
         (n \ "@order").text,
         (n \ "@attributeHierarchyActive").text,

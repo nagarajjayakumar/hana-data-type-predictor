@@ -50,17 +50,20 @@ class hana_metadata_persistor(val spark: SparkSession,
 
     for (haodetail: LogicalModelAttribute <- haodetails) {
 
-      SourceDbActiveObjectDetail.createWithAttributes(
-        'columnName -> haodetail.id,
-        'haoid -> haoid,
-        'isKey -> CommonData.getBooleanFromStringForDBKeys(haodetail.key),
-        'col_order -> haodetail.order,
-        'attributeHierarchyActive -> CommonData.getBooleanFromStringForDBKeys(haodetail.attributeHierarchyActive),
-        'displayAttribute -> CommonData.getBooleanFromStringForDBKeys(haodetail.displayAttribute),
-        'defaultDescription -> haodetail.logicalModelAttributesAttribDesc.head.defaultDescription,
-        'sourceObjectName -> haodetail.logicalModelAttributesAttribKeyMapping.head.columnObjectName,
-        'sourceColumnName -> haodetail.logicalModelAttributesAttribKeyMapping.head.columnName,
-        'isRequiredForFlow -> true)
+      if (! CommonData.getBooleanFromStringForDBKeys(haodetail.hidden))
+      {
+        SourceDbActiveObjectDetail.createWithAttributes(
+          'columnName -> haodetail.id,
+          'haoid -> haoid,
+          'isKey -> CommonData.getBooleanFromStringForDBKeys(haodetail.key),
+          'col_order -> haodetail.order,
+          'attributeHierarchyActive -> CommonData.getBooleanFromStringForDBKeys(haodetail.attributeHierarchyActive),
+          'displayAttribute -> CommonData.getBooleanFromStringForDBKeys(haodetail.displayAttribute),
+          'defaultDescription -> haodetail.logicalModelAttributesAttribDesc.head.defaultDescription,
+          'sourceObjectName -> haodetail.logicalModelAttributesAttribKeyMapping.head.columnObjectName,
+          'sourceColumnName -> haodetail.logicalModelAttributesAttribKeyMapping.head.columnName,
+          'isRequiredForFlow -> true)
+      }
 
     }
 
